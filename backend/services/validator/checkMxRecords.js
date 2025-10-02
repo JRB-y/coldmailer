@@ -12,12 +12,14 @@ export async function checkMxRecords(domain) {
     // Set DNS timeout
     dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']); // Use reliable DNS servers
 
-    const records = await Promise.race([
+    let records = await Promise.race([
       resolveMx(domain),
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error('DNS timeout')), 5000)
       )
     ]);
+
+    records = records.filter(record => record && record.exchange);
 
     return records && records.length > 0 ? records : null;
   } catch (error) {
