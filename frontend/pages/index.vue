@@ -55,6 +55,57 @@ const statusBadgeVariant = computed(() => {
   }
 })
 
+const formattedChecks = computed(() => {
+  if (!result.value?.checks) return []
+
+  const checks = result.value.checks
+
+  // Format checks to match dataset column order
+  return [
+    {
+      key: 'format',
+      label: 'Format Valid',
+      status: checks.syntax === true ? 'pass' : checks.syntax === false ? 'fail' : 'na'
+    },
+    {
+      key: 'dns',
+      label: 'DNS Valid',
+      status: checks.syntax === false ? 'na' : checks.dns === true ? 'pass' : 'fail'
+    },
+    {
+      key: 'mx',
+      label: 'MX Records',
+      status: checks.syntax === false ? 'na' : checks.mx === true ? 'pass' : 'fail'
+    },
+    {
+      key: 'smtp',
+      label: 'SMTP Valid (Coming Soon)',
+      status: checks.syntax === false || checks.dns === false ? 'na' : checks.smtp === true ? 'pass' : 'fail'
+    },
+    {
+      key: 'freeDomain',
+      label: 'Not Free Domain',
+      status: checks.syntax === false || checks.dns === false ? 'na' : checks.freeEmail === false ? 'pass' : 'fail'
+    },
+    {
+      key: 'disposable',
+      label: 'Not Disposable',
+      status: checks.syntax === false || checks.dns === false ? 'na' : checks.disposable === false ? 'pass' : 'fail'
+    },
+    {
+      key: 'roleAccount',
+      label: 'Not Role Account',
+      status: checks.syntax === false ? 'na' : checks.roleAccount === false ? 'pass' : 'fail'
+    },
+    {
+      key: 'domainAge',
+      label: 'Domain Age / Pattern',
+      status: checks.syntax === false || checks.dns === false ? 'na' :
+              (checks.domainAge?.isNew === true || checks.suspiciousPattern === true) ? 'fail' : 'pass'
+    }
+  ]
+})
+
 async function validateEmail() {
   if (!email.value.trim()) {
     error.value = 'Please enter an email address'
@@ -193,17 +244,17 @@ function reset() {
             <h4 class="text-lg font-semibold mb-4 text-white">Validation Checks</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div
-                v-for="(value, key) in result.checks"
-                :key="key"
+                v-for="check in formattedChecks"
+                :key="check.key"
                 class="flex items-center justify-between p-3 bg-black border border-gray-800 rounded-md"
               >
-                <span class="text-sm font-medium text-gray-300 capitalize">
-                  {{ key.replace(/([A-Z])/g, ' $1').trim() }}
+                <span class="text-sm font-medium text-gray-300">
+                  {{ check.label }}
                 </span>
                 <UiBadge
-                  :variant="value === true ? 'success' : value === false ? 'destructive' : 'secondary'"
+                  :variant="check.status === 'pass' ? 'success' : check.status === 'fail' ? 'destructive' : 'secondary'"
                 >
-                  {{ value === true ? '✓ Pass' : value === false ? '✗ Fail' : 'N/A' }}
+                  {{ check.status === 'pass' ? '✓ Pass' : check.status === 'fail' ? '✗ Fail' : 'N/A' }}
                 </UiBadge>
               </div>
             </div>

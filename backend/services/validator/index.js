@@ -5,6 +5,7 @@ import { checkMxRecords } from "./checkMxRecords.js";
 import { checkDomainAge } from "./checkDomainAge.js";
 import { validateSyntax } from "./validateSyntax.js";
 import { hasSuspiciousPatterns } from "./hasSuspiciousPatterns.js";
+import { checkSmtp } from "./checkSmtp.js";
 
 
 export {
@@ -15,4 +16,5 @@ export {
     checkDomainAge,
     validateSyntax,
     hasSuspiciousPatterns,
+    checkSmtp,
 };

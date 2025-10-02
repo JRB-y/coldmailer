@@ -5,7 +5,8 @@ import {
   checkMxRecords,
   isFreeDomain,
   isRoleAccount,
-  validateSyntax
+  validateSyntax,
+  checkSmtp
 } from './validator/index.js';
 
 import {
@@ -28,6 +29,7 @@ export async function validateEmail(email) {
     // Perform all checks
     const syntaxValid = validateSyntax(email);
     const mxValid = syntaxValid ? await checkMxRecords(domain) : false;
+    const smtpValid = syntaxValid && mxValid ? checkSmtp(email, domain) : false;
     const isDisposableEmail = syntaxValid ? isDisposable(domain, email) : false;
     const isFree = syntaxValid ? isFreeDomain(domain) : false;
     const isRole = syntaxValid ? isRoleAccount(email) : false;
@@ -38,6 +40,7 @@ export async function validateEmail(email) {
       syntax: syntaxValid,
       dns: mxValid,
       mx: mxValid,
+      smtp: smtpValid,
       disposable: isDisposableEmail,
       freeEmail: isFree,
       roleAccount: isRole,
