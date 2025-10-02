@@ -18,11 +18,9 @@ export function hasSuspiciousPatterns(email, domain) {
 function calculateRandomness(str) {
   // Remove common patterns
   str = str.toLowerCase();
-  
   // Check for dictionary words
   const hasCommonWords = /^(test|demo|user|admin|john|jane|hello|contact)/i.test(str);
   if (hasCommonWords) return 0;
-  
   // Calculate entropy
   const chars = str.split('');
   const freq = {};
