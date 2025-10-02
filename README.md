@@ -7,7 +7,12 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🆕 Recent Updates
 
 **Latest enhancements:**
-- ✅ **SMTP Validation Implemented** - Real mailbox verification via SMTP protocol
+- ✅ **SMTP Validation Fully Implemented** - Real mailbox verification via SMTP protocol
+  - Full TCP connection to mail servers on port 25
+  - Proper SMTP handshake: HELO → MAIL FROM → RCPT TO
+  - Optimized: Single MX DNS lookup (no duplicates)
+  - Fallback to multiple MX servers (tries first 3)
+  - 10-second timeout with graceful error handling
 - ✨ Enhanced 8-point validation system with calibrated risk scoring
 - 🎨 Added subtle geometric background pattern to frontend (40px grid, 2% opacity)
 - 🔍 New validation checks: domain age verification & suspicious pattern detection
@@ -91,7 +96,9 @@ coldmailer/
 │   └── server.js           # Express server entry point
 │
 ├── package.json            # Root package with workspaces
-└── README.md              # This file
+├── README.md              # This file
+├── TODO.md                # Future tasks and roadmap
+└── SMTP_IMPLEMENTATION.md # SMTP validation technical details
 ```
 
 ## 🛠️ Installation
@@ -318,6 +325,7 @@ Real-time SMTP validation to verify mailbox existence:
   - Graceful error handling (returns `false` on errors)
   - No actual emails sent (only verification)
 - **Note**: Many providers (Gmail, Outlook, etc.) block SMTP verification for privacy reasons. This check may return false negatives for privacy-protected mailboxes.
+- **Performance Optimization**: MX records are resolved once and reused for SMTP validation, eliminating duplicate DNS lookups (~100-500ms savings per validation)
 
 ### Suspicious Pattern Detection
 The system identifies potentially fake or low-quality emails by checking for:
@@ -419,6 +427,11 @@ This is a private project. For issues or suggestions, please contact the develop
 ## 📄 License
 
 Proprietary - All rights reserved
+
+## 📖 Additional Documentation
+
+- **[TODO.md](./TODO.md)** - Complete roadmap, future features, and task tracking
+- **[SMTP_IMPLEMENTATION.md](./SMTP_IMPLEMENTATION.md)** - Technical deep-dive into SMTP validation implementation
 
 ## 🆘 Support
 
