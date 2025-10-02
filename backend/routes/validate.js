@@ -1,5 +1,6 @@
 import express from 'express';
-import { validateEmail } from '../services/emailValidator.js';
+import { validateEmail } from '../services/validator/index.js';
+import { getRiskScore } from '../services/results/index.js';
 
 const router = express.Router();
 
@@ -20,9 +21,18 @@ router.post('/validate', async (req, res) => {
     }
 
     // Validate email
-    const result = await validateEmail(email);
+    const checks = await validateEmail(email);
 
-    res.json(result);
+    const { riskScore, status, reason } = getRiskScore(checks);
+
+    res.json({
+      email,
+      isValid: status === 'valid',
+      status,
+      riskScore,
+      checks,
+      reason,
+    });
   } catch (error) {
     console.error('Validation endpoint error:', error);
     res.status(500).json({
