@@ -21,8 +21,11 @@ export async function validateEmail(email) {
 
     // Perform all checks
     const syntaxValid = validateSyntax(email);
-    const mxValid = syntaxValid ? await checkMxRecords(domain) : false;
-    const smtpValid = syntaxValid && mxValid ? checkSmtp(email, domain) : false;
+    const mxRecords = syntaxValid ? await checkMxRecords(domain) : null;
+    const mxValid = mxRecords !== null;
+    const smtpValid = syntaxValid && mxValid
+      ? (await checkSmtp(email, domain, mxRecords)) ?? false
+      : false;
     const isDisposableEmail = syntaxValid ? isDisposable(domain, email) : false;
     const isFree = syntaxValid ? isFreeDomain(domain) : false;
     const isRole = syntaxValid ? isRoleAccount(email) : false;

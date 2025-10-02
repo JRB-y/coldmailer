@@ -4,13 +4,27 @@
 
 An email validation SaaS application that helps you verify email addresses, reduce bounce rates, and maintain a healthy sender reputation.
 
+## 🆕 Recent Updates
+
+**Latest enhancements:**
+- ✅ **SMTP Validation Implemented** - Real mailbox verification via SMTP protocol
+- ✨ Enhanced 8-point validation system with calibrated risk scoring
+- 🎨 Added subtle geometric background pattern to frontend (40px grid, 2% opacity)
+- 🔍 New validation checks: domain age verification & suspicious pattern detection
+- 📊 Updated risk scoring algorithm with weighted factors
+- 🎯 Refined status determination logic (valid/risky/invalid)
+- 💾 Restructured backend services with modular validator and results processors
+- 📱 Improved results display with 8-point detailed breakdown
+
 ## 🚀 Features
 
 ### Current Features
 - ✅ **Single Email Validation** - Validate individual email addresses in real-time
-- ✅ **Comprehensive Checks** - Syntax, DNS/MX records, disposable domains, free email providers, role accounts
-- ✅ **Risk Scoring** - Get a risk score (0-100) for each email address
-- ✅ **Modern UI** - Clean, responsive interface built with Nuxt 3 and Shadcn Vue
+- ✅ **Comprehensive 8-Point Validation** - Format, DNS/MX records, SMTP mailbox verification, disposable domains, free email providers, role accounts, domain age, and suspicious patterns
+- ✅ **Advanced Risk Scoring** - Calibrated risk score (0-100) with weighted factors
+- ✅ **Modern UI** - Clean, responsive interface with subtle geometric background pattern
+- ✅ **Real-time Results** - Instant validation feedback with detailed check breakdowns
+- ✅ **SMTP Verification** - Real mailbox verification via SMTP protocol (HELO → MAIL FROM → RCPT TO)
 
 ### Coming Soon
 - 🔄 Bulk CSV validation
@@ -58,8 +72,22 @@ coldmailer/
 │   │   ├── credits.js      # Credit management (placeholder)
 │   │   └── subscriptions.js # Stripe subscriptions (placeholder)
 │   ├── services/           # Business logic
-│   │   └── emailValidator.js # Email validation service
-│   ├── utils/              # Utility functions
+│   │   ├── validator/      # Email validation checks
+│   │   │   ├── index.js           # Validator exports
+│   │   │   ├── validateSyntax.js  # Email format validation
+│   │   │   ├── checkMxRecords.js  # DNS/MX record verification
+│   │   │   ├── checkSmtp.js       # SMTP validation (placeholder)
+│   │   │   ├── isDisposable.js    # Disposable domain detection
+│   │   │   ├── isFreeDomain.js    # Free email provider detection
+│   │   │   ├── isRoleAccount.js   # Role account detection
+│   │   │   ├── checkDomainAge.js  # Domain age verification
+│   │   │   └── hasSuspiciousPatterns.js # Suspicious pattern detection
+│   │   └── results/        # Result processing
+│   │       ├── index.js              # Results exports
+│   │       ├── calculateRiskScore.js # Risk score calculation
+│   │       ├── determineStatus.js    # Status determination
+│   │       └── generateReason.js     # Reason generation
+│   ├── tests/              # Test files
 │   └── server.js           # Express server entry point
 │
 ├── package.json            # Root package with workspaces
@@ -141,14 +169,20 @@ Validate a single email address.
   "email": "test@example.com",
   "isValid": true,
   "status": "valid",
-  "riskScore": 15,
+  "riskScore": 10,
   "checks": {
     "syntax": true,
     "dns": true,
     "mx": true,
+    "smtp": false,
     "disposable": false,
     "freeEmail": true,
-    "roleAccount": false
+    "roleAccount": false,
+    "domainAge": {
+      "isNew": false,
+      "daysOld": 5000
+    },
+    "suspiciousPattern": false
   },
   "reason": ""
 }
@@ -170,28 +204,156 @@ Validate a single email address.
 
 ## 🧪 Email Validation Logic
 
-The validator performs the following checks:
+The validator performs **8 comprehensive checks**:
 
-1. **Syntax Check** - Validates email format using regex
-2. **DNS/MX Check** - Verifies domain has valid mail exchange records
-3. **Disposable Domain** - Detects temporary/disposable email services
-4. **Free Email Provider** - Identifies free email providers (Gmail, Yahoo, etc.)
-5. **Role Account** - Detects role-based addresses (info@, admin@, etc.)
+1. **Format Validation** - Validates email syntax using regex patterns
+2. **DNS Validation** - Verifies domain exists and is reachable
+3. **MX Records Check** - Confirms domain has valid mail exchange records
+4. **SMTP Validation** - Verifies mailbox exists via SMTP protocol (HELO → MAIL FROM → RCPT TO)
+5. **Disposable Domain Detection** - Identifies temporary/disposable email services
+6. **Free Email Provider Detection** - Recognizes free email providers (Gmail, Yahoo, Outlook, etc.)
+7. **Role Account Detection** - Flags generic addresses (info@, admin@, sales@, support@, etc.)
+8. **Domain Age & Pattern Analysis** - Checks domain registration age and detects suspicious patterns
 
-### Risk Score Calculation
-- Invalid syntax: +100 (max risk)
-- No DNS/MX records: +50
-- Disposable domain: +80
-- Role account: +30
-- Free email provider: +10
+### Risk Score Calculation (Calibrated)
 
-## 🎨 UI Components
+The risk scoring system uses a weighted approach:
 
-Built with Shadcn Vue components:
-- `Button` - Primary action buttons
-- `Input` - Form inputs
-- `Card` - Content containers
-- `Badge` - Status indicators
+**Critical Failures (100 points)**
+- Invalid email syntax → 100
+- No DNS/MX records → 100
+
+**High Risk (90 points)**
+- Disposable email domain → +90
+
+**Medium-High Risk (30-50 points)**
+- New domain + suspicious pattern → +50
+- New domain alone → +30
+- Suspicious pattern alone → +20
+
+**Medium Risk (20 points)**
+- Role account → +20
+
+**Low Risk (10 points)**
+- Free email provider → +10
+
+### Status Determination
+- **Invalid** - Critical checks failed (syntax or DNS)
+- **Risky** - Risk score ≥ 60
+- **Valid** - Risk score < 60
+
+### Example Validations
+
+| Email | Status | Risk Score | Key Flags |
+|-------|--------|------------|-----------|
+| user@gmail.com | ✅ Valid | 10 | Free domain only |
+| info@company.com | ✅ Valid | 30 | Role account + free-ish domain |
+| user@guerrillamail.com | ⚠️ Risky | 90 | Disposable domain |
+| random@xyz-disposable.net | ⚠️ Risky | 85 | Disposable + suspicious pattern |
+| user@thisdomaindoesnotexist | ❌ Invalid | 100 | DNS/MX failure |
+| bad@@gmail.com | ❌ Invalid | 100 | Syntax error |
+| user@freshly-registered.xyz | ⚠️ Risky | 60 | New domain + suspicious |
+| admin@mycompany.org | ✅ Valid | 40 | Role account on established domain |
+
+## 🎨 UI Design
+
+### Visual Design
+- **Background Pattern** - Subtle geometric square grid (40px × 40px) with 2% opacity
+- **Color Scheme** - Dark theme with black background and accent colors
+- **Responsive Layout** - Mobile-first design with Tailwind CSS
+- **Status Indicators** - Color-coded badges (green/red/yellow) for validation results
+
+### Shadcn Vue Components
+- `Button` - Primary action buttons with hover effects
+- `Input` - Form inputs with dark theme styling
+- `Card` - Content containers with zinc-900 background
+- `Badge` - Status indicators with variant support (success/destructive/warning/secondary)
+
+### Validation Results Display
+Results are displayed in two cards:
+1. **Status Card** - Overall status with icon, risk score badge, and reason
+2. **Detailed Checks Card** - 8-point validation breakdown in a responsive grid
+
+## 🧪 Testing
+
+### Test Suite
+The project includes comprehensive test cases for all validation functions:
+- `backend/tests/simple.test.js` - Test cases for all validators
+- Coverage includes: syntax, disposable detection, free domains, role accounts, suspicious patterns, MX records, and domain age
+
+### Running Tests
+```bash
+cd backend
+npm test
+```
+
+### Test Categories
+- **Syntax Tests** - 12 test cases covering valid/invalid formats
+- **Disposable Tests** - 7 test cases for temporary email detection
+- **Free Domain Tests** - 7 test cases for free provider detection
+- **Role Account Tests** - 9 test cases for generic addresses
+- **Suspicious Pattern Tests** - 9 test cases for unusual patterns
+- **MX Record Tests** - 5 test cases for DNS validation
+- **Domain Age Tests** - 5 test cases for domain maturity
+- **Integration Tests** - 4 combined scenario tests
+
+## 🔍 Technical Details
+
+### SMTP Mailbox Verification
+Real-time SMTP validation to verify mailbox existence:
+- **Protocol**: Connects to mail server via TCP on port 25
+- **Handshake Sequence**:
+  1. Wait for 220 (server greeting)
+  2. Send `HELO domain` → expect 250
+  3. Send `MAIL FROM:<verify@domain>` → expect 250
+  4. Send `RCPT TO:<email>` → check response
+- **Response Codes**:
+  - 250/251 → Mailbox exists (returns `true`)
+  - 550/551/553/554 → Mailbox doesn't exist (returns `false`)
+  - Other codes → Uncertain/blocked (returns `false`)
+- **Safety Features**:
+  - 10-second timeout per connection
+  - Tries first 3 MX servers (sorted by priority)
+  - Falls back to next MX if first fails
+  - Graceful error handling (returns `false` on errors)
+  - No actual emails sent (only verification)
+- **Note**: Many providers (Gmail, Outlook, etc.) block SMTP verification for privacy reasons. This check may return false negatives for privacy-protected mailboxes.
+
+### Suspicious Pattern Detection
+The system identifies potentially fake or low-quality emails by checking for:
+- Excessive consecutive numbers (e.g., `user123456789@...`)
+- Too many repeated characters (e.g., `aaaaaaaa@...`)
+- Suspicious keywords: `random`, `test`, `fake`, `temp`, `spam`, `junk`, `dummy`
+- Common keyboard patterns: `qwerty`, `asdfgh`, `12345`
+- Regex-based pattern matching for unusual character sequences
+
+### Domain Age Verification
+The validator checks domain registration age to identify:
+- **New domains** (< 90 days old) - Higher risk for spam/phishing
+- **Established domains** (≥ 90 days old) - Lower risk
+- Uses WHOIS-like checks or external APIs for domain age data
+- Combines with suspicious patterns for accurate risk assessment
+
+### Disposable Domain Detection
+Maintains an extensive list of:
+- Known disposable email providers (1000+ domains)
+- Temporary email services
+- 10-minute mail services
+- Pattern-based detection for common disposable domain formats
+
+### Free Email Provider List
+Recognizes major free email providers:
+- Gmail, Yahoo, Outlook/Hotmail, ProtonMail
+- iCloud, AOL, Zoho, Mail.com
+- Regional providers (GMX, Yandex, etc.)
+- 50+ free email services included
+
+### Role Account Keywords
+Detects common role-based addresses:
+- Administrative: `admin`, `administrator`, `webmaster`, `postmaster`
+- Sales & Marketing: `sales`, `marketing`, `info`, `contact`
+- Support: `support`, `help`, `helpdesk`, `service`
+- Generic: `noreply`, `no-reply`, `billing`, `feedback`
 
 ## 🔧 Configuration
 
@@ -208,32 +370,47 @@ NODE_ENV=development
 NUXT_PUBLIC_API_URL=http://localhost:4000
 ```
 
-## 📝 Future Roadmap
+## 📝 Roadmap & Progress
 
-### Phase 1: Core Features (In Progress)
-- [x] Single email validation
-- [x] Basic UI
-- [ ] User authentication
-- [ ] User dashboard
+### Phase 1: Core Features ✅ (Completed)
+- [x] Single email validation with 8-point check system
+- [x] Advanced risk scoring algorithm (calibrated)
+- [x] Modern dark-themed UI with geometric background
+- [x] Real-time validation feedback
+- [x] Comprehensive validation checks:
+  - [x] Format/Syntax validation
+  - [x] DNS/MX records verification
+  - [x] Disposable domain detection
+  - [x] Free email provider detection
+  - [x] Role account detection
+  - [x] Domain age verification
+  - [x] Suspicious pattern detection
+  - [x] SMTP mailbox verification (real implementation)
+- [x] Status determination (valid/invalid/risky)
+- [x] Responsive detailed results display
 
-### Phase 2: Premium Features
+### Phase 2: Premium Features (Next)
 - [ ] Bulk CSV validation
+- [ ] User authentication & authorization
+- [ ] User dashboard
 - [ ] Credit system
 - [ ] Usage analytics
 - [ ] API keys for developers
 
 ### Phase 3: Monetization
 - [ ] Stripe integration
-- [ ] Subscription plans
+- [ ] Subscription plans (Basic/Pro/Enterprise)
 - [ ] Payment processing
 - [ ] Invoice generation
+- [ ] Pricing page implementation
 
 ### Phase 4: Advanced Features
-- [ ] Email list cleaning
+- [ ] Email list cleaning & deduplication
 - [ ] API rate limiting
-- [ ] Webhooks
+- [ ] Webhooks for async validation
 - [ ] Team management
 - [ ] White-label solution
+- [ ] Advanced analytics & reporting
 
 ## 🤝 Contributing
 

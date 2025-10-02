@@ -79,7 +79,7 @@ const formattedChecks = computed(() => {
     },
     {
       key: 'smtp',
-      label: 'SMTP Valid (Coming Soon)',
+      label: 'SMTP Valid',
       status: checks.syntax === false || checks.dns === false ? 'na' : checks.smtp === true ? 'pass' : 'fail'
     },
     {
