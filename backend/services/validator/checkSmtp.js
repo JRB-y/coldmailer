@@ -23,7 +23,7 @@ export async function checkSmtp(email, domain, mxRecords) {
     for (const mx of sortedMx.slice(0, 3)) { // Try first 3 MX servers
       try {
         const result = await verifySMTP(mx.exchange, email, domain);
-        if (result !== null) {
+        if (result !== false && result !== null) {
           return result;
         }
       } catch (err) {
@@ -108,9 +108,10 @@ async function verifySMTP(mxHost, email, domain) {
       }
     });
 
-    socket.on('error', () => {
+    socket.on('error', (error) => {
       cleanup();
       resolve(null);
+      console.log('SMTP connection error:', error);
     });
 
     socket.on('timeout', () => {

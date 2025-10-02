@@ -88,7 +88,7 @@ const formattedChecks = computed(() => {
     {
       key: 'disposable',
       label: 'Not Disposable',
-      status: checks.syntax === false || checks.dns === false ? 'na' : checks.disposable === false ? 'pass' : 'fail'
+      status: checks.syntax === false ? 'na' : checks.disposable ? 'fail' : 'pass'
     },
     // Medium-high risk (20-50 points)
     {
@@ -101,13 +101,13 @@ const formattedChecks = computed(() => {
     {
       key: 'roleAccount',
       label: 'Not Role Account',
-      status: checks.syntax === false ? 'na' : checks.roleAccount === false ? 'pass' : 'fail'
+      status: checks.syntax === false ? 'na' : checks.roleAccount ? 'fail' : 'pass'
     },
     // Low risk (10 points)
     {
       key: 'freeDomain',
       label: 'Not Free Domain',
-      status: checks.syntax === false || checks.dns === false ? 'na' : checks.freeEmail === false ? 'pass' : 'fail'
+      status: checks.syntax === false ? 'na' : checks.freeEmail ? 'fail' : 'pass'
     }
   ]
 })

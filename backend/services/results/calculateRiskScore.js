@@ -8,7 +8,8 @@ export function calculateRiskScore(checks) {
 
   // Critical failures
   if (!checks.syntax) return 100; // Invalid syntax = max risk
-  if (!checks.dns) return 100; // No DNS/MX = max risk
+  if (!checks.dns) return 100; // No DNS = max risk
+  if (!checks.mx) return 100; // No MX records = max risk (can't receive email)
 
   // High risk factors
   if (checks.disposable) score += 90; // Disposable email = very risky

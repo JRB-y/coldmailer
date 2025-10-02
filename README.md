@@ -7,6 +7,12 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🆕 Recent Updates
 
 **Latest enhancements:**
+- 🔧 **Critical Validation Logic Fixes** - Separated DNS from MX checks, independent checks run always
+  - DNS checks domain existence (A/AAAA records)
+  - MX checks email delivery capability (MX records)
+  - Independent checks (disposable/free/role) run even when DNS/MX fail
+  - Fixed UI display logic for negated fields
+  - Risk scorer now properly checks MX records
 - ✅ **SMTP Validation Fully Implemented** - Real mailbox verification via SMTP protocol
   - Full TCP connection to mail servers on port 25
   - Proper SMTP handshake: HELO → MAIL FROM → RCPT TO
@@ -80,8 +86,9 @@ coldmailer/
 │   │   ├── validator/      # Email validation checks
 │   │   │   ├── index.js           # Validator exports
 │   │   │   ├── validateSyntax.js  # Email format validation
-│   │   │   ├── checkMxRecords.js  # DNS/MX record verification
-│   │   │   ├── checkSmtp.js       # SMTP validation (placeholder)
+│   │   │   ├── checkDns.js        # DNS existence check (A/AAAA records)
+│   │   │   ├── checkMxRecords.js  # MX record verification (email delivery)
+│   │   │   ├── checkSmtp.js       # SMTP mailbox verification
 │   │   │   ├── isDisposable.js    # Disposable domain detection
 │   │   │   ├── isFreeDomain.js    # Free email provider detection
 │   │   │   ├── isRoleAccount.js   # Role account detection
@@ -211,16 +218,18 @@ Validate a single email address.
 
 ## 🧪 Email Validation Logic
 
-The validator performs **8 comprehensive checks**:
+The validator performs **8 comprehensive checks** (in order of priority):
 
 1. **Format Validation** - Validates email syntax using regex patterns
-2. **DNS Validation** - Verifies domain exists and is reachable
-3. **MX Records Check** - Confirms domain has valid mail exchange records
+2. **DNS Validation** - Verifies domain exists (A/AAAA records) - *Independent from MX*
+3. **MX Records Check** - Confirms domain has valid mail exchange records - *Independent from DNS*
 4. **SMTP Validation** - Verifies mailbox exists via SMTP protocol (HELO → MAIL FROM → RCPT TO)
-5. **Disposable Domain Detection** - Identifies temporary/disposable email services
-6. **Free Email Provider Detection** - Recognizes free email providers (Gmail, Yahoo, Outlook, etc.)
-7. **Role Account Detection** - Flags generic addresses (info@, admin@, sales@, support@, etc.)
+5. **Disposable Domain Detection** - Identifies temporary/disposable email services - *Runs independently*
+6. **Free Email Provider Detection** - Recognizes free email providers (Gmail, Yahoo, Outlook, etc.) - *Runs independently*
+7. **Role Account Detection** - Flags generic addresses (info@, admin@, sales@, support@, etc.) - *Runs independently*
 8. **Domain Age & Pattern Analysis** - Checks domain registration age and detects suspicious patterns
+
+**Key Design**: DNS and MX are separate checks. Independent checks (5-7) run regardless of DNS/MX status, providing maximum information even for invalid domains.
 
 ### Risk Score Calculation (Calibrated)
 
@@ -228,7 +237,8 @@ The risk scoring system uses a weighted approach:
 
 **Critical Failures (100 points)**
 - Invalid email syntax → 100
-- No DNS/MX records → 100
+- No DNS (domain doesn't exist) → 100
+- No MX records (can't receive email) → 100
 
 **High Risk (90 points)**
 - Disposable email domain → +90
@@ -245,9 +255,9 @@ The risk scoring system uses a weighted approach:
 - Free email provider → +10
 
 ### Status Determination
-- **Invalid** - Critical checks failed (syntax or DNS)
+- **Invalid** - Critical checks failed (syntax, DNS, or MX)
 - **Risky** - Risk score ≥ 60
-- **Valid** - Risk score < 60
+- **Valid** - Risk score < 60 and all critical checks pass
 
 ### Example Validations
 
@@ -432,6 +442,7 @@ Proprietary - All rights reserved
 
 - **[TODO.md](./TODO.md)** - Complete roadmap, future features, and task tracking
 - **[SMTP_IMPLEMENTATION.md](./SMTP_IMPLEMENTATION.md)** - Technical deep-dive into SMTP validation implementation
+- **[VALIDATION_LOGIC_FIXES.md](./VALIDATION_LOGIC_FIXES.md)** - Critical validation logic fixes (DNS/MX separation, independent checks)
 
 ## 🆘 Support
 
