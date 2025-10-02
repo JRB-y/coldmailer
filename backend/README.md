@@ -1,0 +1,8 @@
+- checkDomain
+- checkMxRecord
+- disposableDomain
+- emailValidator
+- freeDomain
+- roleAccount
+- suspiciousPattern
+- validateSyntaxe
