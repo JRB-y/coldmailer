@@ -60,8 +60,9 @@ const formattedChecks = computed(() => {
 
   const checks = result.value.checks
 
-  // Format checks to match dataset column order
+  // Format checks by risk priority (aligned with scoring logic)
   return [
+    // Critical checks (100 points)
     {
       key: 'format',
       label: 'Format Valid',
@@ -77,31 +78,36 @@ const formattedChecks = computed(() => {
       label: 'MX Records',
       status: checks.syntax === false ? 'na' : checks.mx === true ? 'pass' : 'fail'
     },
+    // Verification check
     {
       key: 'smtp',
       label: 'SMTP Valid',
       status: checks.syntax === false || checks.dns === false ? 'na' : checks.smtp === true ? 'pass' : 'fail'
     },
-    {
-      key: 'freeDomain',
-      label: 'Not Free Domain',
-      status: checks.syntax === false || checks.dns === false ? 'na' : checks.freeEmail === false ? 'pass' : 'fail'
-    },
+    // High risk (90 points)
     {
       key: 'disposable',
       label: 'Not Disposable',
       status: checks.syntax === false || checks.dns === false ? 'na' : checks.disposable === false ? 'pass' : 'fail'
     },
-    {
-      key: 'roleAccount',
-      label: 'Not Role Account',
-      status: checks.syntax === false ? 'na' : checks.roleAccount === false ? 'pass' : 'fail'
-    },
+    // Medium-high risk (20-50 points)
     {
       key: 'domainAge',
       label: 'Domain Age / Pattern',
       status: checks.syntax === false || checks.dns === false ? 'na' :
               (checks.domainAge?.isNew === true || checks.suspiciousPattern === true) ? 'fail' : 'pass'
+    },
+    // Medium risk (20 points)
+    {
+      key: 'roleAccount',
+      label: 'Not Role Account',
+      status: checks.syntax === false ? 'na' : checks.roleAccount === false ? 'pass' : 'fail'
+    },
+    // Low risk (10 points)
+    {
+      key: 'freeDomain',
+      label: 'Not Free Domain',
+      status: checks.syntax === false || checks.dns === false ? 'na' : checks.freeEmail === false ? 'pass' : 'fail'
     }
   ]
 })
