@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { CheckCircle, XCircle, AlertCircle } from 'lucide-vue-next'
+import { ref, computed, onMounted } from 'vue'
+import { CheckCircle, XCircle, AlertCircle, LogOut } from 'lucide-vue-next'
+
+definePageMeta({
+  middleware: 'auth',
+  ssr: false
+})
 
 const config = useRuntimeConfig()
 const apiUrl = config.public.apiUrl
+
+const { token, user, isAuthenticated, logout, updateCredits } = useAuth()
+const router = useRouter()
 
 const email = ref('')
 const loading = ref(false)
@@ -123,10 +131,20 @@ async function validateEmail() {
   result.value = null
 
   try {
+    // Get token directly from localStorage to ensure it's fresh
+    const authToken = localStorage.getItem('auth-token')
+
+    if (!authToken) {
+      logout()
+      router.push('/auth/login')
+      throw new Error('Please login to validate emails.')
+    }
+
     const response = await fetch(`${apiUrl}/api/validate`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
       },
       body: JSON.stringify({ email: email.value.trim() })
     })
@@ -134,15 +152,34 @@ async function validateEmail() {
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.message || 'Validation failed')
+      if (response.status === 401) {
+        // Token expired or invalid, logout
+        logout()
+        router.push('/auth/login')
+        throw new Error('Session expired. Please login again.')
+      }
+      if (response.status === 402) {
+        throw new Error('Insufficient credits. Please purchase more credits.')
+      }
+      throw new Error(data.message || data.error || 'Validation failed')
     }
 
     result.value = data
+
+    // Update credits in local state
+    if (data.creditsRemaining !== undefined) {
+      updateCredits(data.creditsRemaining)
+    }
   } catch (err: any) {
     error.value = err.message || 'An error occurred. Please try again.'
   } finally {
     loading.value = false
   }
+}
+
+function handleLogout() {
+  logout()
+  router.push('/auth/login')
 }
 
 function reset() {
@@ -156,7 +193,7 @@ function reset() {
   <div class="min-h-screen bg-black bg-main">
     <!-- Header -->
     <header class="py-6 px-4 border-b border-gray-800">
-      <div class="max-w-6xl mx-auto">
+      <div class="max-w-6xl mx-auto flex items-center justify-between">
         <div>
           <svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Envelope icon -->
@@ -169,9 +206,24 @@ function reset() {
               Coldmailer
             </text>
           </svg>
-
         </div>
-        <!-- <h1 class="text-2xl font-bold text-white">Cold Mailer</h1> -->
+
+        <!-- User Info -->
+        <div v-if="user" class="flex items-center gap-4">
+          <div class="text-right">
+            <p class="text-sm text-gray-400">{{ user.email }}</p>
+            <p class="text-sm font-semibold text-white">
+              <span class="text-blue-400">{{ user.credits }}</span> credits
+            </p>
+          </div>
+          <button
+            @click="handleLogout"
+            class="p-2 hover:bg-zinc-800 rounded-md transition-colors text-gray-400 hover:text-white"
+            title="Logout"
+          >
+            <LogOut class="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </header>
 

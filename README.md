@@ -7,6 +7,15 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🆕 Recent Updates
 
 **Latest enhancements (Oct 2-3, 2025):**
+- 🔐 **User Authentication & Database** - Full JWT-based auth system with MongoDB persistence
+  - User registration and login with bcrypt password hashing
+  - JWT tokens with 7-day expiration
+  - Protected API endpoints with authentication middleware
+  - MongoDB integration with Mongoose ODM
+  - Credits system: 1000 free credits per new user
+  - Validation history tracking and retrieval (paginated)
+  - Credit deduction on each validation (1 credit per email)
+  - Returns 402 Payment Required when out of credits
 - 🔧 **Critical Validation Logic Fixes** - Separated DNS from MX checks, independent checks run always
   - DNS checks domain existence (A/AAAA records) - completely independent from MX
   - MX checks email delivery capability (MX records) - runs regardless of DNS
@@ -33,20 +42,23 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🚀 Features
 
 ### Current Features
+- ✅ **User Authentication** - JWT-based registration and login with secure password hashing
+- ✅ **Credits System** - Track validation usage with credits (1000 free credits for new users)
+- ✅ **Validation History** - Persistent storage of all validations with paginated retrieval
 - ✅ **Single Email Validation** - Validate individual email addresses in real-time
 - ✅ **Comprehensive 8-Point Validation** - Format, DNS/MX records, SMTP mailbox verification, disposable domains, free email providers, role accounts, domain age, and suspicious patterns
 - ✅ **Advanced Risk Scoring** - Calibrated risk score (0-100) with weighted factors
 - ✅ **Modern UI** - Clean, responsive interface with subtle geometric background pattern
 - ✅ **Real-time Results** - Instant validation feedback with detailed check breakdowns
 - ✅ **SMTP Verification** - Real mailbox verification via SMTP protocol (HELO → MAIL FROM → RCPT TO)
+- ✅ **Protected API** - Secure endpoints with authentication middleware
 
 ### Coming Soon
 - 🔄 Bulk CSV validation
-- 🔐 User authentication & authorization
 - 💳 Stripe payment integration
 - 📊 Usage analytics dashboard
-- 🎟️ Credit system
 - 📈 Subscription plans
+- 🔑 API keys for developers
 
 ## 📋 Tech Stack
 
@@ -59,6 +71,8 @@ An email validation SaaS application that helps you verify email addresses, redu
 ### Backend
 - **Framework**: Express.js
 - **Runtime**: Node.js (ESM)
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT (jsonwebtoken) + bcrypt
 - **Validation**: Custom email validation service
 
 ## 🏗️ Project Structure
@@ -79,11 +93,17 @@ coldmailer/
 │   └── nuxt.config.ts      # Nuxt configuration
 │
 ├── backend/                 # Express.js backend API
+│   ├── models/             # MongoDB/Mongoose models
+│   │   ├── User.js         # User schema (email, password, credits)
+│   │   └── Validation.js   # ValidationResult schema
+│   ├── middleware/         # Express middleware
+│   │   └── auth.js         # JWT authentication middleware
 │   ├── routes/             # API route handlers
-│   │   ├── validate.js     # Email validation endpoint
-│   │   ├── auth.js         # Authentication (placeholder)
+│   │   ├── validate.js     # Email validation endpoint (protected)
+│   │   ├── auth.js         # Authentication (register, login, me)
+│   │   ├── validations.js  # Validation history endpoints
+│   │   ├── credits.js      # Credit balance endpoint
 │   │   ├── bulk.js         # Bulk validation (placeholder)
-│   │   ├── credits.js      # Credit management (placeholder)
 │   │   └── subscriptions.js # Stripe subscriptions (placeholder)
 │   ├── services/           # Business logic
 │   │   ├── validator/      # Email validation checks
@@ -103,6 +123,7 @@ coldmailer/
 │   │       ├── determineStatus.js    # Status determination
 │   │       └── generateReason.js     # Reason generation
 │   ├── tests/              # Test files
+│   ├── db.js               # MongoDB connection module
 │   └── server.js           # Express server entry point
 │
 ├── package.json            # Root package with workspaces
@@ -116,6 +137,7 @@ coldmailer/
 ### Prerequisites
 - Node.js 18+
 - npm or yarn
+- MongoDB (local or MongoDB Atlas)
 
 ### Setup
 
@@ -129,12 +151,31 @@ coldmailer/
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Set up MongoDB**
+
+   **Option A: Local MongoDB**
+   ```bash
+   # Install MongoDB (macOS with Homebrew)
+   brew install mongodb-community
+
+   # Start MongoDB
+   brew services start mongodb-community
+   ```
+
+   **Option B: MongoDB Atlas (Cloud)**
+   - Create a free account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+   - Create a cluster and get your connection string
+   - Use the connection string in your `.env` file
+
+4. **Set up environment variables**
 
    Backend (.env):
    ```bash
    cd backend
    cp .env.example .env
+   # Edit .env and configure:
+   # - MONGODB_URI (e.g., mongodb://localhost:27017/coldmailer)
+   # - JWT_SECRET (generate a secure random string)
    ```
 
    Frontend (.env):
@@ -166,12 +207,127 @@ npm run dev:backend
 npm run dev:frontend
 ```
 
+## 🎯 Quick Start Guide
+
+### 1. Register a New User
+```bash
+curl -X POST http://localhost:4000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "yourpassword"}'
+```
+
+Save the returned `token` for subsequent requests.
+
+### 2. Login (if already registered)
+```bash
+curl -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "yourpassword"}'
+```
+
+### 3. Validate an Email (requires token)
+```bash
+curl -X POST http://localhost:4000/api/validate \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@gmail.com"}'
+```
+
+### 4. Check Your Credits
+```bash
+curl -X GET http://localhost:4000/api/credits \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+### 5. View Validation History
+```bash
+curl -X GET http://localhost:4000/api/validations \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
 ## 📡 API Endpoints
 
-### Current Endpoints
+### Authentication Endpoints
+
+#### `POST /api/auth/register`
+Create a new user account.
+
+**Request:**
+```json
+{
+  "email": "user@example.com",
+  "password": "yourpassword"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "User registered successfully",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "68df8766a91aec6c79e4568f",
+    "email": "user@example.com",
+    "credits": 1000,
+    "createdAt": "2025-10-03T08:20:54.424Z"
+  }
+}
+```
+
+#### `POST /api/auth/login`
+Login to an existing account.
+
+**Request:**
+```json
+{
+  "email": "user@example.com",
+  "password": "yourpassword"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "68df8766a91aec6c79e4568f",
+    "email": "user@example.com",
+    "credits": 1000
+  }
+}
+```
+
+#### `GET /api/auth/me`
+Get current user information (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "user": {
+    "id": "68df8766a91aec6c79e4568f",
+    "email": "user@example.com",
+    "credits": 999,
+    "createdAt": "2025-10-03T08:20:54.424Z",
+    "updatedAt": "2025-10-03T08:23:04.122Z"
+  }
+}
+```
+
+### Validation Endpoints
 
 #### `POST /api/validate`
-Validate a single email address.
+Validate a single email address (requires authentication, costs 1 credit).
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
 
 **Request:**
 ```json
@@ -197,11 +353,12 @@ Validate a single email address.
     "roleAccount": false,
     "domainAge": {
       "isNew": false,
-      "daysOld": 5000
+      "ageInDays": null
     },
     "suspiciousPattern": false
   },
-  "reason": ""
+  "reason": "",
+  "creditsRemaining": 999
 }
 ```
 
@@ -211,13 +368,90 @@ Validate a single email address.
 - `risky` - Email may cause issues
 - `unknown` - Unable to validate
 
+#### `GET /api/validations`
+Get user's validation history (requires authentication, paginated).
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Query Parameters:**
+- `page` (optional, default: 1)
+- `limit` (optional, default: 20)
+
+**Response:**
+```json
+{
+  "validations": [
+    {
+      "_id": "68df87e8a91aec6c79e45695",
+      "userId": "68df8766a91aec6c79e4568f",
+      "email": "test@example.com",
+      "status": "valid",
+      "riskScore": 10,
+      "checks": { ... },
+      "reason": "",
+      "creditsUsed": 1,
+      "createdAt": "2025-10-03T08:23:04.122Z",
+      "updatedAt": "2025-10-03T08:23:04.122Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 15,
+    "pages": 1
+  }
+}
+```
+
+#### `GET /api/validations/:id`
+Get a single validation by ID (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "validation": {
+    "_id": "68df87e8a91aec6c79e45695",
+    "email": "test@example.com",
+    "status": "valid",
+    "riskScore": 10,
+    "checks": { ... },
+    "creditsUsed": 1,
+    "createdAt": "2025-10-03T08:23:04.122Z"
+  }
+}
+```
+
+### Credits Endpoints
+
+#### `GET /api/credits`
+Get current credit balance (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Response:**
+```json
+{
+  "credits": 999,
+  "email": "user@example.com"
+}
+```
+
 ### Planned Endpoints
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
 - `POST /api/bulk/upload` - Upload CSV for bulk validation
 - `GET /api/bulk/jobs/:id` - Get validation job status
-- `GET /api/credits` - Get credit balance
 - `POST /api/subscriptions/create` - Create subscription
+- `POST /api/credits/purchase` - Purchase additional credits
 
 ## 🧪 Email Validation Logic
 
@@ -384,12 +618,41 @@ Detects common role-based addresses:
 ```env
 PORT=4000
 NODE_ENV=development
+
+# MongoDB Configuration
+MONGODB_URI=mongodb://localhost:27017/coldmailer
+
+# JWT Authentication
+JWT_SECRET=your-secret-key-change-in-production
+
+# Frontend URL for CORS
+FRONTEND_URL=http://localhost:3000
 ```
 
 **Frontend (.env)**
 ```env
 NUXT_PUBLIC_API_URL=http://localhost:4000
 ```
+
+### MongoDB Database Schema
+
+**User Collection:**
+- `email` - User's email address (unique, lowercase)
+- `password` - Hashed password (bcrypt, 10 rounds)
+- `credits` - Available credits (default: 1000)
+- `createdAt` - Account creation timestamp
+- `updatedAt` - Last update timestamp
+
+**Validation Collection:**
+- `userId` - Reference to User (indexed)
+- `email` - Validated email address
+- `status` - Validation result (valid/invalid/risky/unknown)
+- `riskScore` - Calculated risk score (0-100+)
+- `checks` - All validation check results (object)
+- `reason` - Explanation for status
+- `creditsUsed` - Credits consumed (default: 1)
+- `createdAt` - Validation timestamp
+- `updatedAt` - Last update timestamp
 
 ## 📝 Roadmap & Progress
 
@@ -409,13 +672,16 @@ NUXT_PUBLIC_API_URL=http://localhost:4000
   - [x] SMTP mailbox verification (real implementation)
 - [x] Status determination (valid/invalid/risky)
 - [x] Responsive detailed results display
+- [x] User authentication & authorization (JWT-based)
+- [x] MongoDB integration with Mongoose
+- [x] Credit system (1000 free credits per user)
+- [x] Validation history tracking (paginated)
+- [x] Protected API endpoints
 
 ### Phase 2: Premium Features (Next)
 - [ ] Bulk CSV validation
-- [ ] User authentication & authorization
-- [ ] User dashboard
-- [ ] Credit system
-- [ ] Usage analytics
+- [ ] User dashboard (frontend)
+- [ ] Usage analytics & charts
 - [ ] API keys for developers
 
 ### Phase 3: Monetization

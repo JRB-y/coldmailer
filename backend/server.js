@@ -1,14 +1,19 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { connectDB } from './db.js';
 import validateRouter from './routes/validate.js';
 import authRouter from './routes/auth.js';
 import bulkRouter from './routes/bulk.js';
 import creditsRouter from './routes/credits.js';
 import subscriptionsRouter from './routes/subscriptions.js';
+import validationsRouter from './routes/validations.js';
 
 // Load environment variables
 dotenv.config();
+
+// Connect to MongoDB
+await connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -26,6 +31,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/bulk', bulkRouter);
 app.use('/api/credits', creditsRouter);
 app.use('/api/subscriptions', subscriptionsRouter);
+app.use('/api/validations', validationsRouter);
 
 // Health check endpoint
 app.get('/health', (_req, res) => {
