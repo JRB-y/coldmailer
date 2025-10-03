@@ -36,8 +36,8 @@ const validationSchema = new mongoose.Schema(
       freeEmail: Boolean,
       roleAccount: Boolean,
       domainAge: {
-        isNew: Boolean,
-        daysOld: Number,
+        isNew: { type: Boolean, default: null },
+        daysOld: { type: Number, default: null },
       },
       suspiciousPattern: Boolean,
     },

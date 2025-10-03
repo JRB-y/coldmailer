@@ -49,7 +49,7 @@ const fetchWithTimeout = async (url, options, timeout = REQUEST_TIMEOUT_MS) => {
 /**
  * Check domain age using WHOIS API
  * @param {string} domain - The domain to check
- * @returns {Promise<Object>} - { isNew: boolean|'unknown', ageInDays: number|null, status: string }
+ * @returns {Promise<Object>} - { isNew: boolean|null, ageInDays: number|null, status: string }
  */
 export async function checkDomainAge(domain) {
   // Check cache first
@@ -62,7 +62,7 @@ export async function checkDomainAge(domain) {
   if (!process.env.WHOIS_API_URL || !process.env.API_LAYER_API_KEY) {
     console.warn('WHOIS API not configured - domain age check skipped')
     return {
-      isNew: 'unknown',
+      isNew: null,
       ageInDays: null,
       status: 'not_configured',
     }
@@ -84,7 +84,7 @@ export async function checkDomainAge(domain) {
       // API error (rate limit, invalid key, etc.)
       console.error(`WHOIS API error for ${domain}: ${response.status} ${response.statusText}`)
       return {
-        isNew: 'unknown',
+        isNew: null,
         ageInDays: null,
         status: 'api_error',
       }
@@ -96,7 +96,7 @@ export async function checkDomainAge(domain) {
     if (!data || !data.created_date) {
       console.warn(`WHOIS data missing created_date for ${domain}`)
       const result = {
-        isNew: 'unknown',
+        isNew: null,
         ageInDays: null,
         status: 'no_data',
       }
@@ -116,7 +116,7 @@ export async function checkDomainAge(domain) {
     if (isNaN(createdDate.getTime())) {
       console.warn(`Invalid created_date for ${domain}: ${data.created_date}`)
       const result = {
-        isNew: 'unknown',
+        isNew: null,
         ageInDays: null,
         status: 'invalid_date',
       }
@@ -151,7 +151,7 @@ export async function checkDomainAge(domain) {
     console.error(`WHOIS lookup ${errorType} for ${domain}:`, error.message)
 
     const result = {
-      isNew: 'unknown',
+      isNew: false,
       ageInDays: null,
       status: errorType,
       error: error.message,
