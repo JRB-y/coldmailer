@@ -22,6 +22,7 @@ export async function checkSmtp(email, domain, mxRecords)
 ```
 
 **Process Flow**:
+
 1. Receives email, domain, and pre-fetched MX records
 2. Sorts MX records by priority (lower = higher priority)
 3. Tries connecting to first 3 MX servers sequentially
@@ -39,18 +40,20 @@ export async function checkSmtp(email, domain, mxRecords)
 ### Performance Optimization
 
 **Problem**: Original implementation had duplicate MX record lookups
+
 ```javascript
 // Before (inefficient)
-const mxValid = await checkMxRecords(domain);    // DNS lookup #1
-const smtpValid = await checkSmtp(email, domain); // DNS lookup #2 inside checkSmtp
+const mxValid = await checkMxRecords(domain) // DNS lookup #1
+const smtpValid = await checkSmtp(email, domain) // DNS lookup #2 inside checkSmtp
 ```
 
 **Solution**: Pass MX records from checkMxRecords to checkSmtp
+
 ```javascript
 // After (optimized)
-const mxRecords = await checkMxRecords(domain);  // DNS lookup #1 only
-const mxValid = mxRecords !== null;
-const smtpValid = await checkSmtp(email, domain, mxRecords); // Reuses records
+const mxRecords = await checkMxRecords(domain) // DNS lookup #1 only
+const mxValid = mxRecords !== null
+const smtpValid = await checkSmtp(email, domain, mxRecords) // Reuses records
 ```
 
 **Performance Gain**: ~100-500ms faster per validation (eliminates one DNS lookup)
@@ -69,16 +72,16 @@ const smtpValid = await checkSmtp(email, domain, mxRecords); // Reuses records
 
 ### Response Code Handling
 
-| Code | Meaning | Action |
-|------|---------|--------|
-| 220 | Server greeting | Continue to HELO |
-| 250 | Command OK | Continue to next step |
-| 251 | User not local, will forward | Consider as valid |
-| 550 | Mailbox unavailable | Return false |
-| 551 | User not local | Return false |
-| 553 | Mailbox name not allowed | Return false |
-| 554 | Transaction failed | Return false |
-| 4xx | Temporary error | Return null (uncertain) |
+| Code | Meaning                      | Action                  |
+| ---- | ---------------------------- | ----------------------- |
+| 220  | Server greeting              | Continue to HELO        |
+| 250  | Command OK                   | Continue to next step   |
+| 251  | User not local, will forward | Consider as valid       |
+| 550  | Mailbox unavailable          | Return false            |
+| 551  | User not local               | Return false            |
+| 553  | Mailbox name not allowed     | Return false            |
+| 554  | Transaction failed           | Return false            |
+| 4xx  | Temporary error              | Return null (uncertain) |
 
 ### Safety Features
 
@@ -91,6 +94,7 @@ const smtpValid = await checkSmtp(email, domain, mxRecords); // Reuses records
 ### Integration
 
 **Updated Files**:
+
 - `backend/services/validator/checkSmtp.js` - SMTP verification logic
 - `backend/services/validator/checkMxRecords.js` - Returns MX records array
 - `backend/services/validator/index.js` - Orchestrates validation with MX reuse
@@ -137,6 +141,7 @@ support@google.com (Corporate email)
 **Issue**: Many major email providers block SMTP verification for privacy/security.
 
 **Affected Providers**:
+
 - Gmail (most addresses)
 - Outlook/Hotmail (most addresses)
 - Yahoo (some addresses)
@@ -150,6 +155,7 @@ support@google.com (Corporate email)
 **Industry Standard**: This is expected behavior. All email verification services face this limitation.
 
 **Mitigation**:
+
 - Combine SMTP check with other validation signals (syntax, MX, domain age, etc.)
 - Use risk scoring instead of binary valid/invalid
 - Document this limitation for users
@@ -159,6 +165,7 @@ support@google.com (Corporate email)
 Some mail servers may temporarily block connections if too many verification requests are made in a short time.
 
 **Mitigation**:
+
 - Implement rate limiting in future updates
 - Cache results for recently checked addresses
 - Consider batch processing with delays
@@ -169,13 +176,13 @@ Some mail servers may temporarily block connections if too many verification req
 
 Based on testing and industry benchmarks:
 
-| Scenario | SMTP Accuracy |
-|----------|---------------|
-| Small business domains | ~85-90% |
-| Corporate domains | ~70-80% |
-| Gmail/major providers | ~30-50% (privacy blocking) |
-| Disposable domains | ~90-95% |
-| Overall average | ~60-70% |
+| Scenario               | SMTP Accuracy              |
+| ---------------------- | -------------------------- |
+| Small business domains | ~85-90%                    |
+| Corporate domains      | ~70-80%                    |
+| Gmail/major providers  | ~30-50% (privacy blocking) |
+| Disposable domains     | ~90-95%                    |
+| Overall average        | ~60-70%                    |
 
 **Note**: These are estimates. Actual accuracy varies by provider and configuration.
 
@@ -184,17 +191,20 @@ Based on testing and industry benchmarks:
 ## 🚀 Future Improvements
 
 ### Short-term
+
 - [ ] Add SMTP result caching (Redis) to avoid repeated checks
 - [ ] Implement rate limiting per domain
 - [ ] Add metrics/logging for SMTP success rates
 
 ### Medium-term
+
 - [ ] VRFY command support (where available)
 - [ ] EXPN command for mailing lists
 - [ ] Greylist detection
 - [ ] Catch-all detection
 
 ### Long-term
+
 - [ ] Machine learning model to predict SMTP success likelihood
 - [ ] Provider-specific handling (different strategies per provider)
 - [ ] Bulk SMTP verification optimization (connection pooling)
@@ -204,18 +214,21 @@ Based on testing and industry benchmarks:
 ## 💡 Lessons Learned
 
 ### What Went Well
+
 - Clean separation of concerns (MX lookup vs SMTP check)
 - Proper error handling and timeouts prevent hanging connections
 - Optimization of MX record reuse saves significant time
 - Good test coverage ensures reliability
 
 ### Challenges Overcome
+
 - Handling incomplete SMTP responses (buffering)
 - Proper socket cleanup to avoid memory leaks
 - Dealing with various SMTP response formats
 - Balancing timeout vs thoroughness
 
 ### Best Practices Applied
+
 - No duplicate DNS lookups (performance)
 - Graceful degradation (returns false on uncertainty)
 - Multiple MX fallback (reliability)
@@ -226,10 +239,12 @@ Based on testing and industry benchmarks:
 ## 📚 References
 
 ### SMTP Protocol
+
 - [RFC 5321 - SMTP](https://tools.ietf.org/html/rfc5321)
 - [RFC 5322 - Internet Message Format](https://tools.ietf.org/html/rfc5322)
 
 ### Industry Best Practices
+
 - Email verification should combine multiple signals
 - SMTP verification alone is not sufficient for modern email validation
 - Privacy protection is increasingly common (expected behavior)
@@ -261,14 +276,14 @@ Based on testing and industry benchmarks:
 ```javascript
 // checkMxRecords.js now returns array
 export async function checkMxRecords(domain) {
-  const records = await resolveMx(domain);
-  return records && records.length > 0 ? records : null;
+  const records = await resolveMx(domain)
+  return records && records.length > 0 ? records : null
 }
 
 // Reused in validateEmail
-const mxRecords = await checkMxRecords(domain);
-const mxValid = mxRecords !== null;
-const smtpValid = await checkSmtp(email, domain, mxRecords);
+const mxRecords = await checkMxRecords(domain)
+const mxValid = mxRecords !== null
+const smtpValid = await checkSmtp(email, domain, mxRecords)
 ```
 
 ---
@@ -291,4 +306,3 @@ const smtpValid = await checkSmtp(email, domain, mxRecords);
 
 **Status**: ✅ Production Ready
 **Next Phase**: User Authentication & Dashboard (Phase 2)
-

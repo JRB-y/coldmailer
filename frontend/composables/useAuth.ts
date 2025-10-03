@@ -46,7 +46,7 @@ export const useAuth = () => {
     } catch (error: any) {
       return {
         success: false,
-        error: error.data?.error || error.message || 'Registration failed'
+        error: error.data?.error || error.message || 'Registration failed',
       }
     }
   }
@@ -76,7 +76,7 @@ export const useAuth = () => {
     } catch (error: any) {
       return {
         success: false,
-        error: error.data?.error || error.message || 'Login failed'
+        error: error.data?.error || error.message || 'Login failed',
       }
     }
   }
@@ -99,8 +99,8 @@ export const useAuth = () => {
     try {
       const response = await $fetch(`${apiUrl}/api/auth/me`, {
         headers: {
-          Authorization: `Bearer ${token.value}`
-        }
+          Authorization: `Bearer ${token.value}`,
+        },
       })
 
       if (response.user) {

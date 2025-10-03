@@ -7,6 +7,7 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🆕 Recent Updates
 
 **Latest enhancements (Oct 2-3, 2025):**
+
 - 🔐 **User Authentication & Database** - Full JWT-based auth system with MongoDB persistence
   - User registration and login with bcrypt password hashing
   - JWT tokens with 7-day expiration
@@ -42,6 +43,7 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🚀 Features
 
 ### Current Features
+
 - ✅ **User Authentication** - JWT-based registration and login with secure password hashing
 - ✅ **Credits System** - Track validation usage with credits (1000 free credits for new users)
 - ✅ **Validation History** - Persistent storage of all validations with paginated retrieval
@@ -54,6 +56,7 @@ An email validation SaaS application that helps you verify email addresses, redu
 - ✅ **Protected API** - Secure endpoints with authentication middleware
 
 ### Coming Soon
+
 - 🔄 Bulk CSV validation
 - 💳 Stripe payment integration
 - 📊 Usage analytics dashboard
@@ -63,12 +66,14 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 📋 Tech Stack
 
 ### Frontend
+
 - **Framework**: Nuxt 3 + Vue 3
 - **Styling**: Tailwind CSS
 - **Components**: Shadcn Vue
 - **Icons**: Lucide Vue
 
 ### Backend
+
 - **Framework**: Express.js
 - **Runtime**: Node.js (ESM)
 - **Database**: MongoDB with Mongoose ODM
@@ -135,6 +140,7 @@ coldmailer/
 ## 🛠️ Installation
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 - MongoDB (local or MongoDB Atlas)
@@ -142,11 +148,13 @@ coldmailer/
 ### Setup
 
 1. **Clone or navigate to the repository**
+
    ```bash
    cd /path/to/coldmailer
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
@@ -154,6 +162,7 @@ coldmailer/
 3. **Set up MongoDB**
 
    **Option A: Local MongoDB**
+
    ```bash
    # Install MongoDB (macOS with Homebrew)
    brew install mongodb-community
@@ -170,6 +179,7 @@ coldmailer/
 4. **Set up environment variables**
 
    Backend (.env):
+
    ```bash
    cd backend
    cp .env.example .env
@@ -179,6 +189,7 @@ coldmailer/
    ```
 
    Frontend (.env):
+
    ```bash
    cd frontend
    cp .env.example .env
@@ -187,22 +198,26 @@ coldmailer/
 ## 🚀 Running the Application
 
 ### Start both frontend and backend (recommended)
+
 ```bash
 npm run dev
 ```
 
 This will start:
+
 - Frontend: http://localhost:3000
 - Backend: http://localhost:4000
 
 ### Start individually
 
 **Backend only:**
+
 ```bash
 npm run dev:backend
 ```
 
 **Frontend only:**
+
 ```bash
 npm run dev:frontend
 ```
@@ -210,6 +225,7 @@ npm run dev:frontend
 ## 🎯 Quick Start Guide
 
 ### 1. Register a New User
+
 ```bash
 curl -X POST http://localhost:4000/api/auth/register \
   -H "Content-Type: application/json" \
@@ -219,6 +235,7 @@ curl -X POST http://localhost:4000/api/auth/register \
 Save the returned `token` for subsequent requests.
 
 ### 2. Login (if already registered)
+
 ```bash
 curl -X POST http://localhost:4000/api/auth/login \
   -H "Content-Type: application/json" \
@@ -226,6 +243,7 @@ curl -X POST http://localhost:4000/api/auth/login \
 ```
 
 ### 3. Validate an Email (requires token)
+
 ```bash
 curl -X POST http://localhost:4000/api/validate \
   -H "Authorization: Bearer YOUR_TOKEN_HERE" \
@@ -234,12 +252,14 @@ curl -X POST http://localhost:4000/api/validate \
 ```
 
 ### 4. Check Your Credits
+
 ```bash
 curl -X GET http://localhost:4000/api/credits \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 
 ### 5. View Validation History
+
 ```bash
 curl -X GET http://localhost:4000/api/validations \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
@@ -250,9 +270,11 @@ curl -X GET http://localhost:4000/api/validations \
 ### Authentication Endpoints
 
 #### `POST /api/auth/register`
+
 Create a new user account.
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -261,6 +283,7 @@ Create a new user account.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "User registered successfully",
@@ -275,9 +298,11 @@ Create a new user account.
 ```
 
 #### `POST /api/auth/login`
+
 Login to an existing account.
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -286,6 +311,7 @@ Login to an existing account.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Login successful",
@@ -299,14 +325,17 @@ Login to an existing account.
 ```
 
 #### `GET /api/auth/me`
+
 Get current user information (requires authentication).
 
 **Headers:**
+
 ```
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "user": {
@@ -322,14 +351,17 @@ Authorization: Bearer <token>
 ### Validation Endpoints
 
 #### `POST /api/validate`
+
 Validate a single email address (requires authentication, costs 1 credit).
 
 **Headers:**
+
 ```
 Authorization: Bearer <token>
 ```
 
 **Request:**
+
 ```json
 {
   "email": "test@example.com"
@@ -337,6 +369,7 @@ Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "email": "test@example.com",
@@ -363,24 +396,29 @@ Authorization: Bearer <token>
 ```
 
 **Status Values:**
+
 - `valid` - Email is safe to send to
 - `invalid` - Email has critical issues
 - `risky` - Email may cause issues
 - `unknown` - Unable to validate
 
 #### `GET /api/validations`
+
 Get user's validation history (requires authentication, paginated).
 
 **Headers:**
+
 ```
 Authorization: Bearer <token>
 ```
 
 **Query Parameters:**
+
 - `page` (optional, default: 1)
 - `limit` (optional, default: 20)
 
 **Response:**
+
 ```json
 {
   "validations": [
@@ -407,14 +445,17 @@ Authorization: Bearer <token>
 ```
 
 #### `GET /api/validations/:id`
+
 Get a single validation by ID (requires authentication).
 
 **Headers:**
+
 ```
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "validation": {
@@ -432,14 +473,17 @@ Authorization: Bearer <token>
 ### Credits Endpoints
 
 #### `GET /api/credits`
+
 Get current credit balance (requires authentication).
 
 **Headers:**
+
 ```
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "credits": 999,
@@ -448,6 +492,7 @@ Authorization: Bearer <token>
 ```
 
 ### Planned Endpoints
+
 - `POST /api/bulk/upload` - Upload CSV for bulk validation
 - `GET /api/bulk/jobs/:id` - Get validation job status
 - `POST /api/subscriptions/create` - Create subscription
@@ -458,12 +503,12 @@ Authorization: Bearer <token>
 The validator performs **8 comprehensive checks** (in order of priority):
 
 1. **Format Validation** - Validates email syntax using regex patterns
-2. **DNS Validation** - Verifies domain exists (A/AAAA records) - *Independent from MX*
-3. **MX Records Check** - Confirms domain has valid mail exchange records - *Independent from DNS*
+2. **DNS Validation** - Verifies domain exists (A/AAAA records) - _Independent from MX_
+3. **MX Records Check** - Confirms domain has valid mail exchange records - _Independent from DNS_
 4. **SMTP Validation** - Verifies mailbox exists via SMTP protocol (HELO → MAIL FROM → RCPT TO)
-5. **Disposable Domain Detection** - Identifies temporary/disposable email services - *Runs independently*
-6. **Free Email Provider Detection** - Recognizes free email providers (Gmail, Yahoo, Outlook, etc.) - *Runs independently*
-7. **Role Account Detection** - Flags generic addresses (info@, admin@, sales@, support@, etc.) - *Runs independently*
+5. **Disposable Domain Detection** - Identifies temporary/disposable email services - _Runs independently_
+6. **Free Email Provider Detection** - Recognizes free email providers (Gmail, Yahoo, Outlook, etc.) - _Runs independently_
+7. **Role Account Detection** - Flags generic addresses (info@, admin@, sales@, support@, etc.) - _Runs independently_
 8. **Domain Age & Pattern Analysis** - Checks domain registration age and detects suspicious patterns
 
 **Key Design**: DNS and MX are separate checks. Independent checks (5-7) run regardless of DNS/MX status, providing maximum information even for invalid domains.
@@ -473,75 +518,89 @@ The validator performs **8 comprehensive checks** (in order of priority):
 The risk scoring system uses a weighted approach:
 
 **Critical Failures (100 points)**
+
 - Invalid email syntax → 100
 - No DNS (domain doesn't exist) → 100
 - No MX records (can't receive email) → 100
 
 **High Risk (90 points)**
+
 - Disposable email domain → +90
 
 **Medium-High Risk (30-50 points)**
+
 - New domain + suspicious pattern → +50
 - New domain alone → +30
 - Suspicious pattern alone → +20
 
 **Medium Risk (20 points)**
+
 - Role account → +20
 
 **Low Risk (10 points)**
+
 - Free email provider → +10
 
 ### Status Determination
+
 - **Invalid** - Critical checks failed (syntax, DNS, or MX)
 - **Risky** - Risk score ≥ 60
 - **Valid** - Risk score < 60 and all critical checks pass
 
 ### Example Validations
 
-| Email | Status | Risk Score | Key Flags |
-|-------|--------|------------|-----------|
-| user@gmail.com | ✅ Valid | 10 | Free domain only |
-| info@company.com | ✅ Valid | 30 | Role account + free-ish domain |
-| user@guerrillamail.com | ⚠️ Risky | 90 | Disposable domain |
-| random@xyz-disposable.net | ⚠️ Risky | 85 | Disposable + suspicious pattern |
-| user@thisdomaindoesnotexist | ❌ Invalid | 100 | DNS/MX failure |
-| bad@@gmail.com | ❌ Invalid | 100 | Syntax error |
-| user@freshly-registered.xyz | ⚠️ Risky | 60 | New domain + suspicious |
-| admin@mycompany.org | ✅ Valid | 40 | Role account on established domain |
+| Email                       | Status     | Risk Score | Key Flags                          |
+| --------------------------- | ---------- | ---------- | ---------------------------------- |
+| user@gmail.com              | ✅ Valid   | 10         | Free domain only                   |
+| info@company.com            | ✅ Valid   | 30         | Role account + free-ish domain     |
+| user@guerrillamail.com      | ⚠️ Risky   | 90         | Disposable domain                  |
+| random@xyz-disposable.net   | ⚠️ Risky   | 85         | Disposable + suspicious pattern    |
+| user@thisdomaindoesnotexist | ❌ Invalid | 100        | DNS/MX failure                     |
+| bad@@gmail.com              | ❌ Invalid | 100        | Syntax error                       |
+| user@freshly-registered.xyz | ⚠️ Risky   | 60         | New domain + suspicious            |
+| admin@mycompany.org         | ✅ Valid   | 40         | Role account on established domain |
 
 ## 🎨 UI Design
 
 ### Visual Design
+
 - **Background Pattern** - Subtle geometric square grid (40px × 40px) with 2% opacity
 - **Color Scheme** - Dark theme with black background and accent colors
 - **Responsive Layout** - Mobile-first design with Tailwind CSS
 - **Status Indicators** - Color-coded badges (green/red/yellow) for validation results
 
 ### Shadcn Vue Components
+
 - `Button` - Primary action buttons with hover effects
 - `Input` - Form inputs with dark theme styling
 - `Card` - Content containers with zinc-900 background
 - `Badge` - Status indicators with variant support (success/destructive/warning/secondary)
 
 ### Validation Results Display
+
 Results are displayed in two cards:
+
 1. **Status Card** - Overall status with icon, risk score badge, and reason
 2. **Detailed Checks Card** - 8-point validation breakdown in a responsive grid
 
 ## 🧪 Testing
 
 ### Test Suite
+
 The project includes comprehensive test cases for all validation functions:
+
 - `backend/tests/simple.test.js` - Test cases for all validators
 - Coverage includes: syntax, disposable detection, free domains, role accounts, suspicious patterns, MX records, and domain age
 
 ### Running Tests
+
 ```bash
 cd backend
 npm test
 ```
 
 ### Test Categories
+
 - **Syntax Tests** - 12 test cases covering valid/invalid formats
 - **Disposable Tests** - 7 test cases for temporary email detection
 - **Free Domain Tests** - 7 test cases for free provider detection
@@ -554,7 +613,9 @@ npm test
 ## 🔍 Technical Details
 
 ### SMTP Mailbox Verification
+
 Real-time SMTP validation to verify mailbox existence:
+
 - **Protocol**: Connects to mail server via TCP on port 25
 - **Handshake Sequence**:
   1. Wait for 220 (server greeting)
@@ -575,7 +636,9 @@ Real-time SMTP validation to verify mailbox existence:
 - **Performance Optimization**: MX records are resolved once and reused for SMTP validation, eliminating duplicate DNS lookups (~100-500ms savings per validation)
 
 ### Suspicious Pattern Detection
+
 The system identifies potentially fake or low-quality emails by checking for:
+
 - Excessive consecutive numbers (e.g., `user123456789@...`)
 - Too many repeated characters (e.g., `aaaaaaaa@...`)
 - Suspicious keywords: `random`, `test`, `fake`, `temp`, `spam`, `junk`, `dummy`
@@ -583,28 +646,36 @@ The system identifies potentially fake or low-quality emails by checking for:
 - Regex-based pattern matching for unusual character sequences
 
 ### Domain Age Verification
+
 The validator checks domain registration age to identify:
+
 - **New domains** (< 90 days old) - Higher risk for spam/phishing
 - **Established domains** (≥ 90 days old) - Lower risk
 - Uses WHOIS-like checks or external APIs for domain age data
 - Combines with suspicious patterns for accurate risk assessment
 
 ### Disposable Domain Detection
+
 Maintains an extensive list of:
+
 - Known disposable email providers (1000+ domains)
 - Temporary email services
 - 10-minute mail services
 - Pattern-based detection for common disposable domain formats
 
 ### Free Email Provider List
+
 Recognizes major free email providers:
+
 - Gmail, Yahoo, Outlook/Hotmail, ProtonMail
 - iCloud, AOL, Zoho, Mail.com
 - Regional providers (GMX, Yandex, etc.)
 - 50+ free email services included
 
 ### Role Account Keywords
+
 Detects common role-based addresses:
+
 - Administrative: `admin`, `administrator`, `webmaster`, `postmaster`
 - Sales & Marketing: `sales`, `marketing`, `info`, `contact`
 - Support: `support`, `help`, `helpdesk`, `service`
@@ -615,6 +686,7 @@ Detects common role-based addresses:
 ### Environment Variables
 
 **Backend (.env)**
+
 ```env
 PORT=4000
 NODE_ENV=development
@@ -630,6 +702,7 @@ FRONTEND_URL=http://localhost:3000
 ```
 
 **Frontend (.env)**
+
 ```env
 NUXT_PUBLIC_API_URL=http://localhost:4000
 ```
@@ -637,6 +710,7 @@ NUXT_PUBLIC_API_URL=http://localhost:4000
 ### MongoDB Database Schema
 
 **User Collection:**
+
 - `email` - User's email address (unique, lowercase)
 - `password` - Hashed password (bcrypt, 10 rounds)
 - `credits` - Available credits (default: 1000)
@@ -644,6 +718,7 @@ NUXT_PUBLIC_API_URL=http://localhost:4000
 - `updatedAt` - Last update timestamp
 
 **Validation Collection:**
+
 - `userId` - Reference to User (indexed)
 - `email` - Validated email address
 - `status` - Validation result (valid/invalid/risky/unknown)
@@ -657,6 +732,7 @@ NUXT_PUBLIC_API_URL=http://localhost:4000
 ## 📝 Roadmap & Progress
 
 ### Phase 1: Core Features ✅ (Completed)
+
 - [x] Single email validation with 8-point check system
 - [x] Advanced risk scoring algorithm (calibrated)
 - [x] Modern dark-themed UI with geometric background
@@ -679,12 +755,14 @@ NUXT_PUBLIC_API_URL=http://localhost:4000
 - [x] Protected API endpoints
 
 ### Phase 2: Premium Features (Next)
+
 - [ ] Bulk CSV validation
 - [ ] User dashboard (frontend)
 - [ ] Usage analytics & charts
 - [ ] API keys for developers
 
 ### Phase 3: Monetization
+
 - [ ] Stripe integration
 - [ ] Subscription plans (Basic/Pro/Enterprise)
 - [ ] Payment processing
@@ -692,6 +770,7 @@ NUXT_PUBLIC_API_URL=http://localhost:4000
 - [ ] Pricing page implementation
 
 ### Phase 4: Advanced Features
+
 - [ ] Email list cleaning & deduplication
 - [ ] API rate limiting
 - [ ] Webhooks for async validation

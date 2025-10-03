@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { CheckCircle, XCircle, AlertCircle, LogOut, Mail, BarChart3, Clock, TrendingUp } from 'lucide-vue-next'
+import {
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  LogOut,
+  Mail,
+  BarChart3,
+  Clock,
+  TrendingUp,
+} from 'lucide-vue-next'
 
 definePageMeta({
   middleware: 'auth',
-  ssr: false
+  ssr: false,
 })
 
 const config = useRuntimeConfig()
@@ -22,7 +31,7 @@ const stats = ref({
   totalValidations: 0,
   validCount: 0,
   invalidCount: 0,
-  riskyCount: 0
+  riskyCount: 0,
 })
 
 // Status helpers
@@ -30,10 +39,14 @@ const statusIcon = computed(() => {
   if (!result.value) return null
 
   switch (result.value.status) {
-    case 'valid': return CheckCircle
-    case 'invalid': return XCircle
-    case 'risky': return AlertCircle
-    default: return AlertCircle
+    case 'valid':
+      return CheckCircle
+    case 'invalid':
+      return XCircle
+    case 'risky':
+      return AlertCircle
+    default:
+      return AlertCircle
   }
 })
 
@@ -41,10 +54,14 @@ const statusColor = computed(() => {
   if (!result.value) return ''
 
   switch (result.value.status) {
-    case 'valid': return 'text-green-400'
-    case 'invalid': return 'text-red-400'
-    case 'risky': return 'text-yellow-400'
-    default: return 'text-gray-400'
+    case 'valid':
+      return 'text-green-400'
+    case 'invalid':
+      return 'text-red-400'
+    case 'risky':
+      return 'text-yellow-400'
+    default:
+      return 'text-gray-400'
   }
 })
 
@@ -52,10 +69,14 @@ const statusBadgeVariant = computed(() => {
   if (!result.value) return 'default'
 
   switch (result.value.status) {
-    case 'valid': return 'success'
-    case 'invalid': return 'destructive'
-    case 'risky': return 'warning'
-    default: return 'secondary'
+    case 'valid':
+      return 'success'
+    case 'invalid':
+      return 'destructive'
+    case 'risky':
+      return 'warning'
+    default:
+      return 'secondary'
   }
 })
 
@@ -68,44 +89,53 @@ const formattedChecks = computed(() => {
     {
       key: 'format',
       label: 'Format Valid',
-      status: checks.syntax === true ? 'pass' : checks.syntax === false ? 'fail' : 'na'
+      status: checks.syntax === true ? 'pass' : checks.syntax === false ? 'fail' : 'na',
     },
     {
       key: 'dns',
       label: 'DNS Valid',
-      status: checks.syntax === false ? 'na' : checks.dns === true ? 'pass' : 'fail'
+      status: checks.syntax === false ? 'na' : checks.dns === true ? 'pass' : 'fail',
     },
     {
       key: 'mx',
       label: 'MX Records',
-      status: checks.syntax === false ? 'na' : checks.mx === true ? 'pass' : 'fail'
+      status: checks.syntax === false ? 'na' : checks.mx === true ? 'pass' : 'fail',
     },
     {
       key: 'smtp',
       label: 'SMTP Valid',
-      status: checks.syntax === false || checks.dns === false ? 'na' : checks.smtp === true ? 'pass' : 'fail'
+      status:
+        checks.syntax === false || checks.dns === false
+          ? 'na'
+          : checks.smtp === true
+            ? 'pass'
+            : 'fail',
     },
     {
       key: 'disposable',
       label: 'Not Disposable',
-      status: checks.syntax === false ? 'na' : checks.disposable ? 'fail' : 'pass'
+      status: checks.syntax === false ? 'na' : checks.disposable ? 'fail' : 'pass',
     },
     {
       key: 'domainAge',
       label: 'Domain Age / Pattern',
-      status: checks.syntax === false || checks.dns === false ? 'na' :
-              (checks.domainAge?.isNew === true || checks.suspiciousPattern === true) ? 'fail' : 'pass'
+      status:
+        checks.syntax === false || checks.dns === false
+          ? 'na'
+          : checks.domainAge?.isNew === true || checks.suspiciousPattern === true
+            ? 'fail'
+            : 'pass',
     },
     {
       key: 'roleAccount',
       label: 'Not Role Account',
-      status: checks.syntax === false ? 'na' : checks.roleAccount ? 'fail' : 'pass'
+      status: checks.syntax === false ? 'na' : checks.roleAccount ? 'fail' : 'pass',
     },
     {
       key: 'freeDomain',
       label: 'Not Free Domain',
-      status: checks.syntax === false ? 'na' : checks.freeEmail ? 'fail' : 'pass'
-    }
+      status: checks.syntax === false ? 'na' : checks.freeEmail ? 'fail' : 'pass',
+    },
   ]
 })
 
@@ -132,9 +162,9 @@ async function validateEmail() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
+        Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ email: email.value.trim() })
+      body: JSON.stringify({ email: email.value.trim() }),
     })
 
     const data = await response.json()
@@ -174,7 +204,7 @@ async function fetchStats() {
     if (!authToken) return
 
     const response = await fetch(`${apiUrl}/api/validations?limit=5`, {
-      headers: { 'Authorization': `Bearer ${authToken}` }
+      headers: { Authorization: `Bearer ${authToken}` },
     })
 
     const data = await response.json()
@@ -184,9 +214,15 @@ async function fetchStats() {
 
       // Calculate stats
       stats.value.totalValidations = data.pagination.total || 0
-      stats.value.validCount = recentValidations.value.filter((v: any) => v.status === 'valid').length
-      stats.value.invalidCount = recentValidations.value.filter((v: any) => v.status === 'invalid').length
-      stats.value.riskyCount = recentValidations.value.filter((v: any) => v.status === 'risky').length
+      stats.value.validCount = recentValidations.value.filter(
+        (v: any) => v.status === 'valid'
+      ).length
+      stats.value.invalidCount = recentValidations.value.filter(
+        (v: any) => v.status === 'invalid'
+      ).length
+      stats.value.riskyCount = recentValidations.value.filter(
+        (v: any) => v.status === 'risky'
+      ).length
     }
   } catch (err) {
     console.error('Failed to fetch stats:', err)
@@ -214,7 +250,6 @@ onMounted(() => {
   <div class="min-h-screen bg-black">
     <!-- Header -->
     <UiHeader />
-
 
     <!-- Main Content -->
     <main class="py-12 px-4">
@@ -314,10 +349,7 @@ onMounted(() => {
                 <!-- Status Card -->
                 <div class="p-6 bg-black border border-gray-800 rounded-lg">
                   <div class="flex items-center gap-4 mb-4">
-                    <component
-                      :is="statusIcon"
-                      :class="['w-12 h-12', statusColor]"
-                    />
+                    <component :is="statusIcon" :class="['w-12 h-12', statusColor]" />
                     <div class="flex-1">
                       <h3 class="text-2xl font-bold" :class="statusColor">
                         {{ result.status.charAt(0).toUpperCase() + result.status.slice(1) }}
@@ -347,9 +379,21 @@ onMounted(() => {
                         {{ check.label }}
                       </span>
                       <UiBadge
-                        :variant="check.status === 'pass' ? 'success' : check.status === 'fail' ? 'destructive' : 'secondary'"
+                        :variant="
+                          check.status === 'pass'
+                            ? 'success'
+                            : check.status === 'fail'
+                              ? 'destructive'
+                              : 'secondary'
+                        "
                       >
-                        {{ check.status === 'pass' ? '✓ Pass' : check.status === 'fail' ? '✗ Fail' : 'N/A' }}
+                        {{
+                          check.status === 'pass'
+                            ? '✓ Pass'
+                            : check.status === 'fail'
+                              ? '✗ Fail'
+                              : 'N/A'
+                        }}
                       </UiBadge>
                     </div>
                   </div>

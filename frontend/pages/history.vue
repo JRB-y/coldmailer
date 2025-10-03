@@ -4,7 +4,7 @@ import { CheckCircle, XCircle, AlertCircle, Calendar, Mail } from 'lucide-vue-ne
 
 definePageMeta({
   middleware: 'auth',
-  ssr: false
+  ssr: false,
 })
 
 const config = useRuntimeConfig()
@@ -35,8 +35,8 @@ async function fetchValidations(page = 1) {
 
     const response = await fetch(`${apiUrl}/api/validations?page=${page}&limit=${limit}`, {
       headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
+        Authorization: `Bearer ${authToken}`,
+      },
     })
 
     const data = await response.json()
@@ -80,20 +80,28 @@ function formatDate(dateString: string) {
 // Get status icon
 function getStatusIcon(status: string) {
   switch (status) {
-    case 'valid': return CheckCircle
-    case 'invalid': return XCircle
-    case 'risky': return AlertCircle
-    default: return AlertCircle
+    case 'valid':
+      return CheckCircle
+    case 'invalid':
+      return XCircle
+    case 'risky':
+      return AlertCircle
+    default:
+      return AlertCircle
   }
 }
 
 // Get status color
 function getStatusColor(status: string) {
   switch (status) {
-    case 'valid': return 'text-green-400'
-    case 'invalid': return 'text-red-400'
-    case 'risky': return 'text-yellow-400'
-    default: return 'text-gray-400'
+    case 'valid':
+      return 'text-green-400'
+    case 'invalid':
+      return 'text-red-400'
+    case 'risky':
+      return 'text-yellow-400'
+    default:
+      return 'text-gray-400'
   }
 }
 
@@ -142,7 +150,10 @@ function handleLogout() {
         </div>
 
         <!-- Error State -->
-        <div v-else-if="error" class="bg-red-500/10 border border-red-500/20 rounded-lg p-6 text-center">
+        <div
+          v-else-if="error"
+          class="bg-red-500/10 border border-red-500/20 rounded-lg p-6 text-center"
+        >
           <p class="text-red-400">{{ error }}</p>
           <button
             @click="fetchValidations(currentPage)"
@@ -153,7 +164,10 @@ function handleLogout() {
         </div>
 
         <!-- Empty State -->
-        <div v-else-if="!validations.length" class="bg-zinc-900 border border-gray-800 rounded-lg p-12 text-center">
+        <div
+          v-else-if="!validations.length"
+          class="bg-zinc-900 border border-gray-800 rounded-lg p-12 text-center"
+        >
           <Mail class="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 class="text-xl font-semibold text-white mb-2">No validations yet</h3>
           <p class="text-gray-400 mb-6">Start validating emails to see your history here</p>
@@ -171,19 +185,29 @@ function handleLogout() {
             <table class="w-full">
               <thead class="bg-zinc-800/50 border-b border-gray-700">
                 <tr>
-                  <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                  <th
+                    class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"
+                  >
                     Email
                   </th>
-                  <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                  <th
+                    class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"
+                  >
                     Status
                   </th>
-                  <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                  <th
+                    class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"
+                  >
                     Risk Score
                   </th>
-                  <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                  <th
+                    class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"
+                  >
                     Checks
                   </th>
-                  <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                  <th
+                    class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider"
+                  >
                     Date
                   </th>
                 </tr>
@@ -209,7 +233,12 @@ function handleLogout() {
                         :is="getStatusIcon(validation.status)"
                         :class="['w-5 h-5', getStatusColor(validation.status)]"
                       />
-                      <span :class="['text-sm font-semibold capitalize', getStatusColor(validation.status)]">
+                      <span
+                        :class="[
+                          'text-sm font-semibold capitalize',
+                          getStatusColor(validation.status),
+                        ]"
+                      >
                         {{ validation.status }}
                       </span>
                     </div>
@@ -220,7 +249,7 @@ function handleLogout() {
                     <span
                       :class="[
                         'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border',
-                        getRiskBadgeClass(validation.riskScore)
+                        getRiskBadgeClass(validation.riskScore),
                       ]"
                     >
                       {{ validation.riskScore }}/100
@@ -233,35 +262,35 @@ function handleLogout() {
                       <span
                         :class="[
                           'w-2 h-2 rounded-full',
-                          validation.checks.syntax ? 'bg-green-500' : 'bg-red-500'
+                          validation.checks.syntax ? 'bg-green-500' : 'bg-red-500',
                         ]"
                         title="Syntax"
                       ></span>
                       <span
                         :class="[
                           'w-2 h-2 rounded-full',
-                          validation.checks.dns ? 'bg-green-500' : 'bg-red-500'
+                          validation.checks.dns ? 'bg-green-500' : 'bg-red-500',
                         ]"
                         title="DNS"
                       ></span>
                       <span
                         :class="[
                           'w-2 h-2 rounded-full',
-                          validation.checks.mx ? 'bg-green-500' : 'bg-red-500'
+                          validation.checks.mx ? 'bg-green-500' : 'bg-red-500',
                         ]"
                         title="MX"
                       ></span>
                       <span
                         :class="[
                           'w-2 h-2 rounded-full',
-                          validation.checks.smtp ? 'bg-green-500' : 'bg-gray-600'
+                          validation.checks.smtp ? 'bg-green-500' : 'bg-gray-600',
                         ]"
                         title="SMTP"
                       ></span>
                       <span
                         :class="[
                           'w-2 h-2 rounded-full',
-                          !validation.checks.disposable ? 'bg-green-500' : 'bg-red-500'
+                          !validation.checks.disposable ? 'bg-green-500' : 'bg-red-500',
                         ]"
                         title="Not Disposable"
                       ></span>
@@ -281,10 +310,11 @@ function handleLogout() {
           </div>
 
           <!-- Pagination -->
-          <div v-if="totalPages > 1" class="px-6 py-4 border-t border-gray-800 flex items-center justify-between">
-            <div class="text-sm text-gray-400">
-              Page {{ currentPage }} of {{ totalPages }}
-            </div>
+          <div
+            v-if="totalPages > 1"
+            class="px-6 py-4 border-t border-gray-800 flex items-center justify-between"
+          >
+            <div class="text-sm text-gray-400">Page {{ currentPage }} of {{ totalPages }}</div>
             <div class="flex gap-2">
               <button
                 @click="goToPage(currentPage - 1)"

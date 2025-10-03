@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 definePageMeta({
   layout: false,
-  middleware: 'guest'
+  middleware: 'guest',
 })
 
 const { login } = useAuth()
@@ -42,9 +42,7 @@ const handleLogin = async () => {
       <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-8">
         <form @submit.prevent="handleLogin" class="space-y-6">
           <div>
-            <label for="email" class="block text-sm font-medium text-zinc-200 mb-2">
-              Email
-            </label>
+            <label for="email" class="block text-sm font-medium text-zinc-200 mb-2"> Email </label>
             <input
               id="email"
               v-model="email"

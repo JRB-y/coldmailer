@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 definePageMeta({
   layout: false,
-  middleware: 'guest'
+  middleware: 'guest',
 })
 
 const { register } = useAuth()
@@ -54,9 +54,7 @@ const handleSignup = async () => {
       <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-8">
         <form @submit.prevent="handleSignup" class="space-y-6">
           <div>
-            <label for="email" class="block text-sm font-medium text-zinc-200 mb-2">
-              Email
-            </label>
+            <label for="email" class="block text-sm font-medium text-zinc-200 mb-2"> Email </label>
             <input
               id="email"
               v-model="email"
@@ -101,9 +99,7 @@ const handleSignup = async () => {
           </div>
 
           <div class="bg-blue-500/10 border border-blue-500/20 rounded-md p-3">
-            <p class="text-sm text-blue-400">
-              🎁 Get 1000 free credits upon registration!
-            </p>
+            <p class="text-sm text-blue-400">🎁 Get 1000 free credits upon registration!</p>
           </div>
 
           <button

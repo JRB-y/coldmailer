@@ -2,11 +2,10 @@
 import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail } from 'lucide-vue-next'
 
 definePageMeta({
-  ssr: false
+  ssr: false,
 })
 
 const { user, isAuthenticated } = useAuth()
-
 </script>
 
 <template>
@@ -19,7 +18,9 @@ const { user, isAuthenticated } = useAuth()
       <div class="max-w-7xl mx-auto px-4 py-20">
         <div class="text-center max-w-4xl mx-auto mb-20">
           <h1 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
-            <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span
+              class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            >
               Validate emails
             </span>
             <br />
@@ -52,7 +53,9 @@ const { user, isAuthenticated } = useAuth()
         <!-- Features Grid -->
         <div class="grid md:grid-cols-3 gap-8 mb-20">
           <!-- Feature 1 -->
-          <div class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-blue-500/50 transition-colors">
+          <div
+            class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-blue-500/50 transition-colors"
+          >
             <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
               <CheckCircle class="w-6 h-6 text-blue-400" />
             </div>
@@ -63,8 +66,12 @@ const { user, isAuthenticated } = useAuth()
           </div>
 
           <!-- Feature 2 -->
-          <div class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-purple-500/50 transition-colors">
-            <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
+          <div
+            class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-purple-500/50 transition-colors"
+          >
+            <div
+              class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4"
+            >
               <Zap class="w-6 h-6 text-purple-400" />
             </div>
             <h3 class="text-xl font-bold text-white mb-3">Real-time Results</h3>
@@ -74,34 +81,45 @@ const { user, isAuthenticated } = useAuth()
           </div>
 
           <!-- Feature 3 -->
-          <div class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-pink-500/50 transition-colors">
+          <div
+            class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-pink-500/50 transition-colors"
+          >
             <div class="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
               <Shield class="w-6 h-6 text-pink-400" />
             </div>
             <h3 class="text-xl font-bold text-white mb-3">Protect Your Reputation</h3>
             <p class="text-gray-400 leading-relaxed">
-              Detect disposable emails, role accounts, and suspicious patterns before they harm your sender score.
+              Detect disposable emails, role accounts, and suspicious patterns before they harm your
+              sender score.
             </p>
           </div>
         </div>
 
         <!-- Stats Section -->
-        <div class="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-gray-800 rounded-2xl p-12 text-center mb-20">
+        <div
+          class="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-gray-800 rounded-2xl p-12 text-center mb-20"
+        >
           <div class="grid md:grid-cols-3 gap-8">
             <div>
-              <div class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+              <div
+                class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2"
+              >
                 99.5%
               </div>
               <div class="text-gray-400">Accuracy Rate</div>
             </div>
             <div>
-              <div class="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+              <div
+                class="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2"
+              >
                 1000+
               </div>
               <div class="text-gray-400">Free Credits</div>
             </div>
             <div>
-              <div class="text-5xl font-bold bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent mb-2">
+              <div
+                class="text-5xl font-bold bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent mb-2"
+              >
                 &lt;2s
               </div>
               <div class="text-gray-400">Avg. Response</div>
@@ -114,30 +132,42 @@ const { user, isAuthenticated } = useAuth()
           <h2 class="text-4xl font-bold text-white text-center mb-12">How It Works</h2>
           <div class="space-y-6">
             <div class="flex gap-6 items-start">
-              <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div
+                class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold"
+              >
                 1
               </div>
               <div>
                 <h4 class="text-xl font-semibold text-white mb-2">Sign Up & Get Free Credits</h4>
-                <p class="text-gray-400">Create your account and receive 1000 free validation credits to get started.</p>
+                <p class="text-gray-400">
+                  Create your account and receive 1000 free validation credits to get started.
+                </p>
               </div>
             </div>
             <div class="flex gap-6 items-start">
-              <div class="flex-shrink-0 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div
+                class="flex-shrink-0 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold"
+              >
                 2
               </div>
               <div>
                 <h4 class="text-xl font-semibold text-white mb-2">Validate Emails</h4>
-                <p class="text-gray-400">Enter email addresses one by one or upload a CSV for bulk validation.</p>
+                <p class="text-gray-400">
+                  Enter email addresses one by one or upload a CSV for bulk validation.
+                </p>
               </div>
             </div>
             <div class="flex gap-6 items-start">
-              <div class="flex-shrink-0 w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div
+                class="flex-shrink-0 w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center text-white font-bold"
+              >
                 3
               </div>
               <div>
                 <h4 class="text-xl font-semibold text-white mb-2">Get Detailed Results</h4>
-                <p class="text-gray-400">Receive comprehensive validation reports with risk scores and recommendations.</p>
+                <p class="text-gray-400">
+                  Receive comprehensive validation reports with risk scores and recommendations.
+                </p>
               </div>
             </div>
           </div>
