@@ -3,7 +3,7 @@ export function hasSuspiciousPatterns(email, domain) {
   
   // Check for overly random local part (like npaagpqyldgwxkbczu)
   const randomnessScore = calculateRandomness(localPart);
-  if (randomnessScore > 0.8) return true; // 80% random
+  if (randomnessScore > 0.8) return true; // 80% random TODO: verify threshold to be good and not too strict or lenient (needs to be the best in the world)
   
   // Check for very short domains
   if (domain.length < 6 && !freeEmailProviders.includes(domain)) return true;

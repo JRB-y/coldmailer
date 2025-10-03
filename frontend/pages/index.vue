@@ -153,11 +153,25 @@ function reset() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-black">
+  <div class="min-h-screen bg-black bg-main">
     <!-- Header -->
     <header class="py-6 px-4 border-b border-gray-800">
       <div class="max-w-6xl mx-auto">
-        <h1 class="text-2xl font-bold text-white">Coldmailer</h1>
+        <div>
+          <svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Envelope icon -->
+            <rect x="5" y="10" width="40" height="30" rx="4" stroke="#3B82F6" stroke-width="3" fill="none"/>
+            <path d="M5 10 L25 28 L45 10" stroke="#3B82F6" stroke-width="3" fill="none"/>
+            <path d="M5 40 L25 22 L45 40" stroke="#3B82F6" stroke-width="3" fill="none"/>
+
+            <!-- Text -->
+            <text x="60" y="33" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="24" fill="white">
+              Coldmailer
+            </text>
+          </svg>
+
+        </div>
+        <!-- <h1 class="text-2xl font-bold text-white">Cold Mailer</h1> -->
       </div>
     </header>
 
@@ -166,7 +180,7 @@ function reset() {
       <div class="max-w-4xl mx-auto">
         <!-- Hero Text -->
         <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-gradient">
             Validate emails before you send.
           </h2>
           <p class="text-xl text-gray-400">
@@ -277,3 +291,44 @@ function reset() {
     </footer>
   </div>
 </template>
+<style>
+  @keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-gradient {
+    background: linear-gradient(270deg, #afafaf, #908d95, #a695be, #d3c6e7);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientText 25s ease infinite;
+  }
+
+  /* Dark animated gradient background */
+  @keyframes darkGradientBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* .bg-main {
+    background: linear-gradient(
+      -45deg,
+      #0a0a0a,
+      #171717,
+      #1e293b,
+      #141415
+    );
+    background-size: 400% 400%;
+    animation: darkGradientBackground 30s ease infinite;
+  } */
+
+</style>
