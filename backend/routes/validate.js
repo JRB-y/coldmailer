@@ -1,10 +1,10 @@
-import express from 'express';
-import { validateEmail } from '../services/validator/index.js';
-import { getRiskScore } from '../services/results/index.js';
-import { authenticate } from '../middleware/auth.js';
-import Validation from '../models/Validation.js';
+import express from 'express'
+import { validateEmail } from '../services/validator/index.js'
+import { getRiskScore } from '../services/results/index.js'
+import { authenticate } from '../middleware/auth.js'
+import Validation from '../models/Validation.js'
 
-const router = express.Router();
+const router = express.Router()
 
 /**
  * POST /api/validate
@@ -12,15 +12,15 @@ const router = express.Router();
  */
 router.post('/validate', authenticate, async (req, res) => {
   try {
-    const { email } = req.body;
-    const user = req.user;
+    const { email } = req.body
+    const user = req.user
 
     // Validate request
     if (!email || typeof email !== 'string') {
       return res.status(400).json({
         error: 'Invalid request',
-        message: 'Email address is required'
-      });
+        message: 'Email address is required',
+      })
     }
 
     // Check if user has credits
@@ -29,17 +29,17 @@ router.post('/validate', authenticate, async (req, res) => {
         error: 'Insufficient credits',
         message: 'You need at least 1 credit to validate an email',
         creditsRemaining: user.credits,
-      });
+      })
     }
 
     // Validate email
-    const checks = await validateEmail(email);
+    const checks = await validateEmail(email)
 
-    const { riskScore, status, reason } = getRiskScore(checks);
+    const { riskScore, status, reason } = getRiskScore(checks)
 
     // Deduct 1 credit from user
-    user.credits -= 1;
-    await user.save();
+    user.credits -= 1
+    await user.save()
 
     // Save validation result to database
     const validationResult = new Validation({
@@ -50,9 +50,9 @@ router.post('/validate', authenticate, async (req, res) => {
       checks,
       reason,
       creditsUsed: 1,
-    });
+    })
 
-    await validationResult.save();
+    await validationResult.save()
 
     res.json({
       email,
@@ -62,14 +62,14 @@ router.post('/validate', authenticate, async (req, res) => {
       checks,
       reason,
       creditsRemaining: user.credits,
-    });
+    })
   } catch (error) {
-    console.error('Validation endpoint error:', error);
+    console.error('Validation endpoint error:', error)
     res.status(500).json({
       error: 'Internal server error',
-      message: 'An error occurred while validating the email'
-    });
+      message: 'An error occurred while validating the email',
+    })
   }
-});
+})
 
-export default router;
+export default router

@@ -1,6 +1,6 @@
-import express from 'express';
+import express from 'express'
 
-const router = express.Router();
+const router = express.Router()
 
 // TODO: Implement subscription management endpoints
 // - GET /api/subscriptions/plans - Get available subscription plans
@@ -10,4 +10,4 @@ const router = express.Router();
 // - POST /api/subscriptions/update - Update subscription plan
 // - POST /api/subscriptions/webhook - Stripe webhook handler
 
-export default router;
+export default router

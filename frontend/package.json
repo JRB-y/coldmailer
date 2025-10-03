@@ -12,7 +12,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "clean": "rm -rf .nuxt .output node_modules"
+    "clean": "rm -rf .nuxt .output node_modules",
+    "lint": "eslint . --ext .js,.ts,.vue",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "nuxt": "^3.10.0",

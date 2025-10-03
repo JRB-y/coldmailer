@@ -1,4 +1,4 @@
-import net from 'net';
+import net from 'net'
 
 /**
  * SMTP validation check
@@ -13,29 +13,30 @@ export async function checkSmtp(email, domain, mxRecords) {
   try {
     // Use the passed MX records (no duplicate DNS lookup)
     if (!mxRecords || mxRecords.length === 0) {
-      return false;
+      return false
     }
 
     // Sort by priority (lower number = higher priority)
-    const sortedMx = mxRecords.sort((a, b) => a.priority - b.priority);
+    const sortedMx = mxRecords.sort((a, b) => a.priority - b.priority)
 
     // Try connecting to each MX server until one succeeds
-    for (const mx of sortedMx.slice(0, 3)) { // Try first 3 MX servers
+    for (const mx of sortedMx.slice(0, 3)) {
+      // Try first 3 MX servers
       try {
-        const result = await verifySMTP(mx.exchange, email, domain);
+        const result = await verifySMTP(mx.exchange, email, domain)
         if (result !== false && result !== null) {
-          return result;
+          return result
         }
       } catch (err) {
         // Try next MX server
-        continue;
+        continue
       }
     }
 
-    return false;
+    return false
   } catch (error) {
     // Fail gracefully on any error
-    return false;
+    return false
   }
 }
 
@@ -45,83 +46,83 @@ export async function checkSmtp(email, domain, mxRecords) {
  */
 async function verifySMTP(mxHost, email, domain) {
   return new Promise((resolve) => {
-    const socket = net.createConnection(25, mxHost);
+    const socket = net.createConnection(25, mxHost)
     const timeout = setTimeout(() => {
-      socket.destroy();
-      resolve(null);
-    }, 10000); // 10 second timeout
+      socket.destroy()
+      resolve(null)
+    }, 10000) // 10 second timeout
 
-    let step = 0;
-    let buffer = '';
+    let step = 0
+    let buffer = ''
 
     const cleanup = () => {
-      clearTimeout(timeout);
-      socket.destroy();
-    };
+      clearTimeout(timeout)
+      socket.destroy()
+    }
 
     socket.on('data', (data) => {
-      buffer += data.toString();
+      buffer += data.toString()
 
       // Process complete lines (ending with \r\n)
-      const lines = buffer.split('\r\n');
-      buffer = lines.pop() || ''; // Keep incomplete line in buffer
+      const lines = buffer.split('\r\n')
+      buffer = lines.pop() || '' // Keep incomplete line in buffer
 
       for (const line of lines) {
-        const code = parseInt(line.substring(0, 3));
+        const code = parseInt(line.substring(0, 3))
 
         // Connection greeting
         if (step === 0 && code === 220) {
-          step = 1;
-          socket.write(`HELO ${domain}\r\n`);
+          step = 1
+          socket.write(`HELO ${domain}\r\n`)
         }
         // HELO response
         else if (step === 1 && code === 250) {
-          step = 2;
-          socket.write(`MAIL FROM:<verify@${domain}>\r\n`);
+          step = 2
+          socket.write(`MAIL FROM:<verify@${domain}>\r\n`)
         }
         // MAIL FROM response
         else if (step === 2 && code === 250) {
-          step = 3;
-          socket.write(`RCPT TO:<${email}>\r\n`);
+          step = 3
+          socket.write(`RCPT TO:<${email}>\r\n`)
         }
         // RCPT TO response - this tells us if mailbox exists
         else if (step === 3) {
-          cleanup();
+          cleanup()
           if (code === 250 || code === 251) {
             // Mailbox exists
-            resolve(true);
+            resolve(true)
           } else if (code === 550 || code === 551 || code === 553 || code === 554) {
             // Mailbox doesn't exist
-            resolve(false);
+            resolve(false)
           } else {
             // Uncertain - server doesn't allow verification
-            resolve(null);
+            resolve(null)
           }
-          return;
+          return
         }
         // Error at any step
         else if (code >= 400) {
-          cleanup();
-          resolve(null);
-          return;
+          cleanup()
+          resolve(null)
+          return
         }
       }
-    });
+    })
 
     socket.on('error', (error) => {
-      cleanup();
-      resolve(null);
-      console.log('SMTP connection error:', error);
-    });
+      cleanup()
+      resolve(null)
+      console.log('SMTP connection error:', error)
+    })
 
     socket.on('timeout', () => {
-      cleanup();
-      resolve(null);
-    });
+      cleanup()
+      resolve(null)
+    })
 
     socket.on('close', () => {
-      cleanup();
-      resolve(null);
-    });
-  });
+      cleanup()
+      resolve(null)
+    })
+  })
 }

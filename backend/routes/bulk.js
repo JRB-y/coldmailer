@@ -1,6 +1,6 @@
-import express from 'express';
+import express from 'express'
 
-const router = express.Router();
+const router = express.Router()
 
 // TODO: Implement bulk email validation endpoints
 // - POST /api/bulk/upload - Upload CSV file for bulk validation
@@ -8,4 +8,4 @@ const router = express.Router();
 // - GET /api/bulk/jobs/:id - Get specific job status and results
 // - GET /api/bulk/jobs/:id/download - Download validated results as CSV
 
-export default router;
+export default router

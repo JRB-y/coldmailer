@@ -10,7 +10,9 @@
     "dev": "node --watch server.js",
     "start": "node server.js",
     "build": "echo 'Backend is ESM - no build required'",
-    "test": "node tests/simple.test.js"
+    "test": "node tests/simple.test.js",
+    "lint": "eslint . --ext .js,.ts",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

@@ -2,14 +2,12 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: [
-    '@nuxtjs/tailwindcss'
-  ],
+  modules: ['@nuxtjs/tailwindcss'],
 
   runtimeConfig: {
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:4000'
-    }
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:4000',
+    },
   },
 
   css: ['~/assets/css/tailwind.css'],
@@ -18,8 +16,8 @@ export default defineNuxtConfig({
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
     exposeConfig: false,
-    viewer: true
+    viewer: true,
   },
 
-  compatibilityDate: '2025-01-01'
+  compatibilityDate: '2025-01-01',
 })

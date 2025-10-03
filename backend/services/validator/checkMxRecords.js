@@ -1,7 +1,7 @@
-import dns from 'dns';
-import { promisify } from 'util';
+import dns from 'dns'
+import { promisify } from 'util'
 
-const resolveMx = promisify(dns.resolveMx);
+const resolveMx = promisify(dns.resolveMx)
 
 /**
  * Checks if the domain has valid MX records
@@ -10,29 +10,25 @@ const resolveMx = promisify(dns.resolveMx);
 export async function checkMxRecords(domain) {
   try {
     // Set DNS timeout
-    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']); // Use reliable DNS servers
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']) // Use reliable DNS servers
 
     let records = await Promise.race([
       resolveMx(domain),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('DNS timeout')), 5000)
-      )
-    ]);
+      new Promise((_, reject) => setTimeout(() => reject(new Error('DNS timeout')), 5000)),
+    ])
 
-    records = records.filter(record => record && record.exchange);
+    records = records.filter((record) => record && record.exchange)
 
-    return records && records.length > 0 ? records : null;
+    return records && records.length > 0 ? records : null
   } catch (error) {
     // If MX fails, check if domain has A record (some domains receive email without MX)
     try {
-      const resolveA = promisify(dns.resolve4);
-      const aRecords = await resolveA(domain);
+      const resolveA = promisify(dns.resolve4)
+      const aRecords = await resolveA(domain)
       // Return a synthetic MX record using the A record
-      return aRecords && aRecords.length > 0
-        ? [{ exchange: domain, priority: 0 }]
-        : null;
+      return aRecords && aRecords.length > 0 ? [{ exchange: domain, priority: 0 }] : null
     } catch {
-      return null;
+      return null
     }
   }
 }

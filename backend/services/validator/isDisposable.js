@@ -1,8 +1,5 @@
-import {
-  isDisposableEmail,
-  isDisposableEmailDomain,
-} from 'disposable-email-domains-js';
+import { isDisposableEmail, isDisposableEmailDomain } from 'disposable-email-domains-js'
 
 export function isDisposable(domain, email) {
-  return isDisposableEmailDomain(domain.toLowerCase()) && isDisposableEmail(email.toLowerCase());
+  return isDisposableEmailDomain(domain.toLowerCase()) && isDisposableEmail(email.toLowerCase())
 }

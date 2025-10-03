@@ -1,28 +1,28 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 export async function connectDB() {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/coldmailer';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/coldmailer'
 
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri)
 
-    console.log('✅ MongoDB connected successfully');
+    console.log('✅ MongoDB connected successfully')
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    process.exit(1);
+    console.error('❌ MongoDB connection error:', error.message)
+    process.exit(1)
   }
 }
 
 // Handle connection events
 mongoose.connection.on('disconnected', () => {
-  console.log('MongoDB disconnected');
-});
+  console.log('MongoDB disconnected')
+})
 
 mongoose.connection.on('error', (err) => {
-  console.error('MongoDB connection error:', err);
-});
+  console.error('MongoDB connection error:', err)
+})
 
 process.on('SIGINT', async () => {
-  await mongoose.connection.close();
-  process.exit(0);
-});
+  await mongoose.connection.close()
+  process.exit(0)
+})
