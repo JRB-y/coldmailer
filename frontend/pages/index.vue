@@ -4,6 +4,8 @@ import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail } from 'lucide-vu
 definePageMeta({ ssr: false })
 
 const { user, isAuthenticated } = useAuth()
+const { t } = useI18n()
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -19,31 +21,29 @@ const { user, isAuthenticated } = useAuth()
             <span
               class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-md"
             >
-              Cold outreach email verification
+              {{ t('landing.hero.headlinePrimary') }}
             </span>
             <br />
-            <span class="text-white">Engineered for Freelancers</span>
+            <span class="text-white">{{ t('landing.hero.headlineSecondary') }}</span>
           </h1>
           <p class="text-xl md:text-2xl text-gray-400 mb-10 leading-relaxed">
-            Deliver production-grade validation on every prospect list. Detect bad actors, broken
-            infrastructure, and high-risk addresses before they tank deliverability and client
-            trust, while keeping outreach email hygiene audit-ready.
+            {{ t('landing.hero.subheading') }}
           </p>
           <div class="flex items-center justify-center gap-4">
             <NuxtLink
               v-if="!isAuthenticated"
-              to="/auth/signup"
+              :to="localePath('/auth/signup')"
               class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-all hover:scale-105 flex items-center gap-2"
             >
-              Start Free Trial
+              {{ t('landing.hero.ctaPrimary') }}
               <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </NuxtLink>
             <NuxtLink
               v-else
-              to="/dashboard"
+              :to="localePath('/dashboard')"
               class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-all hover:scale-105 flex items-center gap-2"
             >
-              Go to Dashboard
+              {{ t('landing.hero.ctaDashboard') }}
               <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </NuxtLink>
           </div>
@@ -58,10 +58,11 @@ const { user, isAuthenticated } = useAuth()
             <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
               <CheckCircle class="w-6 h-6 text-blue-400" />
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Deliverability Diagnostics</h3>
+            <h3 class="text-xl font-bold text-white mb-3">
+              {{ t('landing.features.items.diagnostics.title') }}
+            </h3>
             <p class="text-gray-400 leading-relaxed">
-              Run DNS, MX, and SMTP handshake simulations to certify inbox readiness before
-              launching a freelance outreach campaign.
+              {{ t('landing.features.items.diagnostics.description') }}
             </p>
           </div>
 
@@ -74,10 +75,11 @@ const { user, isAuthenticated } = useAuth()
             >
               <Zap class="w-6 h-6 text-purple-400" />
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Real-time Risk Scoring</h3>
+            <h3 class="text-xl font-bold text-white mb-3">
+              {{ t('landing.features.items.risk.title') }}
+            </h3>
             <p class="text-gray-400 leading-relaxed">
-              Benchmark every contact against engagement history, suppression intelligence, and
-              role-based heuristics for instant prioritization.
+              {{ t('landing.features.items.risk.description') }}
             </p>
           </div>
 
@@ -88,10 +90,11 @@ const { user, isAuthenticated } = useAuth()
             <div class="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
               <Shield class="w-6 h-6 text-pink-400" />
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Compliance-Ready Outputs</h3>
+            <h3 class="text-xl font-bold text-white mb-3">
+              {{ t('landing.features.items.compliance.title') }}
+            </h3>
             <p class="text-gray-400 leading-relaxed">
-              Generate auditable proof for clients with exportable reports that highlight
-              remediation paths and verified sender reputation metrics.
+              {{ t('landing.features.items.compliance.description') }}
             </p>
           </div>
         </div>
@@ -107,7 +110,7 @@ const { user, isAuthenticated } = useAuth()
               >
                 99.5%
               </div>
-              <div class="text-gray-400">Validation Precision</div>
+              <div class="text-gray-400">{{ t('landing.stats.precision') }}</div>
             </div>
             <div>
               <div
@@ -115,7 +118,7 @@ const { user, isAuthenticated } = useAuth()
               >
                 1000+
               </div>
-              <div class="text-gray-400">Freelance Credits</div>
+              <div class="text-gray-400">{{ t('landing.stats.credits') }}</div>
             </div>
             <div>
               <div
@@ -123,105 +126,116 @@ const { user, isAuthenticated } = useAuth()
               >
                 &lt;2s
               </div>
-              <div class="text-gray-400">Verification Latency</div>
+              <div class="text-gray-400">{{ t('landing.stats.latency') }}</div>
             </div>
           </div>
         </div>
 
         <!-- Checks Section -->
         <div class="bg-zinc-900 border border-gray-800 rounded-2xl p-12 mb-20">
-          <h2 class="text-4xl font-bold text-white text-center mb-10">Full Diagnostic Coverage</h2>
+          <h2 class="text-4xl font-bold text-white text-center mb-10">
+            {{ t('landing.checks.title') }}
+          </h2>
           <p class="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-12">
-            ColdMailer runs nine technical checks in parallel so your freelance clients receive
-            deliverability reports backed by real infrastructure data, not guesswork.
+            {{ t('landing.checks.description') }}
           </p>
           <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">checkDns</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.checkDns') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Resolve authoritative records to confirm the domain is live and properly
-                  delegated.
+                  {{ t('landing.checks.items.checkDns') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">checkDomainAge</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.checkDomainAge') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Score domain maturity to flag recently registered burner assets used in spam
-                  blasts.
+                  {{ t('landing.checks.items.checkDomainAge') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">checkMxRecords</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.checkMxRecords') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Interrogate MX endpoints and priority chains to validate that the inbox can
-                  receive mail.
+                  {{ t('landing.checks.items.checkMxRecords') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">checkSmtp</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.checkSmtp') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Simulate transactional SMTP conversations to detect greylisting, throttling, and
-                  hard rejections.
+                  {{ t('landing.checks.items.checkSmtp') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">hasSuspiciousPatterns</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.hasSuspiciousPatterns') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Identify typo-squatting, homoglyph attacks, and sequencing anomalies common in
-                  fake signups.
+                  {{ t('landing.checks.items.hasSuspiciousPatterns') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">isDisposable</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.isDisposable') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Cross-reference disposable hosts to keep temporary inboxes off your client
-                  deliverables.
+                  {{ t('landing.checks.items.isDisposable') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">isFreeDomain</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.isFreeDomain') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Highlight free mailbox providers when brands demand corporate-only outreach.
+                  {{ t('landing.checks.items.isFreeDomain') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">isRoleAccount</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.isRoleAccount') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Filter support@, info@, and other role-based addresses that rarely engage with
-                  freelance cold pitches.
+                  {{ t('landing.checks.items.isRoleAccount') }}
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
               <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
               <div>
-                <h3 class="text-lg font-semibold text-white">validateSyntax</h3>
+                <h3 class="text-lg font-semibold text-white">
+                  {{ t('landing.checks.labels.validateSyntax') }}
+                </h3>
                 <p class="text-gray-400 text-sm">
-                  Apply RFC-compliant parsing to eliminate malformed inputs before they reach the
-                  sending queue.
+                  {{ t('landing.checks.items.validateSyntax') }}
                 </p>
               </div>
             </div>
@@ -231,33 +245,37 @@ const { user, isAuthenticated } = useAuth()
         <!-- Data Sources Section -->
         <div class="max-w-5xl mx-auto mb-20 text-center">
           <h2 class="text-4xl font-bold text-white mb-6">
-            Powered by Multiple Intelligence Sources
+            {{ t('landing.dataSources.title') }}
           </h2>
           <p class="text-lg text-gray-400 mb-10">
-            We fuse commercial suppression feeds, historical bounce databases, and independent
-            crawler data so freelancers can validate lists with the same rigor as enterprise
-            deliverability teams.
+            {{ t('landing.dataSources.description') }}
           </p>
           <div class="grid gap-6 md:grid-cols-3">
             <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6">
               <BarChart3 class="w-8 h-8 text-blue-400 mx-auto mb-4" />
-              <h3 class="text-xl font-semibold text-white mb-2">Cross-Network Signals</h3>
+              <h3 class="text-xl font-semibold text-white mb-2">
+                {{ t('landing.dataSources.cards.signals.title') }}
+              </h3>
               <p class="text-gray-400 text-sm">
-                Correlate engagement reputation across ISPs, ESPs, and marketing clouds.
+                {{ t('landing.dataSources.cards.signals.description') }}
               </p>
             </div>
             <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6">
               <Zap class="w-8 h-8 text-purple-400 mx-auto mb-4" />
-              <h3 class="text-xl font-semibold text-white mb-2">Live Mailbox Pings</h3>
+              <h3 class="text-xl font-semibold text-white mb-2">
+                {{ t('landing.dataSources.cards.pings.title') }}
+              </h3>
               <p class="text-gray-400 text-sm">
-                Execute low-impact verification pings that respect provider rate limits.
+                {{ t('landing.dataSources.cards.pings.description') }}
               </p>
             </div>
             <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6">
               <Shield class="w-8 h-8 text-pink-400 mx-auto mb-4" />
-              <h3 class="text-xl font-semibold text-white mb-2">Compliance Guardrails</h3>
+              <h3 class="text-xl font-semibold text-white mb-2">
+                {{ t('landing.dataSources.cards.compliance.title') }}
+              </h3>
               <p class="text-gray-400 text-sm">
-                Automatic GDPR-ready documentation keeps freelance contracts airtight.
+                {{ t('landing.dataSources.cards.compliance.description') }}
               </p>
             </div>
           </div>
@@ -266,7 +284,7 @@ const { user, isAuthenticated } = useAuth()
         <!-- How It Works -->
         <div class="max-w-4xl mx-auto mb-20">
           <h2 class="text-4xl font-bold text-white text-center mb-12">
-            How Freelancers Ship Verified Outreach
+            {{ t('landing.process.title') }}
           </h2>
           <div class="space-y-6">
             <div class="flex gap-6 items-start">
@@ -277,11 +295,10 @@ const { user, isAuthenticated } = useAuth()
               </div>
               <div>
                 <h4 class="text-xl font-semibold text-white mb-2">
-                  Create Your ColdMailer Workspace
+                  {{ t('landing.process.steps.one.title') }}
                 </h4>
                 <p class="text-gray-400">
-                  Sign up, claim 1000 free validations, and connect your preferred CRM or
-                  prospecting sheet.
+                  {{ t('landing.process.steps.one.description') }}
                 </p>
               </div>
             </div>
@@ -293,11 +310,10 @@ const { user, isAuthenticated } = useAuth()
               </div>
               <div>
                 <h4 class="text-xl font-semibold text-white mb-2">
-                  Upload Prospect Lists or Trigger API Runs
+                  {{ t('landing.process.steps.two.title') }}
                 </h4>
                 <p class="text-gray-400">
-                  Feed us CSV exports or pipe leads through the API and watch each address clear
-                  technical, behavioral, and compliance checks.
+                  {{ t('landing.process.steps.two.description') }}
                 </p>
               </div>
             </div>
@@ -308,10 +324,11 @@ const { user, isAuthenticated } = useAuth()
                 3
               </div>
               <div>
-                <h4 class="text-xl font-semibold text-white mb-2">Ship Reports Clients Trust</h4>
+                <h4 class="text-xl font-semibold text-white mb-2">
+                  {{ t('landing.process.steps.three.title') }}
+                </h4>
                 <p class="text-gray-400">
-                  Deliver clean lists, remediation guidance, and technical audit logs that justify
-                  your freelance retainers and boost campaign ROI.
+                  {{ t('landing.process.steps.three.description') }}
                 </p>
               </div>
             </div>
@@ -322,25 +339,26 @@ const { user, isAuthenticated } = useAuth()
         <div class="text-center">
           <div class="inline-block bg-zinc-900 border border-gray-800 rounded-2xl p-12">
             <Mail class="w-16 h-16 text-blue-400 mx-auto mb-6" />
-            <h2 class="text-3xl font-bold text-white mb-4">Turn cold outreach into client wins</h2>
+            <h2 class="text-3xl font-bold text-white mb-4">
+              {{ t('landing.cta.title') }}
+            </h2>
             <p class="text-gray-400 mb-8 max-w-md mx-auto">
-              Freelancers worldwide trust ColdMailer to validate lists, defend sender reputation,
-              and prove ROI before the first send.
+              {{ t('landing.cta.description') }}
             </p>
             <NuxtLink
               v-if="!isAuthenticated"
-              to="/auth/signup"
+              :to="localePath('/auth/signup')"
               class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors"
             >
-              Get 1000 Free Credits
+              {{ t('landing.cta.primary') }}
               <ArrowRight class="w-5 h-5" />
             </NuxtLink>
             <NuxtLink
               v-else
-              to="/dashboard"
+              :to="localePath('/dashboard')"
               class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors"
             >
-              Go to Dashboard
+              {{ t('landing.hero.ctaDashboard') }}
               <ArrowRight class="w-5 h-5" />
             </NuxtLink>
           </div>
@@ -351,7 +369,7 @@ const { user, isAuthenticated } = useAuth()
     <!-- Footer -->
     <footer class="py-8 px-4 mt-20 border-t border-gray-800">
       <div class="max-w-7xl mx-auto text-center text-gray-500">
-        <p>&copy; 2025 ColdMailer. All rights reserved.</p>
+        <p>{{ t('footer.copyright') }}</p>
       </div>
     </footer>
   </div>

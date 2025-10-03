@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
   runtimeConfig: {
     public: {
@@ -19,5 +19,22 @@ export default defineNuxtConfig({
     viewer: true,
   },
 
-  compatibilityDate: '2025-01-01',
+  i18n: {
+    strategy: 'prefix_except_default',
+    lazy: true,
+    langDir: 'locales',
+    defaultLocale: 'en',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json' },
+    ],
+    vueI18n: './i18n.config.ts',
+  },
+
+  compatibilityDate: '2025-10-03',
 })
