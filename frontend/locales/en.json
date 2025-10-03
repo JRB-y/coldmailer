@@ -2,16 +2,16 @@
   "header": {
     "auth": {
       "login": "Login",
-      "signup": "Get Started"
+      "signup": "Start Free"
     },
     "menu": {
       "dashboard": "Dashboard",
-      "history": "History",
+      "history": "Validation History",
       "logout": "Logout",
       "credits": "{credits} credits"
     },
     "language": {
-      "label": "Change language",
+      "label": "Language",
       "items": {
         "en": "English",
         "fr": "Français",
@@ -22,101 +22,101 @@
   },
   "landing": {
     "hero": {
-      "headlinePrimary": "Cold outreach email verification",
-      "headlineSecondary": "engineered for freelancers",
-      "subheading": "Deliver production-grade validation on every prospect list. Detect bad actors, broken infrastructure, and high-risk addresses before they tank deliverability and client trust, while keeping outreach email hygiene audit-ready.",
-      "ctaPrimary": "Start Free Trial",
+      "headlinePrimary": "Email Verification for Cold Outreach",
+      "headlineSecondary": "built for freelancers & solopreneurs",
+      "subheading": "Validate every email before you hit send. Reduce bounces, protect your sender reputation, and keep freelance outreach campaigns safe — pay with crypto, no limits.",
+      "ctaPrimary": "Get Free 1000 Credits",
       "ctaDashboard": "Go to Dashboard"
     },
     "features": {
       "items": {
         "diagnostics": {
-          "title": "Deliverability Diagnostics",
-          "description": "Run DNS, MX, and SMTP handshake simulations to certify inbox readiness before launching a freelance outreach campaign."
+          "title": "Accurate Email Checks",
+          "description": "Run DNS, MX, and SMTP tests to confirm inbox readiness before sending your next outreach campaign."
         },
         "risk": {
-          "title": "Real-time Risk Scoring",
-          "description": "Benchmark every contact against engagement history, suppression intelligence, and role-based heuristics for instant prioritization."
+          "title": "Smart Risk Scoring",
+          "description": "Every address gets a risk score from 0–100 so you instantly know which contacts are safe, risky, or invalid."
         },
         "compliance": {
-          "title": "Compliance-Ready Outputs",
-          "description": "Generate auditable proof for clients with exportable reports that highlight remediation paths and verified sender reputation metrics."
+          "title": "Client-Ready Reports",
+          "description": "Export validation reports that prove your list quality and keep freelance contracts audit-ready."
         }
       }
     },
     "stats": {
-      "precision": "Validation Precision",
-      "credits": "Freelance Credits",
-      "latency": "Verification Latency"
+      "precision": "Precision",
+      "credits": "Free Credits",
+      "latency": "Speed"
     },
     "checks": {
-      "title": "Full Diagnostic Coverage",
-      "description": "ColdMailer runs nine technical checks in parallel so your freelance clients receive deliverability reports backed by real infrastructure data, not guesswork.",
+      "title": "9 Technical Validation Checks",
+      "description": "ValixMail runs nine industry-standard checks in real time so you send with confidence, not guesswork.",
       "labels": {
-        "checkDns": "checkDns",
-        "checkDomainAge": "checkDomainAge",
-        "checkMxRecords": "checkMxRecords",
-        "checkSmtp": "checkSmtp",
-        "hasSuspiciousPatterns": "hasSuspiciousPatterns",
-        "isDisposable": "isDisposable",
-        "isFreeDomain": "isFreeDomain",
-        "isRoleAccount": "isRoleAccount",
-        "validateSyntax": "validateSyntax"
+        "checkDns": "DNS Check",
+        "checkDomainAge": "Domain Age",
+        "checkMxRecords": "MX Records",
+        "checkSmtp": "SMTP",
+        "hasSuspiciousPatterns": "Suspicious Patterns",
+        "isDisposable": "Disposable",
+        "isFreeDomain": "Free Domain",
+        "isRoleAccount": "Role Account",
+        "validateSyntax": "Syntax"
       },
       "items": {
-        "checkDns": "Resolve authoritative records to confirm the domain is live and properly delegated.",
-        "checkDomainAge": "Score domain maturity to flag recently registered burner assets used in spam blasts.",
-        "checkMxRecords": "Interrogate MX endpoints and priority chains to validate that the inbox can receive mail.",
-        "checkSmtp": "Simulate transactional SMTP conversations to detect greylisting, throttling, and hard rejections.",
-        "hasSuspiciousPatterns": "Identify typo-squatting, homoglyph attacks, and sequencing anomalies common in fake signups.",
-        "isDisposable": "Cross-reference disposable hosts to keep temporary inboxes off your client deliverables.",
-        "isFreeDomain": "Highlight free mailbox providers when brands demand corporate-only outreach.",
-        "isRoleAccount": "Filter support, info, and other role-based addresses that rarely engage with freelance cold pitches.",
-        "validateSyntax": "Apply RFC-compliant parsing to eliminate malformed inputs before they reach the sending queue."
+        "checkDns": "Confirms the domain is live and properly set up.",
+        "checkDomainAge": "Flags newly registered domains often used for spam.",
+        "checkMxRecords": "Validates MX records to ensure the mailbox can receive mail.",
+        "checkSmtp": "Tests live SMTP handshake to detect valid inboxes.",
+        "hasSuspiciousPatterns": "Finds fake signups, typos, and unusual patterns.",
+        "isDisposable": "Blocks temporary/disposable email services.",
+        "isFreeDomain": "Marks free providers (Gmail, Yahoo, Outlook, etc).",
+        "isRoleAccount": "Detects generic emails (info, support, sales).",
+        "validateSyntax": "Removes badly formatted emails before sending."
       }
     },
     "dataSources": {
-      "title": "Powered by Multiple Intelligence Sources",
-      "description": "We fuse commercial suppression feeds, historical bounce databases, and independent crawler data so freelancers can validate lists with the same rigor as enterprise deliverability teams.",
+      "title": "Trusted Data Sources",
+      "description": "ValixMail combines DNS records, SMTP checks, and known disposable domain lists to deliver enterprise-grade accuracy for freelancers.",
       "cards": {
         "signals": {
           "title": "Cross-Network Signals",
-          "description": "Correlate engagement reputation across ISPs, ESPs, and marketing clouds."
+          "description": "Correlates domain and mailbox reputation across providers."
         },
         "pings": {
           "title": "Live Mailbox Pings",
-          "description": "Execute low-impact verification pings that respect provider rate limits."
+          "description": "Performs lightweight verification respecting provider limits."
         },
         "compliance": {
           "title": "Compliance Guardrails",
-          "description": "Automatic GDPR-ready documentation keeps freelance contracts airtight."
+          "description": "GDPR-ready documentation keeps freelance work safe."
         }
       }
     },
     "process": {
-      "title": "How Freelancers Ship Verified Outreach",
+      "title": "How It Works",
       "steps": {
         "one": {
-          "title": "Create Your ColdMailer Workspace",
-          "description": "Sign up, claim 1000 free validations, and connect your preferred CRM or prospecting sheet."
+          "title": "Sign Up in Seconds",
+          "description": "Create your free account and claim 1000 free email validations."
         },
         "two": {
-          "title": "Upload Prospect Lists or Trigger API Runs",
-          "description": "Feed us CSV exports or pipe leads through the API and watch each address clear technical, behavioral, and compliance checks."
+          "title": "Upload or Connect",
+          "description": "Upload a CSV or connect via API to validate your outreach list instantly."
         },
         "three": {
-          "title": "Ship Reports Clients Trust",
-          "description": "Deliver clean lists, remediation guidance, and technical audit logs that justify your freelance retainers and boost campaign ROI."
+          "title": "Send With Confidence",
+          "description": "Deliver clean lists, reduce bounces, and prove ROI to your clients."
         }
       }
     },
     "cta": {
-      "title": "Turn cold outreach into client wins",
-      "description": "Freelancers worldwide trust ColdMailer to validate lists, defend sender reputation, and prove ROI before the first send.",
+      "title": "Start verifying your cold outreach emails today",
+      "description": "Freelancers and agencies use ValixMail to protect their sender reputation and close more deals. Pay with crypto, validate anywhere.",
       "primary": "Get 1000 Free Credits"
     }
   },
   "footer": {
-    "copyright": "© 2025 ColdMailer. All rights reserved."
+    "copyright": "© 2025 ValixMail. All rights reserved."
   }
 }

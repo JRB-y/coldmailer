@@ -2,121 +2,121 @@
   "header": {
     "auth": {
       "login": "Iniciar sesión",
-      "signup": "Crear cuenta"
+      "signup": "Empezar Gratis"
     },
     "menu": {
       "dashboard": "Panel",
-      "history": "Historial",
+      "history": "Historial de validaciones",
       "logout": "Cerrar sesión",
       "credits": "{credits} créditos"
     },
     "language": {
-      "label": "Cambiar idioma",
+      "label": "Idioma",
       "items": {
-        "en": "Inglés",
-        "fr": "Francés",
+        "en": "English",
+        "fr": "Français",
         "es": "Español",
-        "zh": "Chino"
+        "zh": "中文 (简体)"
       }
     }
   },
   "landing": {
     "hero": {
-      "headlinePrimary": "Verificación de emails de outreach en frío",
-      "headlineSecondary": "optimizada para freelancers",
-      "subheading": "Ofrece validación con calidad de producción en cada lista de prospectos. Detecta actores maliciosos, infraestructuras rotas y direcciones de alto riesgo antes de que arruinen la entregabilidad y la confianza de tus clientes, manteniendo la higiene del correo lista para auditorías.",
-      "ctaPrimary": "Comienza la prueba gratuita",
-      "ctaDashboard": "Ir al panel"
+      "headlinePrimary": "Verificación de correos para prospección en frío",
+      "headlineSecondary": "diseñada para freelancers y solopreneurs",
+      "subheading": "Valida cada correo antes de enviarlo. Reduce rebotes, protege tu reputación como remitente y asegura tus campañas de prospección — paga con criptomonedas, sin límites.",
+      "ctaPrimary": "Obtén 1000 créditos gratis",
+      "ctaDashboard": "Ir al Panel"
     },
     "features": {
       "items": {
         "diagnostics": {
-          "title": "Diagnósticos de entregabilidad",
-          "description": "Ejecuta simulaciones DNS, MX y SMTP para certificar la capacidad de recibir correos antes de lanzar una campaña freelance."
+          "title": "Comprobaciones precisas de correo",
+          "description": "Ejecuta pruebas DNS, MX y SMTP para confirmar la entregabilidad antes de tu próxima campaña."
         },
         "risk": {
-          "title": "Riesgo en tiempo real",
-          "description": "Clasifica cada contacto según historial de engagement, listas de supresión y heurísticas de cuentas de rol para priorizar al instante."
+          "title": "Puntuación de riesgo inteligente",
+          "description": "Cada dirección recibe una puntuación de 0 a 100 para identificar al instante contactos seguros, riesgosos o inválidos."
         },
         "compliance": {
-          "title": "Reportes listos para cumplimiento",
-          "description": "Genera pruebas auditables para tus clientes con exportaciones que destacan planes de remediación y métricas verificadas de reputación."
+          "title": "Informes listos para clientes",
+          "description": "Exporta informes de validación que demuestran la calidad de tus listas y mantienen seguros tus contratos freelance."
         }
       }
     },
     "stats": {
-      "precision": "Precisión de validación",
-      "credits": "Créditos freelance",
-      "latency": "Latencia de verificación"
+      "precision": "Precisión",
+      "credits": "Créditos gratis",
+      "latency": "Velocidad"
     },
     "checks": {
-      "title": "Cobertura diagnóstica completa",
-      "description": "ColdMailer ejecuta nueve comprobaciones técnicas en paralelo para que tus clientes reciban reportes respaldados por datos reales de infraestructura, sin conjeturas.",
+      "title": "9 comprobaciones técnicas",
+      "description": "ValixMail ejecuta nueve controles estándar en tiempo real para que envíes con confianza y sin suposiciones.",
       "labels": {
-        "checkDns": "checkDns",
-        "checkDomainAge": "checkDomainAge",
-        "checkMxRecords": "checkMxRecords",
-        "checkSmtp": "checkSmtp",
-        "hasSuspiciousPatterns": "hasSuspiciousPatterns",
-        "isDisposable": "isDisposable",
-        "isFreeDomain": "isFreeDomain",
-        "isRoleAccount": "isRoleAccount",
-        "validateSyntax": "validateSyntax"
+        "checkDns": "Verificación DNS",
+        "checkDomainAge": "Antigüedad del dominio",
+        "checkMxRecords": "Registros MX",
+        "checkSmtp": "SMTP",
+        "hasSuspiciousPatterns": "Patrones sospechosos",
+        "isDisposable": "Desechable",
+        "isFreeDomain": "Dominio gratuito",
+        "isRoleAccount": "Cuenta genérica",
+        "validateSyntax": "Sintaxis"
       },
       "items": {
-        "checkDns": "Resuelve registros autoritativos para confirmar que el dominio está activo y correctamente delegado.",
-        "checkDomainAge": "Evalúa la antigüedad del dominio para detectar activos desechables registrados recientemente.",
-        "checkMxRecords": "Inspecciona los endpoints MX y sus prioridades para validar que la bandeja puede recibir correo.",
-        "checkSmtp": "Simula conversaciones SMTP transaccionales para detectar greylisting, limitaciones y rechazos definitivos.",
-        "hasSuspiciousPatterns": "Identifica typos, homógrafos y anomalías de secuencia comunes en registros falsos.",
-        "isDisposable": "Cruza dominios desechables para mantener las casillas temporales fuera de tus entregables.",
-        "isFreeDomain": "Resalta proveedores gratuitos cuando las marcas exigen direcciones corporativas.",
-        "isRoleAccount": "Filtra support, info y otras cuentas de rol que rara vez interactúan con campañas en frío.",
-        "validateSyntax": "Aplica análisis conforme a RFC para eliminar entradas mal formadas antes de enviarlas."
+        "checkDns": "Confirma que el dominio está activo y correctamente configurado.",
+        "checkDomainAge": "Detecta dominios recién registrados usados frecuentemente para spam.",
+        "checkMxRecords": "Valida los registros MX para garantizar que el buzón pueda recibir correos.",
+        "checkSmtp": "Prueba una conexión SMTP en vivo para detectar bandejas válidas.",
+        "hasSuspiciousPatterns": "Encuentra registros falsos, errores tipográficos y patrones sospechosos.",
+        "isDisposable": "Bloquea servicios de correo temporal/desechable.",
+        "isFreeDomain": "Identifica proveedores gratuitos (Gmail, Yahoo, Outlook…).",
+        "isRoleAccount": "Detecta direcciones genéricas (info, support, sales).",
+        "validateSyntax": "Elimina correos mal formateados antes de enviarlos."
       }
     },
     "dataSources": {
-      "title": "Impulsado por múltiples fuentes de inteligencia",
-      "description": "Combinamos feeds comerciales de supresión, bases históricas de rebotes y datos de crawlers independientes para que los freelancers validen listas con el mismo rigor que los equipos enterprise.",
+      "title": "Fuentes de datos confiables",
+      "description": "ValixMail combina registros DNS, comprobaciones SMTP y listas de dominios desechables conocidos para ofrecer precisión de nivel empresarial a los freelancers.",
       "cards": {
         "signals": {
-          "title": "Señales multirred",
-          "description": "Correlaciona la reputación de engagement entre ISPs, ESPs y suites de marketing."
+          "title": "Señales multi-red",
+          "description": "Analiza la reputación de dominios y buzones a través de varios proveedores."
         },
         "pings": {
-          "title": "Pings de bandeja en vivo",
-          "description": "Realiza verificaciones discretas que respetan los límites de cada proveedor."
+          "title": "Pings de buzón en vivo",
+          "description": "Realiza verificaciones ligeras respetando los límites de los proveedores."
         },
         "compliance": {
-          "title": "Guardarraíles de cumplimiento",
-          "description": "Documentación lista para RGPD mantiene tus contratos freelance blindados."
+          "title": "Cumplimiento integrado",
+          "description": "La documentación lista para RGPD mantiene tu trabajo freelance seguro."
         }
       }
     },
     "process": {
-      "title": "Cómo los freelancers entregan outreach verificado",
+      "title": "Cómo funciona",
       "steps": {
         "one": {
-          "title": "Crea tu workspace ColdMailer",
-          "description": "Regístrate, reclama 1000 validaciones gratuitas y conecta tu CRM o hoja de prospectos."
+          "title": "Regístrate en segundos",
+          "description": "Crea tu cuenta gratuita y obtén 1000 validaciones de correos gratis."
         },
         "two": {
-          "title": "Carga listas o usa la API",
-          "description": "Envíanos exportaciones CSV o canaliza leads por la API y observa cada dirección superar controles técnicos, de comportamiento y cumplimiento."
+          "title": "Sube o conecta",
+          "description": "Carga un archivo CSV o conecta la API para validar tus listas al instante."
         },
         "three": {
-          "title": "Entrega reportes confiables",
-          "description": "Proporciona listas limpias, guías de remediación y registros técnicos que justifican tus honorarios y elevan el ROI."
+          "title": "Envía con confianza",
+          "description": "Entrega listas limpias, reduce rebotes y demuestra el ROI a tus clientes."
         }
       }
     },
     "cta": {
-      "title": "Convierte el cold outreach en éxitos para tus clientes",
-      "description": "Freelancers de todo el mundo confían en ColdMailer para validar listas, proteger la reputación de envío y demostrar ROI antes del primer envío.",
-      "primary": "Obtener 1000 créditos gratis"
+      "title": "Comienza a verificar tus correos de prospección hoy mismo",
+      "description": "Freelancers y agencias confían en ValixMail para proteger su reputación como remitentes y cerrar más contratos. Paga con criptomonedas, valida en cualquier lugar.",
+      "primary": "Obtén 1000 créditos gratis"
     }
   },
   "footer": {
-    "copyright": "© 2025 ColdMailer. Todos los derechos reservados."
+    "copyright": "© 2025 ValixMail. Todos los derechos reservados."
   }
 }

@@ -33,18 +33,22 @@ const localePath = useLocalePath()
             <NuxtLink
               v-if="!isAuthenticated"
               :to="localePath('/auth/signup')"
-              class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-all hover:scale-105 flex items-center gap-2"
+              class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
             >
-              {{ t('landing.hero.ctaPrimary') }}
-              <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-9 py-3 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
+                {{ t('landing.hero.ctaPrimary') }}
+                <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
             </NuxtLink>
             <NuxtLink
               v-else
               :to="localePath('/dashboard')"
-              class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-all hover:scale-105 flex items-center gap-2"
+              class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
             >
-              {{ t('landing.hero.ctaDashboard') }}
-              <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-9 py-3 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
+                {{ t('landing.hero.ctaDashboard') }}
+                <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
             </NuxtLink>
           </div>
         </div>

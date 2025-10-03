@@ -2,121 +2,121 @@
   "header": {
     "auth": {
       "login": "Connexion",
-      "signup": "Créer un compte"
+      "signup": "Commencer Gratuitement"
     },
     "menu": {
       "dashboard": "Tableau de bord",
-      "history": "Historique",
-      "logout": "Se déconnecter",
+      "history": "Historique des validations",
+      "logout": "Déconnexion",
       "credits": "{credits} crédits"
     },
     "language": {
-      "label": "Changer de langue",
+      "label": "Langue",
       "items": {
-        "en": "Anglais",
+        "en": "English",
         "fr": "Français",
-        "es": "Espagnol",
-        "zh": "Chinois"
+        "es": "Español",
+        "zh": "中文 (简体)"
       }
     }
   },
   "landing": {
     "hero": {
-      "headlinePrimary": "Vérification des emails de prospection à froid",
-      "headlineSecondary": "conçue pour les freelances",
-      "subheading": "Offrez une validation de niveau production sur chaque liste de prospects. Détectez les acteurs malveillants, les infrastructures défaillantes et les adresses à risque avant qu'ils n'abîment la délivrabilité et la confiance de vos clients, tout en gardant l'hygiène email prête pour l'audit.",
-      "ctaPrimary": "Démarrer l'essai gratuit",
-      "ctaDashboard": "Aller au tableau de bord"
+      "headlinePrimary": "Vérification d’emails pour la prospection à froid",
+      "headlineSecondary": "pensée pour les freelances et solopreneurs",
+      "subheading": "Validez chaque email avant l’envoi. Réduisez les rebonds, protégez votre réputation d’expéditeur et sécurisez vos campagnes de prospection — paiement en crypto, sans limites.",
+      "ctaPrimary": "Obtenir 1000 crédits gratuits",
+      "ctaDashboard": "Accéder au tableau de bord"
     },
     "features": {
       "items": {
         "diagnostics": {
-          "title": "Diagnostics de délivrabilité",
-          "description": "Simulez les échanges DNS, MX et SMTP pour certifier la réception avant de lancer une campagne de prospection freelance."
+          "title": "Contrôles d’emails précis",
+          "description": "Exécutez des tests DNS, MX et SMTP pour confirmer la délivrabilité avant d’envoyer vos campagnes."
         },
         "risk": {
-          "title": "Scoring de risque en temps réel",
-          "description": "Évaluez chaque contact selon l'historique d'engagement, les listes de suppression et les heuristiques de rôles pour prioriser instantanément."
+          "title": "Score de risque intelligent",
+          "description": "Chaque adresse reçoit un score de 0 à 100 pour identifier instantanément les contacts sûrs, risqués ou invalides."
         },
         "compliance": {
-          "title": "Rapports prêts pour la conformité",
-          "description": "Produisez des preuves auditables avec des exports qui mettent en avant les actions correctives et les indicateurs de réputation vérifiés."
+          "title": "Rapports prêts pour vos clients",
+          "description": "Exportez des rapports de validation qui prouvent la qualité de vos listes et sécurisent vos contrats freelances."
         }
       }
     },
     "stats": {
-      "precision": "Précision de validation",
-      "credits": "Crédits freelance",
-      "latency": "Latence de vérification"
+      "precision": "Précision",
+      "credits": "Crédits gratuits",
+      "latency": "Vitesse"
     },
     "checks": {
-      "title": "Couverture diagnostique complète",
-      "description": "ColdMailer exécute neuf contrôles techniques en parallèle pour livrer à vos clients des rapports appuyés sur des données d'infrastructure réelles, sans conjectures.",
+      "title": "9 vérifications techniques",
+      "description": "ValixMail exécute neuf contrôles standards en temps réel pour vous permettre d’envoyer en toute confiance, sans approximation.",
       "labels": {
-        "checkDns": "checkDns",
-        "checkDomainAge": "checkDomainAge",
-        "checkMxRecords": "checkMxRecords",
-        "checkSmtp": "checkSmtp",
-        "hasSuspiciousPatterns": "hasSuspiciousPatterns",
-        "isDisposable": "isDisposable",
-        "isFreeDomain": "isFreeDomain",
-        "isRoleAccount": "isRoleAccount",
-        "validateSyntax": "validateSyntax"
+        "checkDns": "Vérification DNS",
+        "checkDomainAge": "Âge du domaine",
+        "checkMxRecords": "Enregistrements MX",
+        "checkSmtp": "SMTP",
+        "hasSuspiciousPatterns": "Modèles suspects",
+        "isDisposable": "Jetable",
+        "isFreeDomain": "Domaine gratuit",
+        "isRoleAccount": "Compte rôle",
+        "validateSyntax": "Syntaxe"
       },
       "items": {
-        "checkDns": "Résout les enregistrements autoritatifs afin de confirmer que le domaine est actif et correctement délégué.",
-        "checkDomainAge": "Mesure l'ancienneté du domaine pour repérer les actifs jetables récemment enregistrés.",
-        "checkMxRecords": "Inspecte les points d'entrée MX et leurs priorités pour valider la réception des messages.",
-        "checkSmtp": "Simule des conversations SMTP transactionnelles pour détecter greylisting, limitations et rejets fermes.",
-        "hasSuspiciousPatterns": "Identifie les typos, homographes et anomalies de séquence typiques des inscriptions frauduleuses.",
-        "isDisposable": "Croise les domaines jetables afin d'éviter que les boîtes temporaires n'entrent dans vos livrables.",
-        "isFreeDomain": "Met en évidence les fournisseurs gratuits lorsque les marques exigent des adresses professionnelles.",
-        "isRoleAccount": "Filtre support, info et autres boîtes de rôle qui interagissent rarement avec les messages froids.",
-        "validateSyntax": "Applique une analyse conforme aux RFC pour éliminer les saisies invalides avant l'envoi."
+        "checkDns": "Confirme que le domaine est actif et correctement configuré.",
+        "checkDomainAge": "Signale les domaines récemment créés souvent utilisés pour le spam.",
+        "checkMxRecords": "Vérifie les enregistrements MX pour garantir la réception des emails.",
+        "checkSmtp": "Teste une connexion SMTP en direct pour détecter les boîtes valides.",
+        "hasSuspiciousPatterns": "Repère les fautes de frappe, fausses inscriptions et schémas suspects.",
+        "isDisposable": "Bloque les services d’emails temporaires/jetables.",
+        "isFreeDomain": "Identifie les fournisseurs gratuits (Gmail, Yahoo, Outlook…).",
+        "isRoleAccount": "Détecte les adresses génériques (info, support, sales).",
+        "validateSyntax": "Élimine les adresses mal formatées avant l’envoi."
       }
     },
     "dataSources": {
-      "title": "Propulsé par plusieurs sources d'intelligence",
-      "description": "Nous combinons flux de suppression commerciaux, bases d'échecs historiques et données de crawler indépendantes pour offrir aux freelances la même rigueur que les équipes délivrabilité enterprise.",
+      "title": "Sources de données fiables",
+      "description": "ValixMail combine les enregistrements DNS, les contrôles SMTP et les listes de domaines jetables connus pour offrir une précision de niveau entreprise aux freelances.",
       "cards": {
         "signals": {
           "title": "Signaux multi-réseaux",
-          "description": "Corrélez la réputation d'engagement entre FAI, routeurs d'emailing et suites marketing."
+          "description": "Analyse la réputation des domaines et boîtes mail à travers plusieurs fournisseurs."
         },
         "pings": {
-          "title": "Pings de boîte en direct",
-          "description": "Effectuez des vérifications discrètes qui respectent les limites de chaque fournisseur."
+          "title": "Pings de boîtes mail en direct",
+          "description": "Effectue des vérifications légères tout en respectant les limites des fournisseurs."
         },
         "compliance": {
-          "title": "Garde-fous conformité",
-          "description": "Une documentation prête pour le RGPD sécurise vos contrats freelance."
+          "title": "Conformité intégrée",
+          "description": "La documentation conforme RGPD garde votre travail freelance sécurisé."
         }
       }
     },
     "process": {
-      "title": "Comment les freelances valident leur prospection",
+      "title": "Comment ça marche",
       "steps": {
         "one": {
-          "title": "Créez votre workspace ColdMailer",
-          "description": "Inscrivez-vous, récupérez 1000 validations gratuites et connectez votre CRM ou feuille de prospects."
+          "title": "Inscription en quelques secondes",
+          "description": "Créez votre compte gratuit et obtenez 1000 validations d’emails offertes."
         },
         "two": {
-          "title": "Importez vos listes ou déclenchez l'API",
-          "description": "Alimentez-nous avec des exports CSV ou un flux API et voyez chaque adresse passer les contrôles techniques, comportementaux et conformité."
+          "title": "Importez ou connectez",
+          "description": "Chargez un fichier CSV ou connectez l’API pour valider vos listes en temps réel."
         },
         "three": {
-          "title": "Livrez des rapports dignes de confiance",
-          "description": "Fournissez des listes propres, des recommandations et des journaux techniques qui justifient vos honoraires et améliorent le ROI."
+          "title": "Envoyez en toute confiance",
+          "description": "Livrez des listes propres, réduisez les rebonds et prouvez le ROI à vos clients."
         }
       }
     },
     "cta": {
-      "title": "Transformez vos emails froids en succès client",
-      "description": "Des freelances du monde entier s'appuient sur ColdMailer pour valider leurs listes, protéger la réputation d'envoi et prouver le ROI avant le premier envoi.",
+      "title": "Commencez à vérifier vos emails de prospection dès aujourd’hui",
+      "description": "Les freelances et agences utilisent ValixMail pour protéger leur réputation d’expéditeur et signer plus de contrats. Payez en crypto, validez partout.",
       "primary": "Obtenir 1000 crédits gratuits"
     }
   },
   "footer": {
-    "copyright": "© 2025 ColdMailer. Tous droits réservés."
+    "copyright": "© 2025 ValixMail. Tous droits réservés."
   }
 }

@@ -64,7 +64,8 @@ async function handleLogout() {
   closeMenu()
   closeLangMenu()
   await logout()
-  router.push('/')
+  const target = localePath('/')
+  router.push(target)
 }
 
 function handleDocumentClick(event: MouseEvent) {
@@ -129,7 +130,7 @@ onBeforeUnmount(() => {
           >
             <div
               v-if="isLangMenuOpen"
-              class="absolute right-0 mt-3 w-48 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur"
+              class="absolute right-0 top-full z-50 mt-3 w-48 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur"
               role="menu"
             >
               <div class="mb-1 px-3 text-xs uppercase tracking-wide text-gray-500">
@@ -189,7 +190,7 @@ onBeforeUnmount(() => {
             >
               <div
                 v-if="isMenuOpen"
-                class="absolute right-0 mt-3 w-52 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur mt-[calc(100%+14rem)]"
+                class="absolute right-0 top-full z-50 mt-3 w-52 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur"
                 role="menu"
               >
                 <div
