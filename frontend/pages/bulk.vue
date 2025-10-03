@@ -299,7 +299,7 @@ onUnmounted(() => {
                   v-if="selectedFile"
                   variant="outline"
                   size="lg"
-                  class="border-gray-700 text-gray-300 hover:bg-zinc-800"
+                  class="border-gray-700 text-gray-300 hover:bg-zinc-800 bg-white/5"
                   @click="clearFile"
                 >
                   Clear
@@ -486,10 +486,7 @@ onUnmounted(() => {
                 <p class="text-xs text-yellow-400 mb-2">
                   ⚠️ Low credits. Each email costs 1 credit.
                 </p>
-                <NuxtLink
-                  to="/pricing"
-                  class="text-xs text-blue-400 hover:text-blue-300 underline"
-                >
+                <NuxtLink to="/pricing" class="text-xs text-blue-400 hover:text-blue-300 underline">
                   Buy more credits →
                 </NuxtLink>
               </div>
