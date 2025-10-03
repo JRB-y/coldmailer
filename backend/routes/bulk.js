@@ -3,6 +3,7 @@ import { authenticate } from '../middleware/auth.js'
 import { upload } from '../config/multer.js'
 import { bulkUploadRateLimiter, bulkJobRateLimiter } from '../middleware/rateLimiter.js'
 import BulkJob from '../models/BulkJob.js'
+import Validation from '../models/Validation.js'
 import fs from 'fs'
 import csvParser from 'csv-parser'
 
@@ -119,10 +120,19 @@ router.post(
 /**
  * GET /api/bulk/jobs
  * Get all bulk validation jobs for the current user
+ * Optional query param: status (e.g., ?status=pending,processing)
  */
 router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
   try {
-    const jobs = await BulkJob.find({ userId: req.user._id })
+    const query = { userId: req.user._id }
+
+    // Filter by status if provided
+    if (req.query.status) {
+      const statuses = req.query.status.split(',').map((s) => s.trim())
+      query.status = { $in: statuses }
+    }
+
+    const jobs = await BulkJob.find(query)
       .sort({ createdAt: -1 })
       .select('status progress counts error createdAt updatedAt')
 
@@ -135,6 +145,7 @@ router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
         error: job.error,
         createdAt: job.createdAt,
         updatedAt: job.updatedAt,
+        hasResults: !!job.resultPath,
       })),
     })
   } catch (error) {
@@ -151,11 +162,24 @@ router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
  * Get detailed information for a specific job
  */
 router.get('/jobs/:id', authenticate, bulkJobRateLimiter, async (req, res) => {
-  try {
-    const job = await BulkJob.findOne({
+  console.log('Fetching job with ID:', req.params.id)
+  const { all } = req.query
+
+  let filter = {
+    _id: req.params.id,
+    userId: req.user._id,
+    status: { $nin: ['completed'] },
+  }
+
+  if (all === 'true') {
+    filter = {
       _id: req.params.id,
       userId: req.user._id,
-    })
+    }
+  }
+
+  try {
+    const job = await BulkJob.findOne(filter)
 
     if (!job) {
       return res.status(404).json({
@@ -179,6 +203,61 @@ router.get('/jobs/:id', authenticate, bulkJobRateLimiter, async (req, res) => {
     res.status(500).json({
       error: 'Failed to retrieve job',
       message: 'An error occurred while fetching the job details',
+    })
+  }
+})
+
+/**
+ * GET /api/bulk/jobs/:id/validations
+ * Get all validations for a specific bulk job (paginated)
+ */
+router.get('/jobs/:id/validations', authenticate, bulkJobRateLimiter, async (req, res) => {
+  try {
+    // Verify job belongs to user
+    const job = await BulkJob.findOne({
+      _id: req.params.id,
+      userId: req.user._id,
+    })
+
+    if (!job) {
+      return res.status(404).json({
+        error: 'Job not found',
+        message: 'The requested job does not exist or does not belong to you',
+      })
+    }
+
+    const { page = 1, limit = 50 } = req.query
+    const skip = (parseInt(page) - 1) * parseInt(limit)
+
+    // Get validations for this job
+    const validations = await Validation.find({ jobId: req.params.id })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .select('email status riskScore checks reason createdAt')
+
+    const total = await Validation.countDocuments({ jobId: req.params.id })
+
+    res.json({
+      validations,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit)),
+      },
+      job: {
+        id: job._id,
+        status: job.status,
+        progress: job.progress,
+        counts: job.counts,
+      },
+    })
+  } catch (error) {
+    console.error('Get job validations error:', error)
+    res.status(500).json({
+      error: 'Failed to retrieve validations',
+      message: 'An error occurred while fetching job validations',
     })
   }
 })

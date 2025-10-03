@@ -84,10 +84,10 @@ async function uploadFile() {
   }
 }
 
-// Fetch all jobs
+// Fetch running jobs only (pending, processing)
 async function fetchJobs(refreshCredits = false) {
   loading.value = true
-  const result = await getJobs()
+  const result = await getJobs('pending,processing')
   loading.value = false
 
   if (result.success) {
@@ -338,7 +338,7 @@ onUnmounted(() => {
             <!-- Jobs List -->
             <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6 md:p-8">
               <div class="flex items-center justify-between mb-4 md:mb-6">
-                <h2 class="text-lg md:text-xl font-bold text-white">Validation Jobs</h2>
+                <h2 class="text-lg md:text-xl font-bold text-white">Active Jobs</h2>
                 <UiButton
                   variant="outline"
                   size="sm"
@@ -464,8 +464,9 @@ onUnmounted(() => {
               <!-- Empty State -->
               <div v-else class="text-center py-12">
                 <FileText class="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                <p class="text-gray-400">No validation jobs yet</p>
-                <p class="text-sm text-gray-500 mt-2">Upload a CSV file to get started</p>
+                <p class="text-gray-400">No active jobs</p>
+                <p class="text-sm text-gray-500 mt-2">Upload a CSV file to start validation</p>
+                <p class="text-xs text-gray-600 mt-4">View completed jobs in the History page</p>
               </div>
             </div>
           </div>

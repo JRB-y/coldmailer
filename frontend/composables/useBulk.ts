@@ -43,8 +43,8 @@ export const useBulk = () => {
     }
   }
 
-  // Get all bulk jobs
-  const getJobs = async () => {
+  // Get all bulk jobs (with optional status filter)
+  const getJobs = async (status?: string) => {
     try {
       const authToken = process.client ? localStorage.getItem('auth-token') : token.value
 
@@ -52,7 +52,11 @@ export const useBulk = () => {
         throw new Error('Authentication required')
       }
 
-      const response = await fetch(`${apiUrl}/api/bulk/jobs`, {
+      const url = status
+        ? `${apiUrl}/api/bulk/jobs?status=${status}`
+        : `${apiUrl}/api/bulk/jobs`
+
+      const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -143,10 +147,44 @@ export const useBulk = () => {
     }
   }
 
+  // Get validations for a specific job
+  const getJobValidations = async (jobId: string, page = 1, limit = 50) => {
+    try {
+      const authToken = process.client ? localStorage.getItem('auth-token') : token.value
+
+      if (!authToken) {
+        throw new Error('Authentication required')
+      }
+
+      const response = await fetch(
+        `${apiUrl}/api/bulk/jobs/${jobId}/validations?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || data.error || 'Failed to fetch validations')
+      }
+
+      return { success: true, ...data }
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch validations',
+      }
+    }
+  }
+
   return {
     uploadCSV,
     getJobs,
     getJob,
+    getJobValidations,
     downloadResults,
   }
 }
