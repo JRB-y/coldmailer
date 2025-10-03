@@ -10,8 +10,9 @@ function handleLogout() {
 <template>
   <header class="py-6 px-4 border-b border-gray-800">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="text-2xl font-bold text-white">ColdMailer</div>
-
+      <NuxtLink class="text-2xl font-bold text-white" to="/">
+        <img src="/public/logo.png" alt="ColdMailer Logo" class="h-8 inline-block mr-2" />
+      </NuxtLink>
       <!-- Navigation -->
       <div v-if="isAuthenticated && user" class="flex items-center gap-6">
         <NuxtLink

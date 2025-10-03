@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail } from 'lucide-vue-next'
 
-definePageMeta({
-  ssr: false,
-})
+definePageMeta({ ssr: false })
 
 const { user, isAuthenticated } = useAuth()
 </script>
@@ -19,16 +17,17 @@ const { user, isAuthenticated } = useAuth()
         <div class="text-center max-w-4xl mx-auto mb-20">
           <h1 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
             <span
-              class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+              class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-md"
             >
-              Validate emails
+              Cold outreach email verification
             </span>
             <br />
-            <span class="text-white">before you send</span>
+            <span class="text-white">Engineered for Freelancers</span>
           </h1>
           <p class="text-xl md:text-2xl text-gray-400 mb-10 leading-relaxed">
-            Protect your domain reputation. Reduce bounce rates.<br />
-            Increase email deliverability with our 8-point validation system.
+            Deliver production-grade validation on every prospect list. Detect bad actors, broken
+            infrastructure, and high-risk addresses before they tank deliverability and client
+            trust, while keeping outreach email hygiene audit-ready.
           </p>
           <div class="flex items-center justify-center gap-4">
             <NuxtLink
@@ -59,9 +58,10 @@ const { user, isAuthenticated } = useAuth()
             <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
               <CheckCircle class="w-6 h-6 text-blue-400" />
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">8-Point Validation</h3>
+            <h3 class="text-xl font-bold text-white mb-3">Deliverability Diagnostics</h3>
             <p class="text-gray-400 leading-relaxed">
-              Comprehensive checks including syntax, DNS, MX records, SMTP verification, and more.
+              Run DNS, MX, and SMTP handshake simulations to certify inbox readiness before
+              launching a freelance outreach campaign.
             </p>
           </div>
 
@@ -74,9 +74,10 @@ const { user, isAuthenticated } = useAuth()
             >
               <Zap class="w-6 h-6 text-purple-400" />
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Real-time Results</h3>
+            <h3 class="text-xl font-bold text-white mb-3">Real-time Risk Scoring</h3>
             <p class="text-gray-400 leading-relaxed">
-              Get instant validation feedback with detailed risk scoring and actionable insights.
+              Benchmark every contact against engagement history, suppression intelligence, and
+              role-based heuristics for instant prioritization.
             </p>
           </div>
 
@@ -87,10 +88,10 @@ const { user, isAuthenticated } = useAuth()
             <div class="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
               <Shield class="w-6 h-6 text-pink-400" />
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Protect Your Reputation</h3>
+            <h3 class="text-xl font-bold text-white mb-3">Compliance-Ready Outputs</h3>
             <p class="text-gray-400 leading-relaxed">
-              Detect disposable emails, role accounts, and suspicious patterns before they harm your
-              sender score.
+              Generate auditable proof for clients with exportable reports that highlight
+              remediation paths and verified sender reputation metrics.
             </p>
           </div>
         </div>
@@ -106,7 +107,7 @@ const { user, isAuthenticated } = useAuth()
               >
                 99.5%
               </div>
-              <div class="text-gray-400">Accuracy Rate</div>
+              <div class="text-gray-400">Validation Precision</div>
             </div>
             <div>
               <div
@@ -114,7 +115,7 @@ const { user, isAuthenticated } = useAuth()
               >
                 1000+
               </div>
-              <div class="text-gray-400">Free Credits</div>
+              <div class="text-gray-400">Freelance Credits</div>
             </div>
             <div>
               <div
@@ -122,14 +123,151 @@ const { user, isAuthenticated } = useAuth()
               >
                 &lt;2s
               </div>
-              <div class="text-gray-400">Avg. Response</div>
+              <div class="text-gray-400">Verification Latency</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checks Section -->
+        <div class="bg-zinc-900 border border-gray-800 rounded-2xl p-12 mb-20">
+          <h2 class="text-4xl font-bold text-white text-center mb-10">Full Diagnostic Coverage</h2>
+          <p class="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-12">
+            ColdMailer runs nine technical checks in parallel so your freelance clients receive
+            deliverability reports backed by real infrastructure data, not guesswork.
+          </p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">checkDns</h3>
+                <p class="text-gray-400 text-sm">
+                  Resolve authoritative records to confirm the domain is live and properly
+                  delegated.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">checkDomainAge</h3>
+                <p class="text-gray-400 text-sm">
+                  Score domain maturity to flag recently registered burner assets used in spam
+                  blasts.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">checkMxRecords</h3>
+                <p class="text-gray-400 text-sm">
+                  Interrogate MX endpoints and priority chains to validate that the inbox can
+                  receive mail.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">checkSmtp</h3>
+                <p class="text-gray-400 text-sm">
+                  Simulate transactional SMTP conversations to detect greylisting, throttling, and
+                  hard rejections.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">hasSuspiciousPatterns</h3>
+                <p class="text-gray-400 text-sm">
+                  Identify typo-squatting, homoglyph attacks, and sequencing anomalies common in
+                  fake signups.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">isDisposable</h3>
+                <p class="text-gray-400 text-sm">
+                  Cross-reference disposable hosts to keep temporary inboxes off your client
+                  deliverables.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">isFreeDomain</h3>
+                <p class="text-gray-400 text-sm">
+                  Highlight free mailbox providers when brands demand corporate-only outreach.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">isRoleAccount</h3>
+                <p class="text-gray-400 text-sm">
+                  Filter support@, info@, and other role-based addresses that rarely engage with
+                  freelance cold pitches.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <CheckCircle class="w-6 h-6 text-blue-400 mt-1" />
+              <div>
+                <h3 class="text-lg font-semibold text-white">validateSyntax</h3>
+                <p class="text-gray-400 text-sm">
+                  Apply RFC-compliant parsing to eliminate malformed inputs before they reach the
+                  sending queue.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Sources Section -->
+        <div class="max-w-5xl mx-auto mb-20 text-center">
+          <h2 class="text-4xl font-bold text-white mb-6">
+            Powered by Multiple Intelligence Sources
+          </h2>
+          <p class="text-lg text-gray-400 mb-10">
+            We fuse commercial suppression feeds, historical bounce databases, and independent
+            crawler data so freelancers can validate lists with the same rigor as enterprise
+            deliverability teams.
+          </p>
+          <div class="grid gap-6 md:grid-cols-3">
+            <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6">
+              <BarChart3 class="w-8 h-8 text-blue-400 mx-auto mb-4" />
+              <h3 class="text-xl font-semibold text-white mb-2">Cross-Network Signals</h3>
+              <p class="text-gray-400 text-sm">
+                Correlate engagement reputation across ISPs, ESPs, and marketing clouds.
+              </p>
+            </div>
+            <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6">
+              <Zap class="w-8 h-8 text-purple-400 mx-auto mb-4" />
+              <h3 class="text-xl font-semibold text-white mb-2">Live Mailbox Pings</h3>
+              <p class="text-gray-400 text-sm">
+                Execute low-impact verification pings that respect provider rate limits.
+              </p>
+            </div>
+            <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6">
+              <Shield class="w-8 h-8 text-pink-400 mx-auto mb-4" />
+              <h3 class="text-xl font-semibold text-white mb-2">Compliance Guardrails</h3>
+              <p class="text-gray-400 text-sm">
+                Automatic GDPR-ready documentation keeps freelance contracts airtight.
+              </p>
             </div>
           </div>
         </div>
 
         <!-- How It Works -->
         <div class="max-w-4xl mx-auto mb-20">
-          <h2 class="text-4xl font-bold text-white text-center mb-12">How It Works</h2>
+          <h2 class="text-4xl font-bold text-white text-center mb-12">
+            How Freelancers Ship Verified Outreach
+          </h2>
           <div class="space-y-6">
             <div class="flex gap-6 items-start">
               <div
@@ -138,9 +276,12 @@ const { user, isAuthenticated } = useAuth()
                 1
               </div>
               <div>
-                <h4 class="text-xl font-semibold text-white mb-2">Sign Up & Get Free Credits</h4>
+                <h4 class="text-xl font-semibold text-white mb-2">
+                  Create Your ColdMailer Workspace
+                </h4>
                 <p class="text-gray-400">
-                  Create your account and receive 1000 free validation credits to get started.
+                  Sign up, claim 1000 free validations, and connect your preferred CRM or
+                  prospecting sheet.
                 </p>
               </div>
             </div>
@@ -151,9 +292,12 @@ const { user, isAuthenticated } = useAuth()
                 2
               </div>
               <div>
-                <h4 class="text-xl font-semibold text-white mb-2">Validate Emails</h4>
+                <h4 class="text-xl font-semibold text-white mb-2">
+                  Upload Prospect Lists or Trigger API Runs
+                </h4>
                 <p class="text-gray-400">
-                  Enter email addresses one by one or upload a CSV for bulk validation.
+                  Feed us CSV exports or pipe leads through the API and watch each address clear
+                  technical, behavioral, and compliance checks.
                 </p>
               </div>
             </div>
@@ -164,9 +308,10 @@ const { user, isAuthenticated } = useAuth()
                 3
               </div>
               <div>
-                <h4 class="text-xl font-semibold text-white mb-2">Get Detailed Results</h4>
+                <h4 class="text-xl font-semibold text-white mb-2">Ship Reports Clients Trust</h4>
                 <p class="text-gray-400">
-                  Receive comprehensive validation reports with risk scores and recommendations.
+                  Deliver clean lists, remediation guidance, and technical audit logs that justify
+                  your freelance retainers and boost campaign ROI.
                 </p>
               </div>
             </div>
@@ -177,9 +322,10 @@ const { user, isAuthenticated } = useAuth()
         <div class="text-center">
           <div class="inline-block bg-zinc-900 border border-gray-800 rounded-2xl p-12">
             <Mail class="w-16 h-16 text-blue-400 mx-auto mb-6" />
-            <h2 class="text-3xl font-bold text-white mb-4">Ready to get started?</h2>
+            <h2 class="text-3xl font-bold text-white mb-4">Turn cold outreach into client wins</h2>
             <p class="text-gray-400 mb-8 max-w-md mx-auto">
-              Join thousands of marketers protecting their sender reputation with ColdMailer.
+              Freelancers worldwide trust ColdMailer to validate lists, defend sender reputation,
+              and prove ROI before the first send.
             </p>
             <NuxtLink
               v-if="!isAuthenticated"
