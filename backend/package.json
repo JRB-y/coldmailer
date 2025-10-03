@@ -1,10 +1,10 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Coldmailer API Backend - Express.js server with MongoDB, JWT auth, and email validation",
+  "description": "Valix API Backend - Express.js server with MongoDB, JWT auth, and email validation",
   "main": "server.js",
   "type": "module",
-  "author": "ColdMailer Team",
+  "author": "Valix Team",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "node --watch server.js",

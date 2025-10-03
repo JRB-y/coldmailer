@@ -250,9 +250,12 @@ onMounted(() => {
     <main class="py-12 px-4">
       <div class="max-w-7xl mx-auto">
         <!-- Page Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-white mb-2">Dashboard</h1>
-          <p class="text-gray-400">Validate emails and track your usage</p>
+        <div class="mb-8 flex flex-col gap-3">
+          <!-- <UiBackButton /> -->
+          <div>
+            <h1 class="text-3xl font-bold text-white mb-2">Dashboard</h1>
+            <p class="text-gray-400">Validate emails and track your usage</p>
+          </div>
         </div>
 
         <!-- Low Credits Warning -->
@@ -261,16 +264,19 @@ onMounted(() => {
           class="mb-8 bg-gradient-to-r from-yellow-950/50 to-orange-950/50 border border-yellow-800/50 rounded-lg p-6"
         >
           <div class="flex items-start gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-yellow-500/10 rounded-full flex items-center justify-center">
+            <div
+              class="flex-shrink-0 w-12 h-12 bg-yellow-500/10 rounded-full flex items-center justify-center"
+            >
               <AlertCircle class="w-6 h-6 text-yellow-400" />
             </div>
             <div class="flex-1">
               <h3 class="text-lg font-semibold text-yellow-400 mb-1">Low Credits Warning</h3>
               <p class="text-sm text-gray-300 mb-4">
-                You have {{ user.credits }} credits remaining. Purchase more credits to continue validating emails.
+                You have {{ user.credits }} credits remaining. Purchase more credits to continue
+                validating emails.
               </p>
               <NuxtLink
-                to="/pricing"
+                :to="localePath('/pricing')"
                 class="inline-flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
               >
                 <TrendingUp class="w-4 h-4" />

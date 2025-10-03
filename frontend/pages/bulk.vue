@@ -240,11 +240,14 @@ onUnmounted(() => {
     <main class="py-8 md:py-12 px-4">
       <div class="max-w-7xl mx-auto">
         <!-- Page Header -->
-        <div class="mb-6 md:mb-8">
-          <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Bulk Email Validation</h1>
-          <p class="text-sm md:text-base text-gray-400">
-            Upload a CSV file to validate multiple emails at once
-          </p>
+        <div class="mb-6 md:mb-8 flex flex-col gap-3">
+          <UiBackButton />
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Bulk Email Validation</h1>
+            <p class="text-sm md:text-base text-gray-400">
+              Upload a CSV file to validate multiple emails at once
+            </p>
+          </div>
         </div>
 
         <div class="grid lg:grid-cols-3 gap-6 md:gap-8">

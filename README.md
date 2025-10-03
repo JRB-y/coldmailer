@@ -1,4 +1,4 @@
-# ColdMailer
+# ValixMailer
 
 > Validate emails before you send. Protect your domain reputation.
 
@@ -83,7 +83,7 @@ An email validation SaaS application that helps you verify email addresses, redu
 ## 🏗️ Project Structure
 
 ```
-coldmailer/
+valixmailer/
 ├── frontend/                 # Nuxt 3 frontend application
 │   ├── pages/               # Application pages
 │   │   ├── index.vue       # Landing page with validation form

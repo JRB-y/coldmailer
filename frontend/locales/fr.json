@@ -1,4 +1,7 @@
 {
+  "common": {
+    "back": "Retour"
+  },
   "header": {
     "auth": {
       "login": "Connexion",

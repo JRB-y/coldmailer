@@ -1,10 +1,10 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "Coldmailer Frontend - Nuxt 3 app with Vue 3, Tailwind CSS, and JWT authentication",
+  "description": "Valix Frontend - Nuxt 3 app with Vue 3, Tailwind CSS, and JWT authentication",
   "private": true,
   "type": "module",
-  "author": "ColdMailer Team",
+  "author": "Valix Team",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "nuxt dev",

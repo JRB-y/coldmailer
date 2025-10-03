@@ -1,4 +1,7 @@
 {
+  "common": {
+    "back": "返回"
+  },
   "header": {
     "auth": {
       "login": "登录",

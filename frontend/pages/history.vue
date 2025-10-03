@@ -134,9 +134,12 @@ function goToPage(page: number) {
     <main class="py-12 px-4">
       <div class="max-w-7xl mx-auto">
         <!-- Page Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-white mb-2">Validation History</h1>
-          <p class="text-gray-400">View all your email validation results</p>
+        <div class="mb-8 flex flex-col gap-3">
+          <UiBackButton />
+          <div>
+            <h1 class="text-3xl font-bold text-white mb-2">Validation History</h1>
+            <p class="text-gray-400">View all your email validation results</p>
+          </div>
         </div>
 
         <!-- Loading State -->

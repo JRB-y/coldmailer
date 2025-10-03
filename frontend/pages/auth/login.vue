@@ -35,7 +35,7 @@ const handleLogin = async () => {
   <div class="min-h-screen bg-black flex items-center justify-center p-4">
     <div class="w-full max-w-md">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-white mb-2">ColdMailer</h1>
+        <h1 class="text-4xl font-bold text-white mb-2">Valix Mailer</h1>
         <p class="text-zinc-400">Sign in to your account</p>
       </div>
 

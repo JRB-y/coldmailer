@@ -1,4 +1,4 @@
-# Coldmailer - TODO List
+# ValixMaler - TODO List
 
 > **Last Updated**: 2025-10-02
 > **Current Phase**: Phase 1 Complete ✅ → Moving to Phase 2

@@ -44,7 +44,7 @@ const startServer = async () => {
 
   // Health check endpoint
   app.get('/health', (_req, res) => {
-    res.json({ status: 'ok', message: 'Coldmailer API is running' })
+    res.json({ status: 'ok', message: 'Valix API is running' })
   })
 
   // 404 handler
