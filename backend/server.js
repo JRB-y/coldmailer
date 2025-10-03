@@ -1,63 +1,69 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { connectDB } from './db.js';
-import validateRouter from './routes/validate.js';
-import authRouter from './routes/auth.js';
-import bulkRouter from './routes/bulk.js';
-import creditsRouter from './routes/credits.js';
-import subscriptionsRouter from './routes/subscriptions.js';
-import validationsRouter from './routes/validations.js';
-import diagnosticRouter from './routes/diagnostic.js';
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import { connectDB } from './db.js'
+import validateRouter from './routes/validate.js'
+import authRouter from './routes/auth.js'
+import bulkRouter from './routes/bulk.js'
+import creditsRouter from './routes/credits.js'
+import subscriptionsRouter from './routes/subscriptions.js'
+import validationsRouter from './routes/validations.js'
+import diagnosticRouter from './routes/diagnostic.js'
 
 // Load environment variables
-dotenv.config();
+dotenv.config()
 
-// Connect to MongoDB
-await connectDB();
+const startServer = async () => {
+  // Connect to MongoDB
+  await connectDB()
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+  const app = express()
+  const PORT = process.env.PORT || 4000
 
-// Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
-}));
-app.use(express.json());
+  // Middleware
+  app.use(
+    cors({
+      origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+      credentials: true,
+    })
+  )
+  app.use(express.json())
 
-// Routes
-app.use('/api', validateRouter);
-app.use('/api/auth', authRouter);
-app.use('/api/bulk', bulkRouter);
-app.use('/api/credits', creditsRouter);
-app.use('/api/subscriptions', subscriptionsRouter);
-app.use('/api/validations', validationsRouter);
+  // Routes
+  app.use('/api', validateRouter)
+  app.use('/api/auth', authRouter)
+  app.use('/api/bulk', bulkRouter)
+  app.use('/api/credits', creditsRouter)
+  app.use('/api/subscriptions', subscriptionsRouter)
+  app.use('/api/validations', validationsRouter)
 
-// used only for testing and debugging purposes
-app.use('/api/diagnostic', diagnosticRouter);
+  // used only for testing and debugging purposes
+  app.use('/api/diagnostic', diagnosticRouter)
 
-// Health check endpoint
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', message: 'Coldmailer API is running' });
-});
+  // Health check endpoint
+  app.get('/health', (_req, res) => {
+    res.json({ status: 'ok', message: 'Coldmailer API is running' })
+  })
 
-// 404 handler
-app.use((_req, res) => {
-  res.status(404).json({ error: 'Not found', message: 'Endpoint does not exist' });
-});
+  // 404 handler
+  app.use((_req, res) => {
+    res.status(404).json({ error: 'Not found', message: 'Endpoint does not exist' })
+  })
 
-// Error handler
-app.use((err, _req, res, _next) => {
-  console.error('Server error:', err);
-  res.status(500).json({
-    error: 'Internal server error',
-    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
-  });
-});
+  // Error handler
+  app.use((err, _req, res, _next) => {
+    console.error('Server error:', err)
+    res.status(500).json({
+      error: 'Internal server error',
+      message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong',
+    })
+  })
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Backend server running on http://localhost:${PORT}`);
-  console.log(`📧 Email validation API ready at http://localhost:${PORT}/api/validate`);
-});
+  // Start server
+  app.listen(PORT, () => {
+    console.log(`🚀 Backend server running on http://localhost:${PORT}`)
+    console.log(`📧 Email validation API ready at http://localhost:${PORT}/api/validate`)
+  })
+}
+
+startServer()
