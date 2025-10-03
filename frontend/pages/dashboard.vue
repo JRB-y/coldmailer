@@ -235,11 +235,6 @@ function reset() {
   error.value = ''
 }
 
-function handleLogout() {
-  logout()
-  router.push('/')
-}
-
 // Load stats on mount
 onMounted(() => {
   fetchStats()

@@ -14,7 +14,9 @@
       "label": "Change language",
       "items": {
         "en": "English",
-        "fr": "Français"
+        "fr": "Français",
+        "es": "Español",
+        "zh": "中文 (简体)"
       }
     }
   },

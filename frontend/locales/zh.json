@@ -1,0 +1,122 @@
+{
+  "header": {
+    "auth": {
+      "login": "登录",
+      "signup": "创建账号"
+    },
+    "menu": {
+      "dashboard": "控制面板",
+      "history": "历史记录",
+      "logout": "退出登录",
+      "credits": "{credits} 点数"
+    },
+    "language": {
+      "label": "切换语言",
+      "items": {
+        "en": "英语",
+        "fr": "法语",
+        "es": "西班牙语",
+        "zh": "中文"
+      }
+    }
+  },
+  "landing": {
+    "hero": {
+      "headlinePrimary": "冷邮件验证",
+      "headlineSecondary": "专为自由职业者打造",
+      "subheading": "为每份潜在客户名单提供生产级验证。精准识别恶意邮箱、失效基础设施和高风险地址，防止它们拖累投递率并保护客户信任，同时保持邮件卫生符合审计要求。",
+      "ctaPrimary": "免费试用",
+      "ctaDashboard": "进入控制面板"
+    },
+    "features": {
+      "items": {
+        "diagnostics": {
+          "title": "投递诊断",
+          "description": "运行 DNS、MX 与 SMTP 握手模拟，确保在启动自由职业外联前目标邮箱可接收邮件。"
+        },
+        "risk": {
+          "title": "实时风险评分",
+          "description": "依据互动历史、抑制列表与角色邮箱启发式对联系人分级，实现即时优先级排序。"
+        },
+        "compliance": {
+          "title": "合规就绪报告",
+          "description": "导出可审计的报告，为客户呈现修复路径与经验证的发件人信誉指标。"
+        }
+      }
+    },
+    "stats": {
+      "precision": "验证准确率",
+      "credits": "自由职业点数",
+      "latency": "验证延迟"
+    },
+    "checks": {
+      "title": "全方位诊断覆盖",
+      "description": "ColdMailer 并行执行九项技术检查，让你的客户获得基于真实基础设施数据的验证报告，而非猜测。",
+      "labels": {
+        "checkDns": "checkDns",
+        "checkDomainAge": "checkDomainAge",
+        "checkMxRecords": "checkMxRecords",
+        "checkSmtp": "checkSmtp",
+        "hasSuspiciousPatterns": "hasSuspiciousPatterns",
+        "isDisposable": "isDisposable",
+        "isFreeDomain": "isFreeDomain",
+        "isRoleAccount": "isRoleAccount",
+        "validateSyntax": "validateSyntax"
+      },
+      "items": {
+        "checkDns": "解析权威记录，确认域名处于激活并正确指向。",
+        "checkDomainAge": "评估域名年龄，识别近期注册的临时域名。",
+        "checkMxRecords": "检查 MX 终端与优先级，确保收件箱可以接收邮件。",
+        "checkSmtp": "模拟事务性 SMTP 会话，检测灰名单、速率限制与硬拒收。",
+        "hasSuspiciousPatterns": "发现常见于虚假注册的错拼、同形异义与序列异常模式。",
+        "isDisposable": "交叉校验一次性邮箱域，阻断临时邮箱进入交付成果。",
+        "isFreeDomain": "当品牌要求企业邮箱时，标记来自免费邮箱服务的地址。",
+        "isRoleAccount": "过滤 support、info 等角色邮箱，这些地址通常不会响应冷启动推广。",
+        "validateSyntax": "按照 RFC 规范解析，提前剔除格式错误的输入。"
+      }
+    },
+    "dataSources": {
+      "title": "多源情报驱动",
+      "description": "整合商业抑制源、历史退信数据库及独立爬虫数据，让自由职业者具备企业级验证能力。",
+      "cards": {
+        "signals": {
+          "title": "跨网络信号",
+          "description": "关联 ISP、ESP 与营销云之间的互动信誉。"
+        },
+        "pings": {
+          "title": "实时邮箱探测",
+          "description": "执行低影响探测，遵守各提供商的速率限制。"
+        },
+        "compliance": {
+          "title": "合规护栏",
+          "description": "自动生成 GDPR 友好的文档，保障自由职业合同万无一失。"
+        }
+      }
+    },
+    "process": {
+      "title": "自由职业者的验证流程",
+      "steps": {
+        "one": {
+          "title": "创建 ColdMailer 工作区",
+          "description": "注册账号，领取 1000 次免费验证，并连接首选 CRM 或潜在客户表格。"
+        },
+        "two": {
+          "title": "上传名单或调用 API",
+          "description": "上传 CSV 导出或通过 API 推送线索，实时监控每个地址通过技术、行为与合规检查。"
+        },
+        "three": {
+          "title": "交付值得信赖的报告",
+          "description": "提供干净名单、修复建议与技术审计日志，证明你的服务价值并提升活动 ROI。"
+        }
+      }
+    },
+    "cta": {
+      "title": "将冷邮件转化为客户成果",
+      "description": "全球自由职业者信赖 ColdMailer 验证名单、维护发件信誉，并在发送前证明投资回报。",
+      "primary": "领取 1000 个免费点数"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 ColdMailer. 保留所有权利。"
+  }
+}

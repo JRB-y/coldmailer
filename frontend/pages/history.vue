@@ -123,11 +123,6 @@ function goToPage(page: number) {
     fetchValidations(page)
   }
 }
-
-function handleLogout() {
-  logout()
-  router.push('/auth/login')
-}
 </script>
 
 <template>

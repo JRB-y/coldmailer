@@ -17,6 +17,8 @@ const localeOptions = computed(() => {
   const flagByCode: Record<string, string> = {
     en: '🇺🇸',
     fr: '🇫🇷',
+    es: '🇪🇸',
+    zh: '🇨🇳',
   }
 
   return locales.value.map((entry) => ({
@@ -101,11 +103,7 @@ onBeforeUnmount(() => {
           alt="ColdMailer Logo"
           class="h-9 w-auto inline-block sm:hidden"
         />
-        <img
-          src="/logo.png"
-          alt="ColdMailer Logo"
-          class="hidden h-9 w-auto sm:inline-block"
-        />
+        <img src="/logo.png" alt="ColdMailer Logo" class="hidden h-9 w-auto sm:inline-block" />
       </NuxtLink>
       <!-- Navigation -->
       <div class="flex items-center gap-4 sm:gap-6">
@@ -146,7 +144,7 @@ onBeforeUnmount(() => {
                   :class="[
                     locale === option.code
                       ? 'bg-zinc-800 text-white'
-                      : 'text-gray-300 hover:bg-zinc-800 hover:text-white'
+                      : 'text-gray-300 hover:bg-zinc-800 hover:text-white',
                   ]"
                   role="menuitem"
                   @click="selectLocale(option.code)"
@@ -166,7 +164,7 @@ onBeforeUnmount(() => {
               @click="toggleMenu"
               :aria-expanded="isMenuOpen"
               aria-haspopup="true"
-              class="group flex items-center gap-2 rounded-full border border-gray-800/80 bg-zinc-900/70 px-2 py-2 text-left shadow-lg shadow-blue-500/5 transition-colors hover:border-blue-500/60 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              class="group flex items-center gap-2 rounded-full border border-gray-800/80 bg-zinc-900/70 px-2 py-2 text-left shadow-lg shadow-blue-500/5 transition-colors hover:border-blue-500/60 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 relative"
             >
               <span
                 class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-500/10 text-blue-400 transition-colors group-hover:bg-blue-500/20 group-hover:text-blue-300"
@@ -191,7 +189,7 @@ onBeforeUnmount(() => {
             >
               <div
                 v-if="isMenuOpen"
-                class="absolute right-0 mt-3 w-52 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur"
+                class="absolute right-0 mt-3 w-52 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur mt-[calc(100%+14rem)]"
                 role="menu"
               >
                 <div
@@ -227,7 +225,7 @@ onBeforeUnmount(() => {
                   </NuxtLink>
                   <button
                     type="button"
-                    class="block w-full rounded-lg px-3 py-2 text-left text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                    class="block w-full rounded-lg text-red-600 px-3 py-2 text-left text-sm text-gray-300 transition-colors hover:bg-zinc-800"
                     role="menuitem"
                     @click="handleLogout"
                   >
@@ -239,7 +237,7 @@ onBeforeUnmount(() => {
           </div>
         </template>
         <template v-else>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 relative">
             <NuxtLink
               :to="localePath('/auth/login')"
               class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"

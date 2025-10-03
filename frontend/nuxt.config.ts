@@ -4,6 +4,10 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
+  experimental: {
+    scanPageMeta: true,
+  },
+
   runtimeConfig: {
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:4000',
@@ -32,9 +36,24 @@ export default defineNuxtConfig({
     locales: [
       { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
       { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json' },
+      { code: 'es', language: 'es-ES', name: 'Español', file: 'es.json' },
+      { code: 'zh', language: 'zh-CN', name: '中文', file: 'zh.json' },
     ],
     vueI18n: './i18n.config.ts',
   },
 
-  compatibilityDate: '2025-10-03',
+  vite: {
+    server: {
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000,
+        clientPort: 3000,
+      },
+    },
+  },
+
+  nitro: {
+    compatibilityDate: '2025-10-03',
+  },
 })

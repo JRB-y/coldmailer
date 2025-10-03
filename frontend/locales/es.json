@@ -1,0 +1,122 @@
+{
+  "header": {
+    "auth": {
+      "login": "Iniciar sesión",
+      "signup": "Crear cuenta"
+    },
+    "menu": {
+      "dashboard": "Panel",
+      "history": "Historial",
+      "logout": "Cerrar sesión",
+      "credits": "{credits} créditos"
+    },
+    "language": {
+      "label": "Cambiar idioma",
+      "items": {
+        "en": "Inglés",
+        "fr": "Francés",
+        "es": "Español",
+        "zh": "Chino"
+      }
+    }
+  },
+  "landing": {
+    "hero": {
+      "headlinePrimary": "Verificación de emails de outreach en frío",
+      "headlineSecondary": "optimizada para freelancers",
+      "subheading": "Ofrece validación con calidad de producción en cada lista de prospectos. Detecta actores maliciosos, infraestructuras rotas y direcciones de alto riesgo antes de que arruinen la entregabilidad y la confianza de tus clientes, manteniendo la higiene del correo lista para auditorías.",
+      "ctaPrimary": "Comienza la prueba gratuita",
+      "ctaDashboard": "Ir al panel"
+    },
+    "features": {
+      "items": {
+        "diagnostics": {
+          "title": "Diagnósticos de entregabilidad",
+          "description": "Ejecuta simulaciones DNS, MX y SMTP para certificar la capacidad de recibir correos antes de lanzar una campaña freelance."
+        },
+        "risk": {
+          "title": "Riesgo en tiempo real",
+          "description": "Clasifica cada contacto según historial de engagement, listas de supresión y heurísticas de cuentas de rol para priorizar al instante."
+        },
+        "compliance": {
+          "title": "Reportes listos para cumplimiento",
+          "description": "Genera pruebas auditables para tus clientes con exportaciones que destacan planes de remediación y métricas verificadas de reputación."
+        }
+      }
+    },
+    "stats": {
+      "precision": "Precisión de validación",
+      "credits": "Créditos freelance",
+      "latency": "Latencia de verificación"
+    },
+    "checks": {
+      "title": "Cobertura diagnóstica completa",
+      "description": "ColdMailer ejecuta nueve comprobaciones técnicas en paralelo para que tus clientes reciban reportes respaldados por datos reales de infraestructura, sin conjeturas.",
+      "labels": {
+        "checkDns": "checkDns",
+        "checkDomainAge": "checkDomainAge",
+        "checkMxRecords": "checkMxRecords",
+        "checkSmtp": "checkSmtp",
+        "hasSuspiciousPatterns": "hasSuspiciousPatterns",
+        "isDisposable": "isDisposable",
+        "isFreeDomain": "isFreeDomain",
+        "isRoleAccount": "isRoleAccount",
+        "validateSyntax": "validateSyntax"
+      },
+      "items": {
+        "checkDns": "Resuelve registros autoritativos para confirmar que el dominio está activo y correctamente delegado.",
+        "checkDomainAge": "Evalúa la antigüedad del dominio para detectar activos desechables registrados recientemente.",
+        "checkMxRecords": "Inspecciona los endpoints MX y sus prioridades para validar que la bandeja puede recibir correo.",
+        "checkSmtp": "Simula conversaciones SMTP transaccionales para detectar greylisting, limitaciones y rechazos definitivos.",
+        "hasSuspiciousPatterns": "Identifica typos, homógrafos y anomalías de secuencia comunes en registros falsos.",
+        "isDisposable": "Cruza dominios desechables para mantener las casillas temporales fuera de tus entregables.",
+        "isFreeDomain": "Resalta proveedores gratuitos cuando las marcas exigen direcciones corporativas.",
+        "isRoleAccount": "Filtra support, info y otras cuentas de rol que rara vez interactúan con campañas en frío.",
+        "validateSyntax": "Aplica análisis conforme a RFC para eliminar entradas mal formadas antes de enviarlas."
+      }
+    },
+    "dataSources": {
+      "title": "Impulsado por múltiples fuentes de inteligencia",
+      "description": "Combinamos feeds comerciales de supresión, bases históricas de rebotes y datos de crawlers independientes para que los freelancers validen listas con el mismo rigor que los equipos enterprise.",
+      "cards": {
+        "signals": {
+          "title": "Señales multirred",
+          "description": "Correlaciona la reputación de engagement entre ISPs, ESPs y suites de marketing."
+        },
+        "pings": {
+          "title": "Pings de bandeja en vivo",
+          "description": "Realiza verificaciones discretas que respetan los límites de cada proveedor."
+        },
+        "compliance": {
+          "title": "Guardarraíles de cumplimiento",
+          "description": "Documentación lista para RGPD mantiene tus contratos freelance blindados."
+        }
+      }
+    },
+    "process": {
+      "title": "Cómo los freelancers entregan outreach verificado",
+      "steps": {
+        "one": {
+          "title": "Crea tu workspace ColdMailer",
+          "description": "Regístrate, reclama 1000 validaciones gratuitas y conecta tu CRM o hoja de prospectos."
+        },
+        "two": {
+          "title": "Carga listas o usa la API",
+          "description": "Envíanos exportaciones CSV o canaliza leads por la API y observa cada dirección superar controles técnicos, de comportamiento y cumplimiento."
+        },
+        "three": {
+          "title": "Entrega reportes confiables",
+          "description": "Proporciona listas limpias, guías de remediación y registros técnicos que justifican tus honorarios y elevan el ROI."
+        }
+      }
+    },
+    "cta": {
+      "title": "Convierte el cold outreach en éxitos para tus clientes",
+      "description": "Freelancers de todo el mundo confían en ColdMailer para validar listas, proteger la reputación de envío y demostrar ROI antes del primer envío.",
+      "primary": "Obtener 1000 créditos gratis"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 ColdMailer. Todos los derechos reservados."
+  }
+}
