@@ -13,9 +13,13 @@ const props = withDefaults(
 
 const router = useRouter()
 const localePath = useLocalePath()
+const localeRoute = useLocaleRoute()
 const { t } = useI18n()
 
-const target = computed(() => localePath(props.fallback))
+const target = computed(() => {
+  const localized = localeRoute(props.fallback)
+  return localized?.fullPath ?? localePath(props.fallback)
+})
 
 function handleClick(event: MouseEvent) {
   if (process.client && window.history.length > 1) {
