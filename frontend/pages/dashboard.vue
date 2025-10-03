@@ -353,9 +353,31 @@ onMounted(() => {
           <!-- Validation Form -->
           <div class="lg:col-span-2">
             <div class="bg-zinc-900 border border-gray-800 rounded-lg p-8">
-              <h2 class="text-xl font-bold text-white mb-6">
-                {{ t('dashboard.validate.title') }}
-              </h2>
+              <div class="mb-6 flex items-center justify-between gap-4">
+                <h2 class="text-xl font-bold text-white">
+                  {{ t('dashboard.validate.title') }}
+                </h2>
+                <Transition
+                  enter-active-class="transition duration-200 ease-out"
+                  enter-from-class="opacity-0 translate-y-2"
+                  enter-to-class="opacity-100 translate-y-0"
+                  leave-active-class="transition duration-150 ease-in"
+                  leave-from-class="opacity-100 translate-y-0"
+                  leave-to-class="opacity-0 translate-y-2"
+                >
+                  <div
+                    v-if="loading"
+                    class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-sm font-medium text-blue-300"
+                  >
+                    <span class="relative flex h-2 w-12 overflow-hidden rounded-full bg-blue-500/20">
+                      <span
+                        class="absolute inset-0 h-full w-1/2 animate-[pulse_800ms_ease-in-out_infinite] bg-gradient-to-r from-blue-400/60 via-purple-400/60 to-transparent"
+                      ></span>
+                    </span>
+                    {{ t('dashboard.validate.loading') }}
+                  </div>
+                </Transition>
+              </div>
 
               <form @submit.prevent="validateEmail" class="space-y-6">
                 <div>
