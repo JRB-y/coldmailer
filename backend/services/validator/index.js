@@ -8,6 +8,20 @@ import { checkDomainAge } from './checkDomainAge.js'
 import { validateSyntax } from './validateSyntax.js'
 import { hasSuspiciousPatterns } from './hasSuspiciousPatterns.js'
 import { checkSmtp } from './checkSmtp.js'
+import { checkBadKeywords } from './checkKeywords.js'
+
+export {
+  isFreeDomain,
+  isDisposable,
+  isRoleAccount,
+  checkDns,
+  checkMxRecords,
+  checkDomainAge,
+  validateSyntax,
+  hasSuspiciousPatterns,
+  checkSmtp,
+  checkBadKeywords,
+}
 
 /**
  * Main validation function
@@ -28,6 +42,7 @@ export async function validateEmail(email) {
     const isFree = syntaxValid ? isFreeDomain(domain) : false
     const isRole = syntaxValid ? isRoleAccount(email) : false
     const suspiciousPattern = syntaxValid ? hasSuspiciousPatterns(email, domain) : false
+    const hasBadKeywords = syntaxValid ? checkBadKeywords(email) : false
 
     // DNS and MX are separate checks
     const dnsValid = syntaxValid ? await checkDns(domain) : false
@@ -51,6 +66,7 @@ export async function validateEmail(email) {
       roleAccount: isRole,
       domainAge: domainAge,
       suspiciousPattern: suspiciousPattern,
+      badKeywords: hasBadKeywords,
     }
   } catch (error) {
     console.error('Email validation error:', error)
@@ -66,20 +82,9 @@ export async function validateEmail(email) {
         disposable: false,
         freeEmail: false,
         roleAccount: false,
+        badKeywords: false,
       },
       reason: 'Validation error occurred',
     }
   }
-}
-
-export {
-  isFreeDomain,
-  isDisposable,
-  isRoleAccount,
-  checkDns,
-  checkMxRecords,
-  checkDomainAge,
-  validateSyntax,
-  hasSuspiciousPatterns,
-  checkSmtp,
 }

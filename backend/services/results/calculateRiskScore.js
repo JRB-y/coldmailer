@@ -29,5 +29,8 @@ export function calculateRiskScore(checks) {
   // Low risk factors
   if (checks.freeEmail) score += 10 // Free email = slightly risky
 
+  // Keyword heuristics (strong penalty)
+  if (checks.badKeywords) score += 60
+
   return Math.min(score, 100)
 }
