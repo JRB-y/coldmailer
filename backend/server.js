@@ -10,6 +10,7 @@ import subscriptionsRouter from './routes/subscriptions.js'
 import validationsRouter from './routes/validations.js'
 import diagnosticRouter from './routes/diagnostic.js'
 import pricingRouter from './routes/pricing.js'
+import { globalRateLimiter } from './middleware/rateLimiter.js'
 
 // Load environment variables
 dotenv.config()
@@ -31,6 +32,9 @@ const startServer = async () => {
   app.disable('x-powered-by')
 
   app.use(express.json())
+
+  // Apply global rate limiter to all requests
+  app.use(globalRateLimiter)
 
   // Routes
   app.use('/api', validateRouter)

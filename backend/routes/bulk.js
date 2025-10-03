@@ -1,6 +1,7 @@
 import express from 'express'
 import { authenticate } from '../middleware/auth.js'
 import { upload } from '../config/multer.js'
+import { bulkUploadRateLimiter, bulkJobRateLimiter } from '../middleware/rateLimiter.js'
 import BulkJob from '../models/BulkJob.js'
 import fs from 'fs'
 import csvParser from 'csv-parser'
@@ -38,7 +39,7 @@ function countEmailsInCSV(filePath) {
  * POST /api/bulk/upload
  * Upload a CSV file for bulk email validation
  */
-router.post('/upload', authenticate, upload.single('file'), async (req, res) => {
+router.post('/upload', authenticate, bulkUploadRateLimiter, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -113,7 +114,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
  * GET /api/bulk/jobs
  * Get all bulk validation jobs for the current user
  */
-router.get('/jobs', authenticate, async (req, res) => {
+router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
   try {
     const jobs = await BulkJob.find({ userId: req.user._id })
       .sort({ createdAt: -1 })
@@ -143,7 +144,7 @@ router.get('/jobs', authenticate, async (req, res) => {
  * GET /api/bulk/jobs/:id
  * Get detailed information for a specific job
  */
-router.get('/jobs/:id', authenticate, async (req, res) => {
+router.get('/jobs/:id', authenticate, bulkJobRateLimiter, async (req, res) => {
   try {
     const job = await BulkJob.findOne({
       _id: req.params.id,
