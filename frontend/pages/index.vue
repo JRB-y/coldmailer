@@ -393,10 +393,6 @@ const localePath = useLocalePath()
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 px-4 mt-20 border-t border-gray-800">
-      <div class="max-w-7xl mx-auto text-center text-gray-500">
-        <p>{{ t('footer.copyright') }}</p>
-      </div>
-    </footer>
+    <UiFooter />
   </div>
 </template>

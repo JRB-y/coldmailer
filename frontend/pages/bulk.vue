@@ -532,5 +532,6 @@ onUnmounted(() => {
         </div>
       </div>
     </main>
+    <UiFooter />
   </div>
 </template>

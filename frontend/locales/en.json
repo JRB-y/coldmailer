@@ -2,6 +2,22 @@
   "common": {
     "back": "Back"
   },
+  "footer": {
+    "tagline": "Precision email validation for freelancers, agencies, and growth teams.",
+    "links": {
+      "product": "Product",
+      "company": "Company",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "language": {
+      "title": "Language"
+    },
+    "rights": "All rights reserved."
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Validate emails and track your usage",
@@ -196,6 +212,19 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 ValixMail. All rights reserved."
+    "tagline": "Precision email validation for freelancers, agencies, and growth teams.",
+    "links": {
+      "product": "Product",
+      "company": "Company",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "language": {
+      "title": "Language"
+    },
+    "rights": "All rights reserved."
   }
 }

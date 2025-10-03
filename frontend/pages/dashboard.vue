@@ -518,5 +518,6 @@ onMounted(() => {
         </div>
       </div>
     </main>
+    <UiFooter />
   </div>
 </template>

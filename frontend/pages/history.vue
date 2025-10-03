@@ -333,5 +333,6 @@ function goToPage(page: number) {
         </div>
       </div>
     </main>
+    <UiFooter />
   </div>
 </template>

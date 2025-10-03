@@ -2,6 +2,22 @@
   "common": {
     "back": "Volver"
   },
+  "footer": {
+    "tagline": "Validación de emails precisa para freelancers, agencias y growth teams.",
+    "links": {
+      "product": "Producto",
+      "company": "Compañía",
+      "about": "Nosotros",
+      "blog": "Blog",
+      "careers": "Carreras",
+      "privacy": "Privacidad",
+      "terms": "Términos"
+    },
+    "language": {
+      "title": "Idioma"
+    },
+    "rights": "Todos los derechos reservados."
+  },
   "dashboard": {
     "title": "Panel",
     "subtitle": "Valida emails y controla tu uso",
@@ -196,6 +212,19 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 ValixMail. Todos los derechos reservados."
+    "tagline": "Validación de emails precisa para freelancers, agencias y growth teams.",
+    "links": {
+      "product": "Producto",
+      "company": "Compañía",
+      "about": "Nosotros",
+      "blog": "Blog",
+      "careers": "Carreras",
+      "privacy": "Privacidad",
+      "terms": "Términos"
+    },
+    "language": {
+      "title": "Idioma"
+    },
+    "rights": "Todos los derechos reservados."
   }
 }

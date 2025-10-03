@@ -2,6 +2,22 @@
   "common": {
     "back": "返回"
   },
+  "footer": {
+    "tagline": "为自由职业者、机构和增长团队提供精准的邮箱验证。",
+    "links": {
+      "product": "产品",
+      "company": "公司",
+      "about": "关于我们",
+      "blog": "博客",
+      "careers": "加入我们",
+      "privacy": "隐私政策",
+      "terms": "服务条款"
+    },
+    "language": {
+      "title": "语言"
+    },
+    "rights": "版权所有。"
+  },
   "dashboard": {
     "title": "控制面板",
     "subtitle": "验证邮件并查看使用情况",
@@ -196,6 +212,19 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 ValixMail. 版权所有."
+    "tagline": "为自由职业者、机构和增长团队提供精准的邮箱验证。",
+    "links": {
+      "product": "产品",
+      "company": "公司",
+      "about": "关于我们",
+      "blog": "博客",
+      "careers": "加入我们",
+      "privacy": "隐私政策",
+      "terms": "服务条款"
+    },
+    "language": {
+      "title": "语言"
+    },
+    "rights": "版权所有。"
   }
 }
