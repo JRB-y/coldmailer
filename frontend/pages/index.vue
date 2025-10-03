@@ -3,7 +3,6 @@ import { ref, computed, onMounted } from 'vue'
 import { CheckCircle, XCircle, AlertCircle, LogOut } from 'lucide-vue-next'
 
 definePageMeta({
-  middleware: 'auth',
   ssr: false
 })
 
@@ -126,20 +125,20 @@ async function validateEmail() {
     return
   }
 
+  // Check if user is authenticated
+  const authToken = localStorage.getItem('auth-token')
+
+  if (!authToken) {
+    // Redirect to login if not authenticated
+    router.push('/auth/login')
+    return
+  }
+
   loading.value = true
   error.value = ''
   result.value = null
 
   try {
-    // Get token directly from localStorage to ensure it's fresh
-    const authToken = localStorage.getItem('auth-token')
-
-    if (!authToken) {
-      logout()
-      router.push('/auth/login')
-      throw new Error('Please login to validate emails.')
-    }
-
     const response = await fetch(`${apiUrl}/api/validate`, {
       method: 'POST',
       headers: {
@@ -208,8 +207,14 @@ function reset() {
           </svg>
         </div>
 
-        <!-- User Info -->
-        <div v-if="user" class="flex items-center gap-4">
+        <!-- User Info or Auth Buttons -->
+        <div v-if="isAuthenticated && user" class="flex items-center gap-4">
+          <NuxtLink
+            to="/history"
+            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+          >
+            History
+          </NuxtLink>
           <div class="text-right">
             <p class="text-sm text-gray-400">{{ user.email }}</p>
             <p class="text-sm font-semibold text-white">
@@ -223,6 +228,22 @@ function reset() {
           >
             <LogOut class="w-5 h-5" />
           </button>
+        </div>
+
+        <!-- Auth Buttons for Guests -->
+        <div v-else class="flex items-center gap-3">
+          <NuxtLink
+            to="/auth/login"
+            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+          >
+            Login
+          </NuxtLink>
+          <NuxtLink
+            to="/auth/signup"
+            class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+          >
+            Sign Up
+          </NuxtLink>
         </div>
       </div>
     </header>
