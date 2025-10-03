@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
     const user = new User({
       email: email.toLowerCase(),
       password,
-      credits: 1000, // Default credits for new users
+      // default credit is set in the User model
     })
 
     await user.save()
