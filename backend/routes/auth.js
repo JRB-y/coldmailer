@@ -8,8 +8,14 @@ import {
   recordFailedLogin,
   resetFailedLogin,
 } from '../middleware/loginLockout.js'
+import { validatePassword, getPasswordRequirements } from '../utils/passwordValidator.js'
 
 const router = express.Router()
+
+// GET /api/auth/password-requirements - Get password policy
+router.get('/password-requirements', (req, res) => {
+  res.json(getPasswordRequirements())
+})
 
 // POST /api/auth/register - User registration
 router.post('/register', authRateLimiter, async (req, res) => {
@@ -21,8 +27,13 @@ router.post('/register', authRateLimiter, async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' })
     }
 
-    if (password.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters' })
+    // Validate password against policy
+    const passwordValidation = validatePassword(password)
+    if (!passwordValidation.valid) {
+      return res.status(400).json({
+        error: 'Password does not meet security requirements',
+        details: passwordValidation.errors,
+      })
     }
 
     // Check if user already exists

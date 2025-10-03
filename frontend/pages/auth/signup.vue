@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 definePageMeta({
   layout: false,
@@ -13,13 +13,42 @@ const password = ref('')
 const confirmPassword = ref('')
 const loading = ref(false)
 const error = ref('')
+const showPasswordRequirements = ref(false)
+
+// Real-time password validation
+const passwordChecks = computed(() => {
+  const pwd = password.value
+  return {
+    length: pwd.length >= 10,
+    uppercase: /[A-Z]/.test(pwd),
+    number: /\d/.test(pwd),
+    symbol: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd),
+    notCommon: pwd.length > 0 && !isCommonPassword(pwd),
+  }
+})
+
+const isPasswordValid = computed(() => {
+  return (
+    passwordChecks.value.length &&
+    passwordChecks.value.uppercase &&
+    passwordChecks.value.number &&
+    passwordChecks.value.symbol &&
+    passwordChecks.value.notCommon
+  )
+})
+
+// Check for common passwords (basic check - backend has full list)
+const isCommonPassword = (pwd: string) => {
+  const common = ['password', 'password123', '123456', '12345678', 'qwerty', 'abc123', 'welcome']
+  return common.includes(pwd.toLowerCase())
+}
 
 const handleSignup = async () => {
   error.value = ''
 
   // Validate password
-  if (password.value.length < 6) {
-    error.value = 'Password must be at least 6 characters'
+  if (!isPasswordValid.value) {
+    error.value = 'Password does not meet security requirements'
     return
   }
 
@@ -38,7 +67,12 @@ const handleSignup = async () => {
     // Use navigateTo for better Nuxt 3 compatibility
     await navigateTo('/', { replace: true })
   } else {
-    error.value = result.error || 'Registration failed'
+    // Handle error with details if available
+    if (result.error && typeof result.error === 'object' && result.error.details) {
+      error.value = result.error.details.join(', ')
+    } else {
+      error.value = result.error || 'Registration failed'
+    }
   }
 }
 </script>
@@ -74,10 +108,90 @@ const handleSignup = async () => {
               v-model="password"
               type="password"
               required
+              @focus="showPasswordRequirements = true"
               class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="••••••••"
             />
-            <p class="text-xs text-zinc-500 mt-1">Must be at least 6 characters</p>
+
+            <!-- Password Requirements -->
+            <div
+              v-if="showPasswordRequirements"
+              class="mt-3 p-3 bg-zinc-800/50 border border-zinc-700 rounded-md space-y-1.5"
+            >
+              <p class="text-xs font-medium text-zinc-300 mb-2">Password must include:</p>
+              <div class="space-y-1">
+                <div class="flex items-center text-xs">
+                  <span
+                    :class="
+                      passwordChecks.length
+                        ? 'text-green-400'
+                        : password.length > 0
+                          ? 'text-red-400'
+                          : 'text-zinc-500'
+                    "
+                  >
+                    {{ passwordChecks.length ? '✓' : '○' }}
+                  </span>
+                  <span class="ml-2 text-zinc-400">At least 10 characters</span>
+                </div>
+                <div class="flex items-center text-xs">
+                  <span
+                    :class="
+                      passwordChecks.uppercase
+                        ? 'text-green-400'
+                        : password.length > 0
+                          ? 'text-red-400'
+                          : 'text-zinc-500'
+                    "
+                  >
+                    {{ passwordChecks.uppercase ? '✓' : '○' }}
+                  </span>
+                  <span class="ml-2 text-zinc-400">One uppercase letter (A-Z)</span>
+                </div>
+                <div class="flex items-center text-xs">
+                  <span
+                    :class="
+                      passwordChecks.number
+                        ? 'text-green-400'
+                        : password.length > 0
+                          ? 'text-red-400'
+                          : 'text-zinc-500'
+                    "
+                  >
+                    {{ passwordChecks.number ? '✓' : '○' }}
+                  </span>
+                  <span class="ml-2 text-zinc-400">One number (0-9)</span>
+                </div>
+                <div class="flex items-center text-xs">
+                  <span
+                    :class="
+                      passwordChecks.symbol
+                        ? 'text-green-400'
+                        : password.length > 0
+                          ? 'text-red-400'
+                          : 'text-zinc-500'
+                    "
+                  >
+                    {{ passwordChecks.symbol ? '✓' : '○' }}
+                  </span>
+                  <span class="ml-2 text-zinc-400">One symbol (!@#$%^&* etc.)</span>
+                </div>
+                <div class="flex items-center text-xs">
+                  <span
+                    :class="
+                      passwordChecks.notCommon
+                        ? 'text-green-400'
+                        : password.length > 0
+                          ? 'text-red-400'
+                          : 'text-zinc-500'
+                    "
+                  >
+                    {{ passwordChecks.notCommon ? '✓' : '○' }}
+                  </span>
+                  <span class="ml-2 text-zinc-400">Not a common password</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div>
