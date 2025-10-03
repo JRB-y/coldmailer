@@ -125,28 +125,7 @@ function handleLogout() {
 <template>
   <div class="min-h-screen bg-black">
     <!-- Header -->
-    <header class="py-6 px-4 border-b border-gray-800">
-      <div class="max-w-7xl mx-auto flex items-center justify-between">
-        <NuxtLink to="/" class="text-2xl font-bold text-white hover:text-gray-300 transition-colors">
-          ColdMailer
-        </NuxtLink>
-
-        <div v-if="user" class="flex items-center gap-4">
-          <div class="text-right">
-            <p class="text-sm text-gray-400">{{ user.email }}</p>
-            <p class="text-sm font-semibold text-white">
-              <span class="text-blue-400">{{ user.credits }}</span> credits
-            </p>
-          </div>
-          <button
-            @click="handleLogout"
-            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    </header>
+    <UiHeader />
 
     <!-- Main Content -->
     <main class="py-12 px-4">

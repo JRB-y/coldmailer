@@ -1,407 +1,182 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { CheckCircle, XCircle, AlertCircle, LogOut } from 'lucide-vue-next'
+import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail } from 'lucide-vue-next'
 
 definePageMeta({
   ssr: false
 })
 
-const config = useRuntimeConfig()
-const apiUrl = config.public.apiUrl
+const { user, isAuthenticated } = useAuth()
 
-const { token, user, isAuthenticated, logout, updateCredits } = useAuth()
-const router = useRouter()
-
-const email = ref('')
-const loading = ref(false)
-const result = ref<any>(null)
-const error = ref('')
-
-const statusIcon = computed(() => {
-  if (!result.value) return null
-
-  switch (result.value.status) {
-    case 'valid':
-      return CheckCircle
-    case 'invalid':
-      return XCircle
-    case 'risky':
-      return AlertCircle
-    default:
-      return AlertCircle
-  }
-})
-
-const statusColor = computed(() => {
-  if (!result.value) return ''
-
-  switch (result.value.status) {
-    case 'valid':
-      return 'text-green-400'
-    case 'invalid':
-      return 'text-red-400'
-    case 'risky':
-      return 'text-yellow-400'
-    default:
-      return 'text-gray-400'
-  }
-})
-
-const statusBadgeVariant = computed(() => {
-  if (!result.value) return 'default'
-
-  switch (result.value.status) {
-    case 'valid':
-      return 'success'
-    case 'invalid':
-      return 'destructive'
-    case 'risky':
-      return 'warning'
-    default:
-      return 'secondary'
-  }
-})
-
-const formattedChecks = computed(() => {
-  if (!result.value?.checks) return []
-
-  const checks = result.value.checks
-
-  // Format checks by risk priority (aligned with scoring logic)
-  return [
-    // Critical checks (100 points)
-    {
-      key: 'format',
-      label: 'Format Valid',
-      status: checks.syntax === true ? 'pass' : checks.syntax === false ? 'fail' : 'na'
-    },
-    {
-      key: 'dns',
-      label: 'DNS Valid',
-      status: checks.syntax === false ? 'na' : checks.dns === true ? 'pass' : 'fail'
-    },
-    {
-      key: 'mx',
-      label: 'MX Records',
-      status: checks.syntax === false ? 'na' : checks.mx === true ? 'pass' : 'fail'
-    },
-    // Verification check
-    {
-      key: 'smtp',
-      label: 'SMTP Valid',
-      status: checks.syntax === false || checks.dns === false ? 'na' : checks.smtp === true ? 'pass' : 'fail'
-    },
-    // High risk (90 points)
-    {
-      key: 'disposable',
-      label: 'Not Disposable',
-      status: checks.syntax === false ? 'na' : checks.disposable ? 'fail' : 'pass'
-    },
-    // Medium-high risk (20-50 points)
-    {
-      key: 'domainAge',
-      label: 'Domain Age / Pattern',
-      status: checks.syntax === false || checks.dns === false ? 'na' :
-              (checks.domainAge?.isNew === true || checks.suspiciousPattern === true) ? 'fail' : 'pass'
-    },
-    // Medium risk (20 points)
-    {
-      key: 'roleAccount',
-      label: 'Not Role Account',
-      status: checks.syntax === false ? 'na' : checks.roleAccount ? 'fail' : 'pass'
-    },
-    // Low risk (10 points)
-    {
-      key: 'freeDomain',
-      label: 'Not Free Domain',
-      status: checks.syntax === false ? 'na' : checks.freeEmail ? 'fail' : 'pass'
-    }
-  ]
-})
-
-async function validateEmail() {
-  if (!email.value.trim()) {
-    error.value = 'Please enter an email address'
-    return
-  }
-
-  // Check if user is authenticated
-  const authToken = localStorage.getItem('auth-token')
-
-  if (!authToken) {
-    // Redirect to login if not authenticated
-    router.push('/auth/login')
-    return
-  }
-
-  loading.value = true
-  error.value = ''
-  result.value = null
-
-  try {
-    const response = await fetch(`${apiUrl}/api/validate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`
-      },
-      body: JSON.stringify({ email: email.value.trim() })
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        // Token expired or invalid, logout
-        logout()
-        router.push('/auth/login')
-        throw new Error('Session expired. Please login again.')
-      }
-      if (response.status === 402) {
-        throw new Error('Insufficient credits. Please purchase more credits.')
-      }
-      throw new Error(data.message || data.error || 'Validation failed')
-    }
-
-    result.value = data
-
-    // Update credits in local state
-    if (data.creditsRemaining !== undefined) {
-      updateCredits(data.creditsRemaining)
-    }
-  } catch (err: any) {
-    error.value = err.message || 'An error occurred. Please try again.'
-  } finally {
-    loading.value = false
-  }
-}
-
-function handleLogout() {
-  logout()
-  router.push('/auth/login')
-}
-
-function reset() {
-  email.value = ''
-  result.value = null
-  error.value = ''
-}
 </script>
 
 <template>
-  <div class="min-h-screen bg-black bg-main">
+  <div class="min-h-screen bg-black">
     <!-- Header -->
-    <header class="py-6 px-4 border-b border-gray-800">
-      <div class="max-w-6xl mx-auto flex items-center justify-between">
-        <div>
-          <svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Envelope icon -->
-            <rect x="5" y="10" width="40" height="30" rx="4" stroke="#3B82F6" stroke-width="3" fill="none"/>
-            <path d="M5 10 L25 28 L45 10" stroke="#3B82F6" stroke-width="3" fill="none"/>
-            <path d="M5 40 L25 22 L45 40" stroke="#3B82F6" stroke-width="3" fill="none"/>
-
-            <!-- Text -->
-            <text x="60" y="33" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="24" fill="white">
-              Coldmailer
-            </text>
-          </svg>
-        </div>
-
-        <!-- User Info or Auth Buttons -->
-        <div v-if="isAuthenticated && user" class="flex items-center gap-4">
-          <NuxtLink
-            to="/history"
-            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
-          >
-            History
-          </NuxtLink>
-          <div class="text-right">
-            <p class="text-sm text-gray-400">{{ user.email }}</p>
-            <p class="text-sm font-semibold text-white">
-              <span class="text-blue-400">{{ user.credits }}</span> credits
-            </p>
-          </div>
-          <button
-            @click="handleLogout"
-            class="p-2 hover:bg-zinc-800 rounded-md transition-colors text-gray-400 hover:text-white"
-            title="Logout"
-          >
-            <LogOut class="w-5 h-5" />
-          </button>
-        </div>
-
-        <!-- Auth Buttons for Guests -->
-        <div v-else class="flex items-center gap-3">
-          <NuxtLink
-            to="/auth/login"
-            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
-          >
-            Login
-          </NuxtLink>
-          <NuxtLink
-            to="/auth/signup"
-            class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
-          >
-            Sign Up
-          </NuxtLink>
-        </div>
-      </div>
-    </header>
+    <UiHeader />
 
     <!-- Hero Section -->
-    <main class="py-12 px-4">
-      <div class="max-w-4xl mx-auto">
-        <!-- Hero Text -->
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-gradient">
-            Validate emails before you send.
-          </h2>
-          <p class="text-xl text-gray-400">
-            Protect your domain reputation. Reduce bounces. Increase deliverability.
+    <main>
+      <div class="max-w-7xl mx-auto px-4 py-20">
+        <div class="text-center max-w-4xl mx-auto mb-20">
+          <h1 class="text-6xl md:text-7xl font-bold mb-6 leading-tight">
+            <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Validate emails
+            </span>
+            <br />
+            <span class="text-white">before you send</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-400 mb-10 leading-relaxed">
+            Protect your domain reputation. Reduce bounce rates.<br />
+            Increase email deliverability with our 8-point validation system.
           </p>
+          <div class="flex items-center justify-center gap-4">
+            <NuxtLink
+              v-if="!isAuthenticated"
+              to="/auth/signup"
+              class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-all hover:scale-105 flex items-center gap-2"
+            >
+              Start Free Trial
+              <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </NuxtLink>
+            <NuxtLink
+              v-else
+              to="/dashboard"
+              class="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-all hover:scale-105 flex items-center gap-2"
+            >
+              Go to Dashboard
+              <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </NuxtLink>
+          </div>
         </div>
 
-        <!-- Validation Form -->
-        <UiCard class="p-8 max-w-2xl mx-auto bg-zinc-900 border-gray-800">
-          <form @submit.prevent="validateEmail" class="space-y-6">
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
-              </label>
-              <UiInput
-                id="email"
-                v-model="email"
-                type="email"
-                placeholder="test@example.com"
-                :disabled="loading"
-                class="text-lg bg-black border-gray-700 text-white placeholder:text-gray-500"
-              />
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-3 gap-8 mb-20">
+          <!-- Feature 1 -->
+          <div class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-blue-500/50 transition-colors">
+            <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
+              <CheckCircle class="w-6 h-6 text-blue-400" />
             </div>
-
-            <div class="flex gap-3">
-              <UiButton
-                type="submit"
-                :disabled="loading"
-                size="lg"
-                class="flex-1 bg-white text-black hover:bg-gray-200"
-              >
-                {{ loading ? 'Validating...' : 'Validate Email' }}
-              </UiButton>
-
-              <UiButton
-                v-if="result"
-                type="button"
-                variant="outline"
-                size="lg"
-                class="border-gray-700 text-gray-300 hover:bg-zinc-800"
-                @click="reset"
-              >
-                Reset
-              </UiButton>
-            </div>
-
-            <!-- Error Message -->
-            <div v-if="error" class="p-4 bg-red-950/50 border border-red-800 rounded-md">
-              <p class="text-sm text-red-400">{{ error }}</p>
-            </div>
-          </form>
-        </UiCard>
-
-        <!-- Results -->
-        <div v-if="result" class="mt-8 max-w-2xl mx-auto space-y-4">
-          <!-- Status Card -->
-          <UiCard class="p-6 bg-zinc-900 border-gray-800">
-            <div class="flex items-center gap-4 mb-4">
-              <component
-                :is="statusIcon"
-                :class="['w-12 h-12', statusColor]"
-              />
-              <div class="flex-1">
-                <h3 class="text-2xl font-bold" :class="statusColor">
-                  {{ result.status.charAt(0).toUpperCase() + result.status.slice(1) }}
-                </h3>
-                <p class="text-gray-400">{{ result.email }}</p>
-              </div>
-              <UiBadge :variant="statusBadgeVariant" class="text-lg px-4 py-1">
-                Risk: {{ result.riskScore }}/100
-              </UiBadge>
-            </div>
-
-            <p v-if="result.reason" class="text-gray-300 mt-2">
-              <span class="font-semibold">Reason:</span> {{ result.reason }}
+            <h3 class="text-xl font-bold text-white mb-3">8-Point Validation</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Comprehensive checks including syntax, DNS, MX records, SMTP verification, and more.
             </p>
-          </UiCard>
+          </div>
 
-          <!-- Detailed Checks -->
-          <UiCard class="p-6 bg-zinc-900 border-gray-800">
-            <h4 class="text-lg font-semibold mb-4 text-white">Validation Checks</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div
-                v-for="check in formattedChecks"
-                :key="check.key"
-                class="flex items-center justify-between p-3 bg-black border border-gray-800 rounded-md"
-              >
-                <span class="text-sm font-medium text-gray-300">
-                  {{ check.label }}
-                </span>
-                <UiBadge
-                  :variant="check.status === 'pass' ? 'success' : check.status === 'fail' ? 'destructive' : 'secondary'"
-                >
-                  {{ check.status === 'pass' ? '✓ Pass' : check.status === 'fail' ? '✗ Fail' : 'N/A' }}
-                </UiBadge>
+          <!-- Feature 2 -->
+          <div class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-purple-500/50 transition-colors">
+            <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
+              <Zap class="w-6 h-6 text-purple-400" />
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Real-time Results</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Get instant validation feedback with detailed risk scoring and actionable insights.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-zinc-900 border border-gray-800 rounded-xl p-8 hover:border-pink-500/50 transition-colors">
+            <div class="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
+              <Shield class="w-6 h-6 text-pink-400" />
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Protect Your Reputation</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Detect disposable emails, role accounts, and suspicious patterns before they harm your sender score.
+            </p>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-gray-800 rounded-2xl p-12 text-center mb-20">
+          <div class="grid md:grid-cols-3 gap-8">
+            <div>
+              <div class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                99.5%
+              </div>
+              <div class="text-gray-400">Accuracy Rate</div>
+            </div>
+            <div>
+              <div class="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+                1000+
+              </div>
+              <div class="text-gray-400">Free Credits</div>
+            </div>
+            <div>
+              <div class="text-5xl font-bold bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                &lt;2s
+              </div>
+              <div class="text-gray-400">Avg. Response</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="max-w-4xl mx-auto mb-20">
+          <h2 class="text-4xl font-bold text-white text-center mb-12">How It Works</h2>
+          <div class="space-y-6">
+            <div class="flex gap-6 items-start">
+              <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                1
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold text-white mb-2">Sign Up & Get Free Credits</h4>
+                <p class="text-gray-400">Create your account and receive 1000 free validation credits to get started.</p>
               </div>
             </div>
-          </UiCard>
+            <div class="flex gap-6 items-start">
+              <div class="flex-shrink-0 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                2
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold text-white mb-2">Validate Emails</h4>
+                <p class="text-gray-400">Enter email addresses one by one or upload a CSV for bulk validation.</p>
+              </div>
+            </div>
+            <div class="flex gap-6 items-start">
+              <div class="flex-shrink-0 w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+                3
+              </div>
+              <div>
+                <h4 class="text-xl font-semibold text-white mb-2">Get Detailed Results</h4>
+                <p class="text-gray-400">Receive comprehensive validation reports with risk scores and recommendations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="text-center">
+          <div class="inline-block bg-zinc-900 border border-gray-800 rounded-2xl p-12">
+            <Mail class="w-16 h-16 text-blue-400 mx-auto mb-6" />
+            <h2 class="text-3xl font-bold text-white mb-4">Ready to get started?</h2>
+            <p class="text-gray-400 mb-8 max-w-md mx-auto">
+              Join thousands of marketers protecting their sender reputation with ColdMailer.
+            </p>
+            <NuxtLink
+              v-if="!isAuthenticated"
+              to="/auth/signup"
+              class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors"
+            >
+              Get 1000 Free Credits
+              <ArrowRight class="w-5 h-5" />
+            </NuxtLink>
+            <NuxtLink
+              v-else
+              to="/dashboard"
+              class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors"
+            >
+              Go to Dashboard
+              <ArrowRight class="w-5 h-5" />
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 px-4 mt-16 border-t border-gray-800">
-      <div class="max-w-6xl mx-auto text-center text-gray-500">
-        <p>&copy; 2025 Coldmailer. All rights reserved.</p>
+    <footer class="py-8 px-4 mt-20 border-t border-gray-800">
+      <div class="max-w-7xl mx-auto text-center text-gray-500">
+        <p>&copy; 2025 ColdMailer. All rights reserved.</p>
       </div>
     </footer>
   </div>
 </template>
-<style>
-  @keyframes gradientText {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .animate-gradient {
-    background: linear-gradient(270deg, #afafaf, #908d95, #a695be, #d3c6e7);
-    background-size: 600% 600%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientText 25s ease infinite;
-  }
-
-  /* Dark animated gradient background */
-  @keyframes darkGradientBackground {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* .bg-main {
-    background: linear-gradient(
-      -45deg,
-      #0a0a0a,
-      #171717,
-      #1e293b,
-      #141415
-    );
-    background-size: 400% 400%;
-    animation: darkGradientBackground 30s ease infinite;
-  } */
-
-</style>
