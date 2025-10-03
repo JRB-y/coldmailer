@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
     exposeConfig: false,
-    viewer: true,
+    viewer: process.env.NODE_ENV !== 'production',
   },
 
   i18n: {

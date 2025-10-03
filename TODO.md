@@ -406,3 +406,42 @@
 ---
 
 **End of TODO List**
+
+## SECURITY AUDIT
+
+### Critical Risks
+
+[X] backend/routes/diagnostic.js:16 exposes a diagnostic POST that runs DNS, MX, and raw SMTP probes without auth; it enables anonymous SSRF/port‑scanning and (via checkSmtp) outbound socket abuse. Remove it entirely in production or gate it behind strict auth, environment checks, and aggressive rate limiting.
+
+[X] backend/services/validator/checkSmtp.js:12 lets any authenticated user trigger direct TCP connections to attacker-controlled MX hosts; a throwaway account (200 free credits) can probe internal IPs or exhaust worker sockets. Disable SMTP probing by default, or add an allowlist/IP guard plus circuit breakers (timeouts, global concurrency caps) before exposing it.
+
+[-] frontend/composables/useAuth.ts:5 persists JWTs and user profiles in localStorage; combined with any future XSS this yields full account takeover and stored PII leakage. Switch to httpOnly, Secure, SameSite=strict cookies issued server-side, and keep user data in memory/session storage only.
+
+### High Risks
+
+[X] frontend/nuxt.config.ts:3 leaves Nuxt devtools and the Tailwind viewer enabled; production users can read runtime config, inspect component state, and dump i18n strings. Tie these flags to process.env.NODE_ENV !== 'production'.
+
+[-] backend/server.js:18 lacks basic hardening: no helmet, no rate limiting or brute-force protection around /api/auth/\*, and Express still advertises X-Powered-By. Add helmet, express-rate-limit, login/register throttles, and consistent generic error messages.
+
+[-] backend/routes/auth.js:26 returns “Email already registered,” which allows credential-stuffing lists to enumerate valid accounts; respond with a generic failure and log the precise reason internally. Strengthen password policy checks (min length, complexity, reuse rules) before hashing.
+Medium Risks
+
+[-] backend/services/validator/checkDomainAge.js:4 embeds the WHOIS API key in source control and performs unauthenticated outbound fetches per request. Load keys from secrets management, add caching, and fail closed if the lookup errors.
+
+[-] backend/routes/bulk.js:75 & backend/worker.js:70 persist uploaded CSVs and generated result files indefinitely in backend/uploads/; these contain customer contact lists in clear text. Encrypt at rest, add TTL cleanup after download, and ensure the directory is never served statically.
+frontend/middleware/auth.ts:1 guards routes only on the client, so SSR renders protected pages to unauthenticated users (risking data flashes and easier scraping). Use Nuxt route rules or server middleware to enforce auth during SSR and return 401s instead of client-side redirects.
+
+### Low / Observations
+
+[-] Mongo connection (backend/db.js:5) silently falls back to a local URI; enforce an explicit MONGODB_URI per environment and require TLS parameters for Atlas/prod clusters.
+
+[-] backend/config/multer.js:27 reuses the original filename after a random suffix; strip dangerous characters and normalize extensions to thwart odd parsing on downstream systems.
+backend/routes/credits.js:60 trusts arbitrary planId input; validate it with mongoose.isValidObjectId, return 400 on failure, and ensure only active plans are purchasable.
+Suggested Fix Path
+
+- Disable or lock down the diagnostic route and SMTP probing before shipping.
+- Move auth to secure cookies
+- add server-side rate limiting
+- and harden login/register flows.
+- Rotate any exposed third-party keys, wire them through env vars, and prune long-lived uploads.
+- After changes, rerun integration/API tests, and consider adding automated security checks (ESLint security rules, dependency scanners, OWASP ZAP in CI).

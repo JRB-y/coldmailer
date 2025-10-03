@@ -28,6 +28,8 @@ const startServer = async () => {
       credentials: true,
     })
   )
+  app.disable('x-powered-by')
+
   app.use(express.json())
 
   // Routes
@@ -39,8 +41,10 @@ const startServer = async () => {
   app.use('/api/validations', validationsRouter)
   app.use('/api/pricing', pricingRouter)
 
-  // used only for testing and debugging purposes
-  app.use('/api/diagnostic', diagnosticRouter)
+  // routes only available in development mode
+  if (process.env.NODE_ENV === 'development') {
+    app.use('/api/diagnostic', diagnosticRouter)
+  }
 
   // Health check endpoint
   app.get('/health', (_req, res) => {

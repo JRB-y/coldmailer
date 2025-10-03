@@ -1,41 +1,128 @@
 import net from 'net'
+import dns from 'dns'
+
+const ENABLE_SMTP_CHECK = String(process.env.ENABLE_SMTP_CHECK || 'false').toLowerCase() === 'true'
+const MAX_CONCURRENT_SMTP = Math.max(
+  parseInt(process.env.SMTP_CHECK_MAX_CONCURRENCY || '5', 10),
+  1
+)
+const SMTP_TIMEOUT_MS = Math.min(
+  Math.max(parseInt(process.env.SMTP_CHECK_TIMEOUT_MS || '8000', 10), 5000),
+  10000
+)
+
+const dnsLookup = dns.promises.lookup
+
+let activeConnections = 0
+const waitQueue = []
+
+async function acquireSlot() {
+  if (activeConnections < MAX_CONCURRENT_SMTP) {
+    activeConnections += 1
+    return
+  }
+
+  await new Promise((resolve) => waitQueue.push(resolve))
+  activeConnections += 1
+}
+
+function releaseSlot() {
+  activeConnections = Math.max(0, activeConnections - 1)
+  const next = waitQueue.shift()
+  if (next) {
+    next()
+  }
+}
+
+function isPrivateIPv4(address) {
+  const octets = address.split('.').map((part) => Number.parseInt(part, 10))
+  if (octets.length !== 4 || octets.some((part) => Number.isNaN(part) || part < 0 || part > 255)) {
+    return false
+  }
+
+  const [o1, o2] = octets
+  if (o1 === 10) return true
+  if (o1 === 127) return true
+  if (o1 === 0) return true
+  if (o1 === 192 && o2 === 168) return true
+  if (o1 === 172 && o2 >= 16 && o2 <= 31) return true
+  if (o1 === 169 && o2 === 254) return true
+  if (o1 >= 224) return true // multicast & reserved
+  return false
+}
+
+function isPrivateIPv6(address) {
+  const normalized = address.toLowerCase()
+  if (normalized === '::1' || normalized === '::') return true
+
+  if (normalized.startsWith('::ffff:')) {
+    const mapped = normalized.split(':').pop()
+    if (mapped && mapped.includes('.')) {
+      return isPrivateIPv4(mapped)
+    }
+  }
+
+  const firstSegment = normalized.split(':')[0]
+  if (firstSegment.startsWith('fc') || firstSegment.startsWith('fd')) return true // unique local
+  if (firstSegment.startsWith('fe8') || firstSegment.startsWith('fe9') || firstSegment.startsWith('fea') || firstSegment.startsWith('feb')) {
+    return true // link-local
+  }
+
+  return false
+}
+
+function isPrivateAddress(address) {
+  const family = net.isIP(address)
+  if (family === 4) return isPrivateIPv4(address)
+  if (family === 6) return isPrivateIPv6(address)
+  return true
+}
+
+async function resolveSafeTargets(mxHost) {
+  try {
+    const records = await dnsLookup(mxHost, { all: true })
+    return records
+      .filter((record) => record && record.address && !isPrivateAddress(record.address))
+      .map((record) => record.address)
+  } catch (error) {
+    return []
+  }
+}
 
 /**
- * SMTP validation check
- * Attempts to verify if mailbox exists by connecting to SMTP server
- * Note: Many servers block this check for privacy/security reasons
- *
- * @param {string} email - The email address to verify
- * @param {string} domain - The domain of the email
- * @param {Array} mxRecords - MX records from checkMxRecords()
+ * SMTP validation check with network safety controls.
+ * @param {string} email
+ * @param {string} domain
+ * @param {Array} mxRecords
  */
 export async function checkSmtp(email, domain, mxRecords) {
+  if (!ENABLE_SMTP_CHECK) {
+    return false
+  }
+
   try {
-    // Use the passed MX records (no duplicate DNS lookup)
     if (!mxRecords || mxRecords.length === 0) {
       return false
     }
 
-    // Sort by priority (lower number = higher priority)
-    const sortedMx = mxRecords.sort((a, b) => a.priority - b.priority)
+    const sortedMx = [...mxRecords].sort((a, b) => a.priority - b.priority)
 
-    // Try connecting to each MX server until one succeeds
     for (const mx of sortedMx.slice(0, 3)) {
-      // Try first 3 MX servers
-      try {
-        const result = await verifySMTP(mx.exchange, email, domain)
-        if (result !== false && result !== null) {
-          return result
+      const targets = await resolveSafeTargets(mx.exchange)
+      for (const target of targets) {
+        try {
+          const result = await verifySMTP(target, email, domain)
+          if (result !== false && result !== null) {
+            return result
+          }
+        } catch (_err) {
+          continue
         }
-      } catch (err) {
-        // Try next MX server
-        continue
       }
     }
 
     return false
-  } catch (error) {
-    // Fail gracefully on any error
+  } catch (_error) {
     return false
   }
 }
@@ -44,85 +131,78 @@ export async function checkSmtp(email, domain, mxRecords) {
  * Verify email via SMTP connection
  * Returns true if mailbox exists, false if not, null if uncertain
  */
-async function verifySMTP(mxHost, email, domain) {
+async function verifySMTP(targetHost, email, domain) {
+  await acquireSlot()
+
   return new Promise((resolve) => {
-    const socket = net.createConnection(25, mxHost)
-    const timeout = setTimeout(() => {
-      socket.destroy()
-      resolve(null)
-    }, 10000) // 10 second timeout
+    let settled = false
+    let socket
+
+    const finish = (result) => {
+      if (settled) return
+      settled = true
+      if (socket) {
+        socket.removeAllListeners()
+        if (!socket.destroyed) {
+          socket.destroy()
+        }
+      }
+      releaseSlot()
+      resolve(result)
+    }
+
+    try {
+      socket = net.createConnection({ port: 25, host: targetHost })
+    } catch (_connectionError) {
+      finish(null)
+      return
+    }
+
+    socket.setTimeout(SMTP_TIMEOUT_MS, () => finish(null))
 
     let step = 0
     let buffer = ''
 
-    const cleanup = () => {
-      clearTimeout(timeout)
-      socket.destroy()
-    }
-
     socket.on('data', (data) => {
       buffer += data.toString()
 
-      // Process complete lines (ending with \r\n)
       const lines = buffer.split('\r\n')
-      buffer = lines.pop() || '' // Keep incomplete line in buffer
+      buffer = lines.pop() || ''
 
       for (const line of lines) {
-        const code = parseInt(line.substring(0, 3))
+        const code = Number.parseInt(line.substring(0, 3), 10)
+        if (Number.isNaN(code)) {
+          continue
+        }
 
-        // Connection greeting
         if (step === 0 && code === 220) {
           step = 1
           socket.write(`HELO ${domain}\r\n`)
-        }
-        // HELO response
-        else if (step === 1 && code === 250) {
+        } else if (step === 1 && code === 250) {
           step = 2
           socket.write(`MAIL FROM:<verify@${domain}>\r\n`)
-        }
-        // MAIL FROM response
-        else if (step === 2 && code === 250) {
+        } else if (step === 2 && code === 250) {
           step = 3
           socket.write(`RCPT TO:<${email}>\r\n`)
-        }
-        // RCPT TO response - this tells us if mailbox exists
-        else if (step === 3) {
-          cleanup()
+        } else if (step === 3) {
           if (code === 250 || code === 251) {
-            // Mailbox exists
-            resolve(true)
+            finish(true)
           } else if (code === 550 || code === 551 || code === 553 || code === 554) {
-            // Mailbox doesn't exist
-            resolve(false)
+            finish(false)
           } else {
-            // Uncertain - server doesn't allow verification
-            resolve(null)
+            finish(null)
           }
           return
-        }
-        // Error at any step
-        else if (code >= 400) {
-          cleanup()
-          resolve(null)
+        } else if (code >= 400) {
+          finish(null)
           return
         }
       }
     })
 
-    socket.on('error', (error) => {
-      cleanup()
-      resolve(null)
-      console.log('SMTP connection error:', error)
-    })
-
-    socket.on('timeout', () => {
-      cleanup()
-      resolve(null)
-    })
-
-    socket.on('close', () => {
-      cleanup()
-      resolve(null)
-    })
+    socket.on('error', () => finish(null))
+    socket.on('timeout', () => finish(null))
+    socket.on('end', () => finish(null))
+    socket.on('close', () => finish(null))
   })
 }
