@@ -9,6 +9,7 @@ import creditsRouter from './routes/credits.js'
 import subscriptionsRouter from './routes/subscriptions.js'
 import validationsRouter from './routes/validations.js'
 import diagnosticRouter from './routes/diagnostic.js'
+import pricingRouter from './routes/pricing.js'
 
 // Load environment variables
 dotenv.config()
@@ -36,6 +37,7 @@ const startServer = async () => {
   app.use('/api/credits', creditsRouter)
   app.use('/api/subscriptions', subscriptionsRouter)
   app.use('/api/validations', validationsRouter)
+  app.use('/api/pricing', pricingRouter)
 
   // used only for testing and debugging purposes
   app.use('/api/diagnostic', diagnosticRouter)

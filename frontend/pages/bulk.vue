@@ -480,10 +480,15 @@ onUnmounted(() => {
                 v-if="(user?.credits || 0) < 100"
                 class="mt-4 p-3 bg-yellow-950/30 border border-yellow-800/50 rounded-lg"
               >
-                <p class="text-xs text-yellow-400">
-                  ⚠️ Low credits. Each email costs 1 credit. Make sure you have enough before
-                  uploading.
+                <p class="text-xs text-yellow-400 mb-2">
+                  ⚠️ Low credits. Each email costs 1 credit.
                 </p>
+                <NuxtLink
+                  to="/pricing"
+                  class="text-xs text-blue-400 hover:text-blue-300 underline"
+                >
+                  Buy more credits →
+                </NuxtLink>
               </div>
               <p v-else class="text-xs text-gray-500 mt-4">
                 Each email validation costs 1 credit. Your file will be validated before processing.

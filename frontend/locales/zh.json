@@ -8,6 +8,7 @@
       "dashboard": "控制面板",
       "history": "验证历史",
       "bulk": "批量验证",
+      "buyCredits": "💳 购买点数",
       "logout": "退出登录",
       "credits": "{credits} 点数"
     },

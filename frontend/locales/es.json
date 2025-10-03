@@ -8,6 +8,7 @@
       "dashboard": "Panel",
       "history": "Historial de validaciones",
       "bulk": "Validación masiva",
+      "buyCredits": "💳 Comprar créditos",
       "logout": "Cerrar sesión",
       "credits": "{credits} créditos"
     },
