@@ -211,6 +211,46 @@
       "primary": "Get 1000 Free Credits"
     }
   },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "updated": "Last updated: March 1, 2024",
+      "intro": "This placeholder policy outlines how Valix expects to handle data. We will replace it with the official legal text soon.",
+      "sections": [
+        {
+          "heading": "Data We Process",
+          "body": "We collect basic account information, usage analytics, and email validation logs so the platform can operate reliably."
+        },
+        {
+          "heading": "How We Use Information",
+          "body": "Details are processed to deliver validation results, keep your credits in sync, and provide support when you contact us."
+        },
+        {
+          "heading": "Your Controls",
+          "body": "You can request exports or deletion of your data by reaching out to the team while we finalize the full compliance workflow."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "updated": "Last updated: March 1, 2024",
+      "intro": "These draft terms describe the relationship between Valix and customers. Final legal wording will arrive shortly.",
+      "sections": [
+        {
+          "heading": "Using Valix",
+          "body": "You agree to use the validation tools responsibly, respect rate limits, and comply with applicable email laws."
+        },
+        {
+          "heading": "Accounts & Credits",
+          "body": "Accounts include free trial credits and optional purchases. Credits are non-transferable and expire according to the final policy."
+        },
+        {
+          "heading": "Liability Preview",
+          "body": "Valix provides validation insights on a best-effort basis. Users remain responsible for outreach decisions and compliance."
+        }
+      ]
+    }
+  },
   "footer": {
     "tagline": "Precision email validation for freelancers, agencies, and growth teams.",
     "links": {
@@ -226,5 +266,67 @@
       "title": "Language"
     },
     "rights": "All rights reserved."
+  },
+  "legal": {
+    "contact": {
+      "title": "Need to talk to us?",
+      "description": "If you have questions about these documents or want to exercise your privacy rights, email our legal team and we will get back to you within two business days."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "updated": "Last updated: 1 October 2024",
+      "intro": "This placeholder privacy policy explains how Valix temporarily handles data for testing and preview purposes. We will replace it with final legal language before launch.",
+      "sections": [
+        {
+          "heading": "Information we collect",
+          "body": [
+            "We currently store only the data you provide when creating an account, uploading CSV files, or validating emails in this preview environment.",
+            "Until the production launch, no third-party trackers or advertising cookies are enabled across the app."
+          ]
+        },
+        {
+          "heading": "How we use data",
+          "body": [
+            "Uploaded contact lists and validation results are processed solely to demonstrate product features and may be deleted at any time.",
+            "Aggregated metrics help us improve deliverability scoring, but we do not sell, rent, or share any personal data."
+          ]
+        },
+        {
+          "heading": "Your choices",
+          "body": [
+            "You can delete your workspace data by contacting the team or clearing your account in the dashboard.",
+            "When the final policy goes live, it will include regional rights, retention timelines, and subprocessors."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "updated": "Last updated: 1 October 2024",
+      "intro": "These draft terms describe how Valix should be used during the beta period. We will publish comprehensive terms, including payment and compliance clauses, prior to accepting live customers.",
+      "sections": [
+        {
+          "heading": "Acceptance of terms",
+          "body": [
+            "By accessing this preview you confirm that you are evaluating Valix for internal testing only and will not upload regulated or production data.",
+            "Continued use after the official launch will require agreeing to the final contract that supersedes this notice."
+          ]
+        },
+        {
+          "heading": "Use of the service",
+          "body": [
+            "You may experiment with single and bulk email validation features but must respect applicable anti-spam and privacy laws in your jurisdiction.",
+            "We reserve the right to suspend access for misuse, abusive traffic, or attempts to reverse engineer our infrastructure."
+          ]
+        },
+        {
+          "heading": "Liability and support",
+          "body": [
+            "During the beta the platform is offered “as is” without uptime guarantees, warranties, or production SLAs.",
+            "Reach out to legalvalix.dev to request clarifications or report issues so we can improve the final agreement."
+          ]
+        }
+      ]
+    }
   }
 }

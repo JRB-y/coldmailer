@@ -211,6 +211,68 @@
       "primary": "Obtén 1000 créditos gratis"
     }
   },
+  "legal": {
+    "contact": {
+      "title": "¿Necesitas hablar con nosotros?",
+      "description": "Si tienes dudas sobre estos documentos o quieres ejercer tus derechos de privacidad, escribe a nuestro equipo legal y responderemos en un máximo de dos días hábiles."
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "updated": "Última actualización: 1 de octubre de 2024",
+      "intro": "Esta política provisional explica cómo Valix maneja los datos durante el periodo de pruebas. La versión final se publicará antes del lanzamiento.",
+      "sections": [
+        {
+          "heading": "Información que recopilamos",
+          "body": [
+            "Solo almacenamos los datos que aportas al crear una cuenta, subir archivos CSV o validar correos en este entorno de demostración.",
+            "Mientras estemos en beta no utilizamos rastreadores de terceros ni cookies publicitarias."
+          ]
+        },
+        {
+          "heading": "Cómo usamos la información",
+          "body": [
+            "Las listas importadas y los resultados de validación se procesan exclusivamente para mostrar las funciones y pueden eliminarse cuando lo solicites.",
+            "Analizamos métricas agregadas para mejorar el scoring sin vender ni compartir datos personales."
+          ]
+        },
+        {
+          "heading": "Tus elecciones",
+          "body": [
+            "Puedes pedir que eliminemos tus datos de prueba desde el panel o contactando al equipo.",
+            "La política definitiva detallará derechos regionales, plazos de retención y subencargados."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos de servicio",
+      "updated": "Última actualización: 1 de octubre de 2024",
+      "intro": "Estos términos provisionales regulan el uso de Valix durante la beta. Publicaremos condiciones completas antes de aceptar clientes reales.",
+      "sections": [
+        {
+          "heading": "Aceptación de los términos",
+          "body": [
+            "Al acceder a esta versión previa confirmas que evalúas Valix con fines internos y que no subirás datos regulados ni de producción.",
+            "El uso continuado tras el lanzamiento requerirá aceptar el contrato definitivo que reemplazará este aviso."
+          ]
+        },
+        {
+          "heading": "Uso del servicio",
+          "body": [
+            "Puedes probar las funciones de validación individual y masiva, siempre respetando las leyes anti-spam y de privacidad aplicables.",
+            "Podemos suspender el acceso en caso de uso indebido, tráfico abusivo o intentos de ingeniería inversa."
+          ]
+        },
+        {
+          "heading": "Responsabilidad y soporte",
+          "body": [
+            "Durante la beta la plataforma se ofrece “tal cual”, sin garantías de disponibilidad ni SLA.",
+            "Escribe a legalvalix.dev para pedir aclaraciones o reportar incidencias y así mejorar el acuerdo final."
+          ]
+        }
+      ]
+    }
+  },
   "footer": {
     "tagline": "Validación de emails precisa para freelancers, agencias y growth teams.",
     "links": {

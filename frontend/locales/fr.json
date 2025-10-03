@@ -211,6 +211,68 @@
       "primary": "Obtenir 1000 crédits gratuits"
     }
   },
+  "legal": {
+    "contact": {
+      "title": "Besoin de nous contacter ?",
+      "description": "Pour toute question sur ces documents ou pour exercer vos droits, écrivez à notre équipe juridique. Nous répondons généralement sous deux jours ouvrés."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "updated": "Dernière mise à jour : 1er octobre 2024",
+      "intro": "Cette politique provisoire décrit la manière dont Valix traite les données pendant la phase de test. Elle sera remplacée avant la mise en production.",
+      "sections": [
+        {
+          "heading": "Données collectées",
+          "body": [
+            "Nous conservons uniquement les informations fournies lors de la création d’un compte, du dépôt de CSV ou de la validation d’e-mails dans cet environnement de démonstration.",
+            "Aucun traceur tiers ni cookie publicitaire n’est activé tant que le service reste en bêta."
+          ]
+        },
+        {
+          "heading": "Utilisation des données",
+          "body": [
+            "Les listes importées et les résultats de validation servent uniquement à présenter les fonctionnalités et peuvent être supprimés sur demande.",
+            "Nous analysons des statistiques agrégées pour améliorer le scoring, sans vendre ni partager de données personnelles."
+          ]
+        },
+        {
+          "heading": "Vos choix",
+          "body": [
+            "Vous pouvez demander la suppression de vos données de test via le tableau de bord ou en contactant l’équipe.",
+            "La version finale précisera les droits régionaux, les durées de conservation et la liste des sous-traitants."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Conditions d’utilisation",
+      "updated": "Dernière mise à jour : 1er octobre 2024",
+      "intro": "Ces conditions provisoires encadrent l’usage de Valix pendant la bêta. Des clauses complètes seront publiées avant l’ouverture commerciale.",
+      "sections": [
+        {
+          "heading": "Acceptation des conditions",
+          "body": [
+            "En accédant à cette préversion, vous confirmez évaluer Valix à des fins internes et ne pas importer de données réglementées ou en production.",
+            "La poursuite de l’utilisation après le lancement nécessitera l’acceptation du contrat définitif qui remplacera cet avis."
+          ]
+        },
+        {
+          "heading": "Utilisation du service",
+          "body": [
+            "Vous pouvez tester les fonctionnalités de validation mais devez respecter les lois anti-spam et de protection des données applicables.",
+            "Nous pouvons suspendre l’accès en cas d’abus, de trafic excessif ou de tentative de rétro-ingénierie."
+          ]
+        },
+        {
+          "heading": "Responsabilité et assistance",
+          "body": [
+            "Pendant la bêta, la plateforme est fournie « telle quelle » sans garantie de disponibilité ni SLA.",
+            "Contactez legalvalix.dev pour toute clarification ou remontée, afin que nous puissions améliorer l’accord final."
+          ]
+        }
+      ]
+    }
+  },
   "footer": {
     "tagline": "La vérification d'emails précise pour freelances, agences et équipes growth.",
     "links": {
