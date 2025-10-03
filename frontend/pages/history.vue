@@ -9,6 +9,8 @@ import {
   FileText,
   Eye,
   Download,
+  Mail,
+  Layers,
 } from 'lucide-vue-next'
 
 definePageMeta({
@@ -229,38 +231,48 @@ onMounted(() => {
           >
             <!-- Individual Validation -->
             <div v-if="item.type === 'validation'">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3 flex-1">
-                  <Mail class="w-5 h-5 text-gray-500" />
+              <div class="flex items-start justify-between">
+                <div class="flex items-start gap-4 flex-1">
+                  <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                    <Mail class="w-6 h-6 text-blue-400" />
+                  </div>
                   <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                      <p class="text-sm font-medium text-white font-mono">{{ item.email }}</p>
+                    <div class="flex items-center gap-2 mb-2">
+                      <UiBadge variant="secondary" class="text-xs">
+                        Single Validation
+                      </UiBadge>
                       <span class="text-xs text-gray-600">·</span>
                       <span class="text-xs text-gray-500">{{ item.creditsUsed || 1 }} credit</span>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">{{ formatDate(item.createdAt) }}</p>
+                    <p class="text-base font-medium text-white font-mono mb-1">{{ item.email }}</p>
+                    <p class="text-xs text-gray-500">{{ formatDate(item.createdAt) }}</p>
                   </div>
                 </div>
-                <div class="flex items-center gap-3">
-                  <component
-                    :is="getStatusIcon(item.status)"
-                    :class="['w-5 h-5', getStatusColor(item.status)]"
-                  />
-                  <UiBadge :variant="getStatusBadgeVariant(item.status)">
-                    {{ item.status }}
-                  </UiBadge>
-                  <span
-                    :class="[
-                      'text-sm font-semibold',
-                      item.riskScore >= 70
-                        ? 'text-red-400'
-                        : item.riskScore >= 40
-                          ? 'text-yellow-400'
-                          : 'text-green-400',
-                    ]"
-                  >
-                    {{ item.riskScore }}
-                  </span>
+                <div class="flex flex-col items-end gap-2">
+                  <div class="flex items-center gap-2">
+                    <component
+                      :is="getStatusIcon(item.status)"
+                      :class="['w-5 h-5', getStatusColor(item.status)]"
+                    />
+                    <UiBadge :variant="getStatusBadgeVariant(item.status)">
+                      {{ item.status }}
+                    </UiBadge>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-gray-400">Risk Score:</span>
+                    <span
+                      :class="[
+                        'text-lg font-bold',
+                        item.riskScore >= 70
+                          ? 'text-red-400'
+                          : item.riskScore >= 40
+                            ? 'text-yellow-400'
+                            : 'text-green-400',
+                      ]"
+                    >
+                      {{ item.riskScore }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -268,25 +280,33 @@ onMounted(() => {
             <!-- Bulk Job -->
             <div v-else>
               <div class="flex items-start justify-between mb-4">
-                <div class="flex items-center gap-3">
-                  <component
-                    :is="getStatusIcon(item.status)"
-                    :class="[
-                      'w-8 h-8 flex-shrink-0',
-                      getStatusColor(item.status),
-                      item.status === 'processing' ? 'animate-spin' : '',
-                    ]"
-                  />
+                <div class="flex items-start gap-4">
+                  <div class="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                    <Layers class="w-6 h-6 text-purple-400" />
+                  </div>
                   <div>
+                    <div class="flex items-center gap-2 mb-2">
+                      <UiBadge variant="secondary" class="text-xs">
+                        Bulk Validation
+                      </UiBadge>
+                      <span class="text-xs text-gray-600">·</span>
+                      <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
+                    </div>
                     <div class="flex items-center gap-2">
                       <h3 class="text-lg font-semibold text-white">
                         Job {{ item.id.slice(-8) }}
                       </h3>
+                      <component
+                        :is="getStatusIcon(item.status)"
+                        :class="[
+                          'w-5 h-5 flex-shrink-0',
+                          getStatusColor(item.status),
+                          item.status === 'processing' ? 'animate-spin' : '',
+                        ]"
+                      />
                       <UiBadge :variant="getStatusBadgeVariant(item.status)">
                         {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
                       </UiBadge>
-                      <span class="text-xs text-gray-600">·</span>
-                      <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
                     </div>
                     <p class="text-sm text-gray-400 mt-1">{{ formatDate(item.createdAt) }}</p>
                   </div>
