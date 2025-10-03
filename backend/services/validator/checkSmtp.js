@@ -1,6 +1,8 @@
 import net from 'net'
 import dns from 'dns'
 
+// SMTP probing is DISABLED by default for security and privacy reasons
+// Only enable if you understand the implications and have proper authorization
 const ENABLE_SMTP_CHECK = String(process.env.ENABLE_SMTP_CHECK || 'false').toLowerCase() === 'true'
 const MAX_CONCURRENT_SMTP = Math.max(
   parseInt(process.env.SMTP_CHECK_MAX_CONCURRENCY || '5', 10),
@@ -11,10 +13,52 @@ const SMTP_TIMEOUT_MS = Math.min(
   10000
 )
 
+// Log SMTP check configuration at startup
+if (ENABLE_SMTP_CHECK) {
+  console.warn('⚠️  SMTP PROBING IS ENABLED')
+  console.warn('   This will make outbound connections to mail servers')
+  console.warn(`   Max concurrent: ${MAX_CONCURRENT_SMTP}, Timeout: ${SMTP_TIMEOUT_MS}ms`)
+} else {
+  console.info('ℹ️  SMTP probing is disabled (default). Set ENABLE_SMTP_CHECK=true to enable.')
+}
+
 const dnsLookup = dns.promises.lookup
 
 let activeConnections = 0
 const waitQueue = []
+
+// SMTP connection monitoring
+const smtpConnectionLog = []
+const MAX_LOG_ENTRIES = 1000 // Keep last 1000 connections in memory
+
+/**
+ * Log outbound SMTP connection attempt for monitoring
+ */
+function logSmtpConnection(domain, targetIP, email, result) {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    domain,
+    targetIP,
+    email: email.replace(/^(.{3}).*(@.*)$/, '$1***$2'), // Partially redact email for privacy
+    result,
+  }
+
+  // Log to console for monitoring
+  console.log(`[SMTP] ${domain} -> ${targetIP} | ${logEntry.email} | Result: ${result}`)
+
+  // Keep in-memory log (circular buffer)
+  smtpConnectionLog.push(logEntry)
+  if (smtpConnectionLog.length > MAX_LOG_ENTRIES) {
+    smtpConnectionLog.shift()
+  }
+}
+
+/**
+ * Get recent SMTP connection logs (for monitoring/debugging)
+ */
+export function getSmtpConnectionLogs(limit = 100) {
+  return smtpConnectionLog.slice(-limit)
+}
 
 async function acquireSlot() {
   if (activeConnections < MAX_CONCURRENT_SMTP) {
@@ -141,6 +185,10 @@ async function verifySMTP(targetHost, email, domain) {
     const finish = (result) => {
       if (settled) return
       settled = true
+
+      // Log the SMTP connection attempt for monitoring
+      logSmtpConnection(domain, targetHost, email, result)
+
       if (socket) {
         socket.removeAllListeners()
         if (!socket.destroyed) {

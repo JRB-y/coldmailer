@@ -296,7 +296,9 @@ onMounted(() => {
               v-if="user"
               class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-300 shadow-[0_0_12px_rgba(59,130,246,0.15)]"
             >
-              <span class="flex h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]"></span>
+              <span
+                class="flex h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]"
+              ></span>
               <span class="font-semibold tracking-wide">
                 {{ t('dashboard.creditsLabel', { credits: formattedCredits }) }}
               </span>
@@ -403,7 +405,7 @@ onMounted(() => {
                     type="button"
                     variant="outline"
                     size="lg"
-                    class="border-gray-700 text-gray-300 hover:bg-zinc-800"
+                    class="border-gray-700 text-gray-300 hover:bg-zinc-800 bg-black"
                     @click="reset"
                   >
                     {{ t('dashboard.validate.reset') }}

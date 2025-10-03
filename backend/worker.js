@@ -192,7 +192,19 @@ function readEmailsFromCSV(filePath) {
 }
 
 /**
- * Write results to CSV file
+ * Escape CSV values to prevent formula injection (Excel/Sheets)
+ */
+function escapeCsvValue(value) {
+  if (typeof value !== 'string') return value
+  // Si la valeur commence par =, +, -, @ → on préfixe par '
+  if (/^[=+\-@]/.test(value)) {
+    return `'${value}`
+  }
+  return value
+}
+
+/**
+ * Write results to CSV file (secure against CSV injection)
  */
 function writeResultsToCSV(results, filePath) {
   return new Promise((resolve, reject) => {
@@ -211,13 +223,13 @@ function writeResultsToCSV(results, filePath) {
       reject(error)
     })
 
-    // Write each result
+    // Write each result, with escaping
     for (const result of results) {
       csvStream.write({
-        email: result.email,
-        status: result.status,
-        riskScore: result.riskScore,
-        reason: result.reason,
+        email: escapeCsvValue(result.email),
+        status: escapeCsvValue(result.status),
+        riskScore: escapeCsvValue(String(result.riskScore)),
+        reason: escapeCsvValue(result.reason || ''),
         syntax: result.checks?.syntax ? 'Yes' : 'No',
         dns: result.checks?.dns ? 'Yes' : 'No',
         mx: result.checks?.mx ? 'Yes' : 'No',

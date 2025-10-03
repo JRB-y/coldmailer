@@ -59,7 +59,7 @@ export async function checkDomainAge(domain) {
   }
 
   // Check if API is configured
-  if (!process.env.WHOIS_API_URL || !process.env.API_LAYER_API_KEY) {
+  if (!process.env.WHOIS_API_URL) {
     console.warn('WHOIS API not configured - domain age check skipped')
     return {
       isNew: null,
@@ -93,7 +93,7 @@ export async function checkDomainAge(domain) {
     const data = await response.json()
 
     // Check if we got valid data
-    if (!data || !data.created_date) {
+    if (!data.result || !data.result.creation_date) {
       console.warn(`WHOIS data missing created_date for ${domain}`)
       const result = {
         isNew: null,
@@ -110,7 +110,7 @@ export async function checkDomainAge(domain) {
       return result
     }
 
-    const createdDate = new Date(data.created_date)
+    const createdDate = new Date(data.result.creation_date)
 
     // Validate the date
     if (isNaN(createdDate.getTime())) {
