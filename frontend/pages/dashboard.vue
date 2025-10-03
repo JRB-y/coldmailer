@@ -19,6 +19,9 @@ definePageMeta({
 const config = useRuntimeConfig()
 const apiUrl = config.public.apiUrl
 
+const { t } = useI18n()
+const localePath = useLocalePath()
+
 const { user, logout, updateCredits } = useAuth()
 const router = useRouter()
 
@@ -88,22 +91,22 @@ const formattedChecks = computed(() => {
   return [
     {
       key: 'format',
-      label: 'Format Valid',
+      label: t('dashboard.checks.format'),
       status: checks.syntax === true ? 'pass' : checks.syntax === false ? 'fail' : 'na',
     },
     {
       key: 'dns',
-      label: 'DNS Valid',
+      label: t('dashboard.checks.dns'),
       status: checks.syntax === false ? 'na' : checks.dns === true ? 'pass' : 'fail',
     },
     {
       key: 'mx',
-      label: 'MX Records',
+      label: t('dashboard.checks.mx'),
       status: checks.syntax === false ? 'na' : checks.mx === true ? 'pass' : 'fail',
     },
     {
       key: 'smtp',
-      label: 'SMTP Valid',
+      label: t('dashboard.checks.smtp'),
       status:
         checks.syntax === false || checks.dns === false
           ? 'na'
@@ -113,12 +116,12 @@ const formattedChecks = computed(() => {
     },
     {
       key: 'disposable',
-      label: 'Not Disposable',
+      label: t('dashboard.checks.disposable'),
       status: checks.syntax === false ? 'na' : checks.disposable ? 'fail' : 'pass',
     },
     {
       key: 'domainAge',
-      label: 'Domain Age / Pattern',
+      label: t('dashboard.checks.domainAge'),
       status:
         checks.syntax === false || checks.dns === false
           ? 'na'
@@ -128,21 +131,41 @@ const formattedChecks = computed(() => {
     },
     {
       key: 'roleAccount',
-      label: 'Not Role Account',
+      label: t('dashboard.checks.roleAccount'),
       status: checks.syntax === false ? 'na' : checks.roleAccount ? 'fail' : 'pass',
     },
     {
       key: 'freeDomain',
-      label: 'Not Free Domain',
+      label: t('dashboard.checks.freeDomain'),
       status: checks.syntax === false ? 'na' : checks.freeEmail ? 'fail' : 'pass',
     },
   ]
 })
 
+function getCheckStatusLabel(status: 'pass' | 'fail' | 'na') {
+  if (status === 'pass') return t('dashboard.checkStatus.pass')
+  if (status === 'fail') return t('dashboard.checkStatus.fail')
+  return t('dashboard.checkStatus.na')
+}
+
+const resultStatusLabel = computed(() => {
+  if (!result.value) return ''
+  switch (result.value.status) {
+    case 'valid':
+      return t('dashboard.statuses.valid')
+    case 'invalid':
+      return t('dashboard.statuses.invalid')
+    case 'risky':
+      return t('dashboard.statuses.risky')
+    default:
+      return t('dashboard.statuses.unknown')
+  }
+})
+
 // Validate email
 async function validateEmail() {
   if (!email.value.trim()) {
-    error.value = 'Please enter an email address'
+    error.value = t('dashboard.errors.required')
     return
   }
 
@@ -154,7 +177,7 @@ async function validateEmail() {
     const authToken = localStorage.getItem('auth-token')
 
     if (!authToken) {
-      router.push('/auth/login')
+      router.push(localePath('/auth/login'))
       return
     }
 
@@ -172,13 +195,13 @@ async function validateEmail() {
     if (!response.ok) {
       if (response.status === 401) {
         logout()
-        router.push('/auth/login')
-        throw new Error('Session expired. Please login again.')
+        router.push(localePath('/auth/login'))
+        throw new Error(t('dashboard.errors.sessionExpired'))
       }
       if (response.status === 402) {
-        throw new Error('Insufficient credits. Please purchase more credits.')
+        throw new Error(t('dashboard.errors.insufficientCredits'))
       }
-      throw new Error(data.message || data.error || 'Validation failed')
+      throw new Error(data.message || data.error || t('dashboard.errors.validationFailed'))
     }
 
     result.value = data
@@ -191,7 +214,7 @@ async function validateEmail() {
     // Refresh stats
     await fetchStats()
   } catch (err: any) {
-    error.value = err.message || 'An error occurred. Please try again.'
+    error.value = err?.message || t('dashboard.errors.generic')
   } finally {
     loading.value = false
   }
@@ -253,8 +276,12 @@ onMounted(() => {
         <div class="mb-8 flex flex-col gap-3">
           <!-- <UiBackButton /> -->
           <div>
-            <h1 class="text-3xl font-bold text-white mb-2">Dashboard</h1>
-            <p class="text-gray-400">Validate emails and track your usage</p>
+            <h1 class="text-3xl font-bold text-white mb-2">
+              {{ t('dashboard.title') }}
+            </h1>
+            <p class="text-gray-400">
+              {{ t('dashboard.subtitle') }}
+            </p>
           </div>
         </div>
 
@@ -270,17 +297,18 @@ onMounted(() => {
               <AlertCircle class="w-6 h-6 text-yellow-400" />
             </div>
             <div class="flex-1">
-              <h3 class="text-lg font-semibold text-yellow-400 mb-1">Low Credits Warning</h3>
+              <h3 class="text-lg font-semibold text-yellow-400 mb-1">
+                {{ t('dashboard.lowCredits.title') }}
+              </h3>
               <p class="text-sm text-gray-300 mb-4">
-                You have {{ user.credits }} credits remaining. Purchase more credits to continue
-                validating emails.
+                {{ t('dashboard.lowCredits.description', { credits: user.credits }) }}
               </p>
               <NuxtLink
                 :to="localePath('/pricing')"
                 class="inline-flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
               >
                 <TrendingUp class="w-4 h-4" />
-                Buy Credits Now
+                {{ t('dashboard.lowCredits.cta') }}
               </NuxtLink>
             </div>
           </div>
@@ -290,7 +318,7 @@ onMounted(() => {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-gray-400 text-sm">Total Validations</span>
+              <span class="text-gray-400 text-sm">{{ t('dashboard.stats.total') }}</span>
               <BarChart3 class="w-5 h-5 text-blue-400" />
             </div>
             <div class="text-3xl font-bold text-white">{{ stats.totalValidations }}</div>
@@ -298,7 +326,7 @@ onMounted(() => {
 
           <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-gray-400 text-sm">Valid</span>
+              <span class="text-gray-400 text-sm">{{ t('dashboard.stats.valid') }}</span>
               <CheckCircle class="w-5 h-5 text-green-400" />
             </div>
             <div class="text-3xl font-bold text-green-400">{{ stats.validCount }}</div>
@@ -306,7 +334,7 @@ onMounted(() => {
 
           <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-gray-400 text-sm">Risky</span>
+              <span class="text-gray-400 text-sm">{{ t('dashboard.stats.risky') }}</span>
               <AlertCircle class="w-5 h-5 text-yellow-400" />
             </div>
             <div class="text-3xl font-bold text-yellow-400">{{ stats.riskyCount }}</div>
@@ -314,7 +342,7 @@ onMounted(() => {
 
           <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-gray-400 text-sm">Invalid</span>
+              <span class="text-gray-400 text-sm">{{ t('dashboard.stats.invalid') }}</span>
               <XCircle class="w-5 h-5 text-red-400" />
             </div>
             <div class="text-3xl font-bold text-red-400">{{ stats.invalidCount }}</div>
@@ -325,18 +353,20 @@ onMounted(() => {
           <!-- Validation Form -->
           <div class="lg:col-span-2">
             <div class="bg-zinc-900 border border-gray-800 rounded-lg p-8">
-              <h2 class="text-xl font-bold text-white mb-6">Single Email Validation</h2>
+              <h2 class="text-xl font-bold text-white mb-6">
+                {{ t('dashboard.validate.title') }}
+              </h2>
 
               <form @submit.prevent="validateEmail" class="space-y-6">
                 <div>
                   <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address
+                    {{ t('dashboard.validate.label') }}
                   </label>
                   <UiInput
                     id="email"
                     v-model="email"
                     type="email"
-                    placeholder="test@example.com"
+                    :placeholder="t('dashboard.validate.placeholder')"
                     :disabled="loading"
                     class="text-lg bg-black border-gray-700 text-white placeholder:text-gray-500"
                   />
@@ -349,7 +379,7 @@ onMounted(() => {
                     size="lg"
                     class="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                   >
-                    {{ loading ? 'Validating...' : 'Validate Email' }}
+                    {{ loading ? t('dashboard.validate.loading') : t('dashboard.validate.button') }}
                   </UiButton>
 
                   <UiButton
@@ -360,7 +390,7 @@ onMounted(() => {
                     class="border-gray-700 text-gray-300 hover:bg-zinc-800"
                     @click="reset"
                   >
-                    Reset
+                    {{ t('dashboard.validate.reset') }}
                   </UiButton>
                 </div>
 
@@ -378,23 +408,26 @@ onMounted(() => {
                     <component :is="statusIcon" :class="['w-12 h-12', statusColor]" />
                     <div class="flex-1">
                       <h3 class="text-2xl font-bold" :class="statusColor">
-                        {{ result.status.charAt(0).toUpperCase() + result.status.slice(1) }}
+                        {{ resultStatusLabel }}
                       </h3>
                       <p class="text-gray-400">{{ result.email }}</p>
                     </div>
                     <UiBadge :variant="statusBadgeVariant" class="text-lg px-4 py-1">
-                      Risk: {{ result.riskScore }}/100
+                      {{ t('dashboard.result.risk', { score: result.riskScore }) }}
                     </UiBadge>
                   </div>
 
                   <p v-if="result.reason" class="text-gray-300 mt-2">
-                    <span class="font-semibold">Reason:</span> {{ result.reason }}
+                    <span class="font-semibold">{{ t('dashboard.result.reason') }}</span>
+                    {{ result.reason }}
                   </p>
                 </div>
 
                 <!-- Detailed Checks -->
                 <div class="p-6 bg-black border border-gray-800 rounded-lg">
-                  <h4 class="text-lg font-semibold mb-4 text-white">Validation Checks</h4>
+                  <h4 class="text-lg font-semibold mb-4 text-white">
+                    {{ t('dashboard.result.checksTitle') }}
+                  </h4>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div
                       v-for="check in formattedChecks"
@@ -413,13 +446,7 @@ onMounted(() => {
                               : 'secondary'
                         "
                       >
-                        {{
-                          check.status === 'pass'
-                            ? '✓ Pass'
-                            : check.status === 'fail'
-                              ? '✗ Fail'
-                              : 'N/A'
-                        }}
+                        {{ getCheckStatusLabel(check.status) }}
                       </UiBadge>
                     </div>
                   </div>
@@ -432,30 +459,40 @@ onMounted(() => {
           <div class="space-y-6">
             <!-- Quick Stats -->
             <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-              <h3 class="text-lg font-semibold text-white mb-4">Quick Actions</h3>
+              <h3 class="text-lg font-semibold text-white mb-4">
+                {{ t('dashboard.quickActions.title') }}
+              </h3>
               <div class="space-y-3">
                 <NuxtLink
-                  to="/history"
+                  :to="localePath('/history')"
                   class="block p-3 bg-black border border-gray-800 rounded-md hover:border-blue-500/50 transition-colors"
                 >
                   <div class="flex items-center gap-3">
                     <Clock class="w-5 h-5 text-blue-400" />
                     <div>
-                      <div class="text-sm font-medium text-white">View History</div>
-                      <div class="text-xs text-gray-500">See all validations</div>
+                      <div class="text-sm font-medium text-white">
+                        {{ t('dashboard.quickActions.history.title') }}
+                      </div>
+                      <div class="text-xs text-gray-500">
+                        {{ t('dashboard.quickActions.history.subtitle') }}
+                      </div>
                     </div>
                   </div>
                 </NuxtLink>
 
                 <NuxtLink
-                  to="/bulk"
+                  :to="localePath('/bulk')"
                   class="block p-3 bg-black border border-gray-800 rounded-md hover:border-purple-500/50 transition-colors"
                 >
                   <div class="flex items-center gap-3">
                     <Mail class="w-5 h-5 text-purple-400" />
                     <div>
-                      <div class="text-sm font-medium text-white">Bulk Validation</div>
-                      <div class="text-xs text-gray-500">Validate multiple emails</div>
+                      <div class="text-sm font-medium text-white">
+                        {{ t('dashboard.quickActions.bulk.title') }}
+                      </div>
+                      <div class="text-xs text-gray-500">
+                        {{ t('dashboard.quickActions.bulk.subtitle') }}
+                      </div>
                     </div>
                   </div>
                 </NuxtLink>

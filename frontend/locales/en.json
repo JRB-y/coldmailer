@@ -2,6 +2,79 @@
   "common": {
     "back": "Back"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Validate emails and track your usage",
+    "lowCredits": {
+      "title": "Low Credits Warning",
+      "description": "You have {credits} credits remaining. Purchase more credits to continue validating emails.",
+      "cta": "Buy Credits Now"
+    },
+    "stats": {
+      "total": "Total Validations",
+      "valid": "Valid",
+      "risky": "Risky",
+      "invalid": "Invalid"
+    },
+    "validate": {
+      "title": "Validate an email",
+      "label": "Email Address",
+      "placeholder": "email",
+      "button": "Validate Email",
+      "loading": "Validating...",
+      "reset": "Reset",
+      "recent": "Recent validations",
+      "empty": "No validations yet. Start by validating an email above.",
+      "retry": "Try again"
+    },
+    "result": {
+      "title": "Validation summary",
+      "risk": "Risk: {score}/100",
+      "credits": "Credits used",
+      "reason": "Reason:",
+      "checksTitle": "Validation checks"
+    },
+    "checks": {
+      "format": "Format Valid",
+      "dns": "DNS Valid",
+      "mx": "MX Records",
+      "smtp": "SMTP Valid",
+      "disposable": "Not Disposable",
+      "domainAge": "Domain Age / Pattern",
+      "freeDomain": "Not Free Domain",
+      "roleAccount": "Not Role Account",
+      "suspicious": "No Suspicious Patterns"
+    },
+    "checkStatus": {
+      "pass": "✓ Pass",
+      "fail": "✗ Fail",
+      "na": "N/A"
+    },
+    "statuses": {
+      "valid": "Valid",
+      "invalid": "Invalid",
+      "risky": "Risky",
+      "unknown": "Unknown"
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "history": {
+        "title": "View History",
+        "subtitle": "See all validations"
+      },
+      "bulk": {
+        "title": "Bulk Validation",
+        "subtitle": "Validate multiple emails"
+      }
+    },
+    "errors": {
+      "required": "Please enter an email address",
+      "sessionExpired": "Session expired. Please login again.",
+      "insufficientCredits": "Insufficient credits. Please purchase more credits.",
+      "validationFailed": "Validation failed.",
+      "generic": "An error occurred. Please try again."
+    }
+  },
   "header": {
     "auth": {
       "login": "Login",
@@ -30,7 +103,7 @@
       "headlinePrimary": "Email Verification for Cold Outreach",
       "headlineSecondary": "built for freelancers & solopreneurs",
       "subheading": "Validate every email before you hit send. Reduce bounces, protect your sender reputation, and keep freelance outreach campaigns safe — pay with crypto, no limits.",
-      "ctaPrimary": "Get Free 1000 Credits",
+      "ctaPrimary": "Get Free 200 Credits",
       "ctaDashboard": "Go to Dashboard"
     },
     "features": {

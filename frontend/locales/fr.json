@@ -2,6 +2,79 @@
   "common": {
     "back": "Retour"
   },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Validez vos emails et suivez votre utilisation",
+    "lowCredits": {
+      "title": "Crédits faibles",
+      "description": "Il vous reste {credits} crédits. Achetez-en pour continuer vos validations.",
+      "cta": "Acheter des crédits"
+    },
+    "stats": {
+      "total": "Validations totales",
+      "valid": "Valides",
+      "risky": "Risque",
+      "invalid": "Invalides"
+    },
+    "validate": {
+      "title": "Valider un email",
+      "label": "Adresse email",
+      "placeholder": "email",
+      "button": "Valider",
+      "loading": "Validation en cours...",
+      "reset": "Réinitialiser",
+      "recent": "Validations récentes",
+      "empty": "Aucune validation. Commencez par valider un email ci-dessus.",
+      "retry": "Réessayer"
+    },
+    "result": {
+      "title": "Résumé de validation",
+      "risk": "Risque : {score}/100",
+      "credits": "Crédits utilisés",
+      "reason": "Motif :",
+      "checksTitle": "Contrôles détaillés"
+    },
+    "checks": {
+      "format": "Format valide",
+      "dns": "DNS valide",
+      "mx": "Enregistrements MX",
+      "smtp": "SMTP valide",
+      "disposable": "Non jetable",
+      "domainAge": "Âge du domaine / motif",
+      "freeDomain": "Domaine non gratuit",
+      "roleAccount": "Non compte de rôle",
+      "suspicious": "Aucun motif suspect"
+    },
+    "checkStatus": {
+      "pass": "✓ OK",
+      "fail": "✗ Échec",
+      "na": "N/A"
+    },
+    "statuses": {
+      "valid": "Valide",
+      "invalid": "Invalide",
+      "risky": "Risque",
+      "unknown": "Inconnu"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "history": {
+        "title": "Voir l'historique",
+        "subtitle": "Consulter toutes les validations"
+      },
+      "bulk": {
+        "title": "Validation en masse",
+        "subtitle": "Valider plusieurs emails"
+      }
+    },
+    "errors": {
+      "required": "Veuillez saisir une adresse email",
+      "sessionExpired": "Session expirée. Merci de vous reconnecter.",
+      "insufficientCredits": "Crédits insuffisants. Merci d'en acheter.",
+      "validationFailed": "La validation a échoué.",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
   "header": {
     "auth": {
       "login": "Connexion",
@@ -30,7 +103,7 @@
       "headlinePrimary": "Vérification d’emails pour la prospection à froid",
       "headlineSecondary": "pensée pour les freelances et solopreneurs",
       "subheading": "Validez chaque email avant l’envoi. Réduisez les rebonds, protégez votre réputation d’expéditeur et sécurisez vos campagnes de prospection — paiement en crypto, sans limites.",
-      "ctaPrimary": "Obtenir 1000 crédits gratuits",
+      "ctaPrimary": "Obtenir 200 crédits gratuits",
       "ctaDashboard": "Accéder au tableau de bord"
     },
     "features": {

@@ -2,6 +2,79 @@
   "common": {
     "back": "返回"
   },
+  "dashboard": {
+    "title": "控制面板",
+    "subtitle": "验证邮件并查看使用情况",
+    "lowCredits": {
+      "title": "积分不足提醒",
+      "description": "你还剩 {credits} 点数。请购买更多以继续验证。",
+      "cta": "购买点数"
+    },
+    "stats": {
+      "total": "总验证数",
+      "valid": "有效",
+      "risky": "风险",
+      "invalid": "无效"
+    },
+    "validate": {
+      "title": "验证邮箱",
+      "label": "邮箱地址",
+      "placeholder": "email",
+      "button": "开始验证",
+      "loading": "验证中...",
+      "reset": "重置",
+      "recent": "最近验证",
+      "empty": "暂无记录，请先验证一个邮箱。",
+      "retry": "重试"
+    },
+    "result": {
+      "title": "验证摘要",
+      "risk": "风险：{score}/100",
+      "credits": "消耗点数",
+      "reason": "原因：",
+      "checksTitle": "详细检查"
+    },
+    "checks": {
+      "format": "格式有效",
+      "dns": "DNS 有效",
+      "mx": "MX 记录",
+      "smtp": "SMTP 有效",
+      "disposable": "非一次性",
+      "domainAge": "域名年龄/模式",
+      "freeDomain": "非免费域",
+      "roleAccount": "非角色邮箱",
+      "suspicious": "无可疑模式"
+    },
+    "checkStatus": {
+      "pass": "✓ 通过",
+      "fail": "✗ 未通过",
+      "na": "N/A"
+    },
+    "statuses": {
+      "valid": "有效",
+      "invalid": "无效",
+      "risky": "风险",
+      "unknown": "未知"
+    },
+    "quickActions": {
+      "title": "快速操作",
+      "history": {
+        "title": "查看历史",
+        "subtitle": "浏览全部验证记录"
+      },
+      "bulk": {
+        "title": "批量验证",
+        "subtitle": "批量导入邮箱验证"
+      }
+    },
+    "errors": {
+      "required": "请输入邮箱地址",
+      "sessionExpired": "登录已过期，请重新登录。",
+      "insufficientCredits": "点数不足，请购买更多点数。",
+      "validationFailed": "验证失败。",
+      "generic": "发生错误，请重试。"
+    }
+  },
   "header": {
     "auth": {
       "login": "登录",
@@ -30,7 +103,7 @@
       "headlinePrimary": "冷启动邮件地址验证",
       "headlineSecondary": "专为自由职业者和独立创业者打造",
       "subheading": "在发送之前验证每一个邮箱地址。减少退信，保护发件人信誉，保障冷启动推广活动安全 —— 支持加密货币支付，无任何限制。",
-      "ctaPrimary": "立即获取1000次免费验证",
+      "ctaPrimary": "立即获取200次免费验证",
       "ctaDashboard": "进入控制面板"
     },
     "features": {
