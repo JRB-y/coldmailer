@@ -29,28 +29,37 @@ const localePath = useLocalePath()
           <p class="text-xl md:text-2xl text-gray-400 mb-10 leading-relaxed">
             {{ t('landing.hero.subheading') }}
           </p>
-          <div class="flex items-center justify-center gap-4">
-            <NuxtLink
-              v-if="!isAuthenticated"
-              :to="localePath('/auth/signup')"
-              class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
-            >
-              <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-9 py-3 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
-                {{ t('landing.hero.ctaPrimary') }}
-                <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </span>
-            </NuxtLink>
-            <NuxtLink
-              v-else
-              :to="localePath('/dashboard')"
-              class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
-            >
-              <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-9 py-3 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
-                {{ t('landing.hero.ctaDashboard') }}
-                <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </span>
-            </NuxtLink>
-          </div>
+          <ClientOnly>
+            <template #fallback>
+              <div class="flex items-center justify-center gap-4">
+                <div class="inline-flex h-14 min-w-[200px] items-center justify-center rounded-full bg-zinc-900/60 text-zinc-700">
+                  {{ t('landing.hero.ctaPrimary') }}
+                </div>
+              </div>
+            </template>
+            <div class="flex items-center justify-center gap-4">
+              <NuxtLink
+                v-if="!isAuthenticated"
+                :to="localePath('/auth/signup')"
+                class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+              >
+                <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-9 py-3 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
+                  {{ t('landing.hero.ctaPrimary') }}
+                  <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </NuxtLink>
+              <NuxtLink
+                v-else
+                :to="localePath('/dashboard')"
+                class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+              >
+                <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-9 py-3 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
+                  {{ t('landing.hero.ctaDashboard') }}
+                  <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+              </NuxtLink>
+            </div>
+          </ClientOnly>
         </div>
 
         <!-- Features Grid -->
@@ -349,22 +358,35 @@ const localePath = useLocalePath()
             <p class="text-gray-400 mb-8 max-w-md mx-auto">
               {{ t('landing.cta.description') }}
             </p>
-            <NuxtLink
-              v-if="!isAuthenticated"
-              :to="localePath('/auth/signup')"
-              class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors"
-            >
-              {{ t('landing.cta.primary') }}
-              <ArrowRight class="w-5 h-5" />
-            </NuxtLink>
-            <NuxtLink
-              v-else
-              :to="localePath('/dashboard')"
-              class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors"
-            >
-              {{ t('landing.hero.ctaDashboard') }}
-              <ArrowRight class="w-5 h-5" />
-            </NuxtLink>
+            <ClientOnly>
+              <template #fallback>
+                <div class="inline-flex h-12 min-w-[200px] items-center justify-center rounded-full bg-zinc-900/60 text-zinc-700">
+                  {{ t('landing.cta.primary') }}
+                </div>
+              </template>
+              <div class="flex items-center justify-center">
+                <NuxtLink
+                  v-if="!isAuthenticated"
+                  :to="localePath('/auth/signup')"
+                  class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+                >
+                  <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-8 py-2.5 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
+                    {{ t('landing.cta.primary') }}
+                    <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </NuxtLink>
+                <NuxtLink
+                  v-else
+                  :to="localePath('/dashboard')"
+                  class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] text-white shadow-[0_0_0_rgba(0,0,0,0)] transition-all duration-300 hover:shadow-[0_0_32px_rgba(168,85,247,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+                >
+                  <span class="flex items-center gap-3 rounded-full bg-zinc-950/90 px-8 py-2.5 text-lg font-semibold transition-all duration-300 group-hover:bg-transparent">
+                    {{ t('landing.hero.ctaDashboard') }}
+                    <ArrowRight class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </NuxtLink>
+              </div>
+            </ClientOnly>
           </div>
         </div>
       </div>

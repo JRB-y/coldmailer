@@ -107,7 +107,11 @@ onBeforeUnmount(() => {
         <img src="/logo.png" alt="ColdMailer Logo" class="hidden h-9 w-auto sm:inline-block" />
       </NuxtLink>
       <!-- Navigation -->
-      <div class="flex items-center gap-4 sm:gap-6">
+      <ClientOnly>
+        <template #fallback>
+          <div class="h-10 w-[140px]"></div>
+        </template>
+        <div class="flex items-center gap-4 sm:gap-6">
         <div ref="langMenuRef" class="relative">
           <button
             type="button"
@@ -253,7 +257,8 @@ onBeforeUnmount(() => {
             </NuxtLink>
           </div>
         </template>
-      </div>
+        </div>
+      </ClientOnly>
     </div>
   </header>
 </template>

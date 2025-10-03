@@ -7,7 +7,7 @@ definePageMeta({
 })
 
 const { login } = useAuth()
-const router = useRouter()
+const localePath = useLocalePath()
 
 const email = ref('')
 const password = ref('')
@@ -24,7 +24,7 @@ const handleLogin = async () => {
 
   if (result.success) {
     // Use navigateTo for better Nuxt 3 compatibility
-    await navigateTo('/', { replace: true })
+    await navigateTo(localePath('/'), { replace: true })
   } else {
     error.value = result.error || 'Login failed'
   }
@@ -83,7 +83,10 @@ const handleLogin = async () => {
         <div class="mt-6 text-center">
           <p class="text-zinc-400 text-sm">
             Don't have an account?
-            <NuxtLink to="/auth/signup" class="text-blue-400 hover:text-blue-300 font-medium">
+            <NuxtLink
+              :to="localePath('/auth/signup')"
+              class="text-blue-400 hover:text-blue-300 font-medium"
+            >
               Sign up
             </NuxtLink>
           </p>
