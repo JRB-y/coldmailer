@@ -18,11 +18,20 @@ definePageMeta({
 const config = useRuntimeConfig()
 const apiUrl = config.public.apiUrl
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
 const { user, logout, updateCredits } = useAuth()
 const router = useRouter()
+
+const formattedCredits = computed(() => {
+  const credits = user.value?.credits ?? 0
+  try {
+    return new Intl.NumberFormat(locale.value).format(credits)
+  } catch (error) {
+    return credits.toString()
+  }
+})
 
 const email = ref('')
 const loading = ref(false)
@@ -273,14 +282,25 @@ onMounted(() => {
       <div class="max-w-7xl mx-auto">
         <!-- Page Header -->
         <div class="mb-8 flex flex-col gap-3">
-          <!-- <UiBackButton /> -->
-          <div>
-            <h1 class="text-3xl font-bold text-white mb-2">
-              {{ t('dashboard.title') }}
-            </h1>
-            <p class="text-gray-400">
-              {{ t('dashboard.subtitle') }}
-            </p>
+          <UiBackButton />
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h1 class="text-3xl font-bold text-white mb-2">
+                {{ t('dashboard.title') }}
+              </h1>
+              <p class="text-gray-400">
+                {{ t('dashboard.subtitle') }}
+              </p>
+            </div>
+            <div
+              v-if="user"
+              class="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-300 shadow-[0_0_12px_rgba(59,130,246,0.15)]"
+            >
+              <span class="flex h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]"></span>
+              <span class="font-semibold tracking-wide">
+                {{ t('dashboard.creditsLabel', { credits: formattedCredits }) }}
+              </span>
+            </div>
           </div>
         </div>
 

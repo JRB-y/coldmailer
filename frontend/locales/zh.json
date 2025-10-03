@@ -5,6 +5,7 @@
   "dashboard": {
     "title": "控制面板",
     "subtitle": "验证邮件并查看使用情况",
+    "creditsLabel": "剩余点数：{credits}",
     "lowCredits": {
       "title": "积分不足提醒",
       "description": "你还剩 {credits} 点数。请购买更多以继续验证。",

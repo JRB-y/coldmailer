@@ -5,6 +5,7 @@
   "dashboard": {
     "title": "Tableau de bord",
     "subtitle": "Validez vos emails et suivez votre utilisation",
+    "creditsLabel": "Crédits : {credits}",
     "lowCredits": {
       "title": "Crédits faibles",
       "description": "Il vous reste {credits} crédits. Achetez-en pour continuer vos validations.",

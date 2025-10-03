@@ -5,6 +5,7 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Validate emails and track your usage",
+    "creditsLabel": "Credits: {credits}",
     "lowCredits": {
       "title": "Low Credits Warning",
       "description": "You have {credits} credits remaining. Purchase more credits to continue validating emails.",
