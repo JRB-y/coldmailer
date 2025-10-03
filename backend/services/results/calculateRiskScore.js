@@ -15,9 +15,12 @@ export function calculateRiskScore(checks) {
   if (checks.disposable) score += 90 // Disposable email = very risky
 
   // Medium-high risk factors
-  if (checks.domainAge?.isNew && checks.suspiciousPattern) {
+  // Only count domain age if we have a definitive result (not 'unknown')
+  const hasNewDomain = checks.domainAge?.isNew === true
+
+  if (hasNewDomain && checks.suspiciousPattern) {
     score += 50 // Both new domain AND suspicious pattern
-  } else if (checks.domainAge?.isNew) {
+  } else if (hasNewDomain) {
     score += 30 // New domain alone
   } else if (checks.suspiciousPattern) {
     score += 20 // Suspicious pattern alone

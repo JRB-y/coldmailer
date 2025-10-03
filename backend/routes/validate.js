@@ -2,6 +2,7 @@ import express from 'express'
 import { validateEmail } from '../services/validator/index.js'
 import { getRiskScore } from '../services/results/index.js'
 import { authenticate } from '../middleware/auth.js'
+import { validationRateLimiter } from '../middleware/rateLimiter.js'
 import Validation from '../models/Validation.js'
 
 const router = express.Router()
@@ -10,7 +11,7 @@ const router = express.Router()
  * POST /api/validate
  * Validates a single email address (requires authentication)
  */
-router.post('/validate', authenticate, async (req, res) => {
+router.post('/validate', authenticate, validationRateLimiter, async (req, res) => {
   try {
     const { email } = req.body
     const user = req.user

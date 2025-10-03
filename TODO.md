@@ -421,9 +421,9 @@
 
 [X] frontend/nuxt.config.ts:3 leaves Nuxt devtools and the Tailwind viewer enabled; production users can read runtime config, inspect component state, and dump i18n strings. Tie these flags to process.env.NODE_ENV !== 'production'.
 
-[-] backend/server.js:18 lacks basic hardening: no helmet, no rate limiting or brute-force protection around /api/auth/\*, and Express still advertises X-Powered-By. Add helmet, express-rate-limit, login/register throttles, and consistent generic error messages.
+[X] backend/server.js:18 lacks basic hardening: no helmet, no rate limiting or brute-force protection around /api/auth/\*, and Express still advertises X-Powered-By. Add helmet, express-rate-limit, login/register throttles, and consistent generic error messages.
 
-[-] backend/routes/auth.js:26 returns “Email already registered,” which allows credential-stuffing lists to enumerate valid accounts; respond with a generic failure and log the precise reason internally. Strengthen password policy checks (min length, complexity, reuse rules) before hashing.
+[X] backend/routes/auth.js:26 returns “Email already registered,” which allows credential-stuffing lists to enumerate valid accounts; respond with a generic failure and log the precise reason internally. Strengthen password policy checks (min length, complexity, reuse rules) before hashing.
 Medium Risks
 
 [-] backend/services/validator/checkDomainAge.js:4 embeds the WHOIS API key in source control and performs unauthenticated outbound fetches per request. Load keys from secrets management, add caching, and fail closed if the lookup errors.
@@ -445,3 +445,11 @@ Suggested Fix Path
 - and harden login/register flows.
 - Rotate any exposed third-party keys, wire them through env vars, and prune long-lived uploads.
 - After changes, rerun integration/API tests, and consider adding automated security checks (ESLint security rules, dependency scanners, OWASP ZAP in CI).
+
+Rate Limitting
+
+- globalRateLimiter = Global rate limiter - applies to all requests by ip, 1000 requests per 15 minutes
+- authRateLimiter = Strict rate limiter for authentication endpoints by ip, 10 login/register requests per 15 minutes
+- validationRateLimiter = Moderate rate limiter for validation endpoints by user, 60 validation requests per 1 minutes
+- bulkUploadRateLimiter = Very strict rate limiter for bulk upload endpoint by user, 10 upload requests per 1 hour
+- bulkJobRateLimiter = Moderate rate limiter for bulk job queries (Prevents excessive polling of job status) by user, 30 bulk jobs per 1 minute

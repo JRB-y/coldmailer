@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import helmet from 'helmet'
 import dotenv from 'dotenv'
 import { connectDB } from './db.js'
 import validateRouter from './routes/validate.js'
@@ -10,6 +11,7 @@ import subscriptionsRouter from './routes/subscriptions.js'
 import validationsRouter from './routes/validations.js'
 import diagnosticRouter from './routes/diagnostic.js'
 import pricingRouter from './routes/pricing.js'
+import { globalRateLimiter } from './middleware/rateLimiter.js'
 
 // Load environment variables
 dotenv.config()
@@ -23,6 +25,12 @@ const startServer = async () => {
 
   // Middleware
   app.use(
+    helmet({
+      contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
+      crossOriginEmbedderPolicy: false,
+    })
+  )
+  app.use(
     cors({
       origin: process.env.FRONTEND_URL || 'http://localhost:3000',
       credentials: true,
@@ -31,6 +39,9 @@ const startServer = async () => {
   app.disable('x-powered-by')
 
   app.use(express.json())
+
+  // Apply global rate limiter to all requests
+  app.use(globalRateLimiter)
 
   // Routes
   app.use('/api', validateRouter)

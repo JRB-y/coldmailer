@@ -9,7 +9,8 @@ export function generateReason(status, checks) {
   if (!checks.dns) reasons.push('Domain has no valid MX records')
   if (checks.disposable) reasons.push('Disposable email address')
   if (checks.suspiciousPattern) reasons.push('Suspicious email pattern detected')
-  if (checks.domainAge?.isNew) reasons.push('Recently created domain (less than 90 days)')
+  // Only mention new domain if we have a definitive result (not 'unknown')
+  if (checks.domainAge?.isNew === true) reasons.push('Recently created domain (less than 90 days)')
   if (checks.roleAccount && status === 'risky') reasons.push('Role-based email account')
 
   return reasons.join(', ')
