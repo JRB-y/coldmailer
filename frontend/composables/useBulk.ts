@@ -28,7 +28,9 @@ export const useBulk = () => {
       if (!response.ok) {
         // Handle insufficient credits error specially
         if (response.status === 402) {
-          const message = data.message || `Insufficient credits. Required: ${data.required || 'N/A'}, Available: ${data.available || 'N/A'}`
+          const message =
+            data.message ||
+            `Insufficient credits. Required: ${data.required || 'N/A'}, Available: ${data.available || 'N/A'}`
           throw new Error(message)
         }
         throw new Error(data.message || data.error || 'Upload failed')
@@ -52,9 +54,7 @@ export const useBulk = () => {
         throw new Error('Authentication required')
       }
 
-      const url = status
-        ? `${apiUrl}/api/bulk/jobs?status=${status}`
-        : `${apiUrl}/api/bulk/jobs`
+      const url = status ? `${apiUrl}/api/bulk/jobs?status=${status}` : `${apiUrl}/api/bulk/jobs`
 
       const response = await fetch(url, {
         headers: {
@@ -78,7 +78,7 @@ export const useBulk = () => {
   }
 
   // Get specific job details
-  const getJob = async (jobId: string) => {
+  const getJob = async (jobId: string, includeCompleted = false) => {
     try {
       const authToken = process.client ? localStorage.getItem('auth-token') : token.value
 
@@ -86,7 +86,11 @@ export const useBulk = () => {
         throw new Error('Authentication required')
       }
 
-      const response = await fetch(`${apiUrl}/api/bulk/jobs/${jobId}`, {
+      const url = includeCompleted
+        ? `${apiUrl}/api/bulk/jobs/${jobId}?all=true`
+        : `${apiUrl}/api/bulk/jobs/${jobId}`
+
+      const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
