@@ -21,28 +21,30 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Email and action are required' })
     }
 
+    const [, domain] = email.split('@')
+
     let result
     switch (action) {
       case 'checkDns':
-        result = await checkDns(email)
+        result = await checkDns(domain)
         break
       case 'checkDomainAge':
-        result = await checkDomainAge(email)
+        result = await checkDomainAge(domain)
         break
       case 'checkMxRecords':
-        result = await checkMxRecords(email)
+        result = await checkMxRecords(domain)
         break
       case 'checkSmtp':
-        result = await checkSmtp(email)
+        result = await checkSmtp(email, domain, await checkMxRecords(domain))
         break
       case 'hasSuspiciousPatterns':
-        result = hasSuspiciousPatterns(email)
+        result = hasSuspiciousPatterns(email, domain)
         break
       case 'isDisposable':
-        result = isDisposable(email)
+        result = isDisposable(domain, email)
         break
       case 'isFreeDomain':
-        result = isFreeDomain(email)
+        result = isFreeDomain(domain)
         break
       case 'isRoleAccount':
         result = isRoleAccount(email)
