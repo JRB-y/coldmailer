@@ -6,27 +6,11 @@ const { user, isAuthenticated, logout } = useAuth()
 const router = useRouter()
 const { t, locale, locales } = useI18n()
 const localePath = useLocalePath()
-const switchLocalePath = useSwitchLocalePath()
 
 const isMenuOpen = ref(false)
 const menuRef = ref<HTMLElement | null>(null)
 const isLangMenuOpen = ref(false)
 const langMenuRef = ref<HTMLElement | null>(null)
-
-const localeOptions = computed(() => {
-  const flagByCode: Record<string, string> = {
-    en: '🇺🇸',
-    fr: '🇫🇷',
-    es: '🇪🇸',
-    zh: '🇨🇳',
-  }
-
-  return locales.value.map((entry) => ({
-    code: entry.code,
-    name: entry.name || entry.code.toUpperCase(),
-    flag: flagByCode[entry.code] || '🏳️',
-  }))
-})
 
 function toggleMenu() {
   const nextState = !isMenuOpen.value
@@ -40,24 +24,8 @@ function closeMenu() {
   isMenuOpen.value = false
 }
 
-function toggleLangMenu() {
-  const nextState = !isLangMenuOpen.value
-  isLangMenuOpen.value = nextState
-  if (nextState) {
-    closeMenu()
-  }
-}
-
 function closeLangMenu() {
   isLangMenuOpen.value = false
-}
-
-function selectLocale(code: string) {
-  closeLangMenu()
-  const localizedPath = switchLocalePath(code)
-  if (localizedPath) {
-    router.push(localizedPath)
-  }
 }
 
 async function handleLogout() {
@@ -113,56 +81,6 @@ onBeforeUnmount(() => {
           <div class="h-10 w-[140px]"></div>
         </template>
         <div class="flex items-center gap-4 sm:gap-6">
-          <div ref="langMenuRef" class="relative">
-            <button
-              type="button"
-              @click="toggleLangMenu"
-              :aria-expanded="isLangMenuOpen"
-              aria-haspopup="true"
-              class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-800/80 bg-zinc-900/70 text-gray-300 shadow-lg shadow-blue-500/5 transition-colors hover:border-blue-500/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-            >
-              <span class="sr-only">{{ t('header.language.label') }}</span>
-              <Languages class="h-5 w-5" />
-            </button>
-
-            <Transition
-              enter-active-class="transition duration-150 ease-out"
-              enter-from-class="opacity-0 translate-y-1"
-              enter-to-class="opacity-100 translate-y-0"
-              leave-active-class="transition duration-100 ease-in"
-              leave-from-class="opacity-100 translate-y-0"
-              leave-to-class="opacity-0 translate-y-1"
-            >
-              <div
-                v-if="isLangMenuOpen"
-                class="absolute right-0 top-full z-50 mt-3 w-48 rounded-xl border border-gray-800/80 bg-zinc-950/95 p-2 shadow-xl shadow-blue-500/10 backdrop-blur"
-                role="menu"
-              >
-                <div class="mb-1 px-3 text-xs uppercase tracking-wide text-gray-500">
-                  {{ t('header.language.label') }}
-                </div>
-                <div class="space-y-1">
-                  <button
-                    v-for="option in localeOptions"
-                    :key="option.code"
-                    type="button"
-                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
-                    :class="[
-                      locale === option.code
-                        ? 'bg-zinc-800 text-white'
-                        : 'text-gray-300 hover:bg-zinc-800 hover:text-white',
-                    ]"
-                    role="menuitem"
-                    @click="selectLocale(option.code)"
-                  >
-                    <span class="text-lg" aria-hidden="true">{{ option.flag }}</span>
-                    <span>{{ t(`header.language.items.${option.code}`) }}</span>
-                  </button>
-                </div>
-              </div>
-            </Transition>
-          </div>
-
           <template v-if="isAuthenticated && user">
             <div ref="menuRef" class="relative">
               <button
