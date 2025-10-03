@@ -21,10 +21,6 @@ const POLL_INTERVAL = 5000 // Check for new jobs every 5 seconds
 const BATCH_SIZE = 10 // Process 10 emails at a time
 const UPDATE_INTERVAL = 5 // Update progress every 5 emails
 
-// DNS/MX cache to avoid repeated lookups
-const dnsCache = new Map()
-const mxCache = new Map()
-
 /**
  * Process a single bulk job
  */
@@ -43,22 +39,14 @@ async function processBulkJob(job) {
       throw new Error('No valid emails found in CSV file')
     }
 
-    // Update total count
-    job.counts.total = emails.length
-    await job.save()
-
-    // Get user to check credits
+    // Get user
     const user = await User.findById(job.userId)
     if (!user) {
       throw new Error('User not found')
     }
 
-    // Check if user has enough credits
-    if (user.credits < emails.length) {
-      throw new Error(
-        `Insufficient credits. Required: ${emails.length}, Available: ${user.credits}`
-      )
-    }
+    // Note: Credits check is done during upload, not here
+    // This ensures users can't upload files they can't afford
 
     // Process emails in batches
     const results = []

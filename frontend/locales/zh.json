@@ -7,6 +7,7 @@
     "menu": {
       "dashboard": "控制面板",
       "history": "验证历史",
+      "bulk": "批量验证",
       "logout": "退出登录",
       "credits": "{credits} 点数"
     },

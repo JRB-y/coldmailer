@@ -416,15 +416,18 @@ onMounted(() => {
                   </div>
                 </NuxtLink>
 
-                <div class="block p-3 bg-black border border-gray-800 rounded-md opacity-50">
+                <NuxtLink
+                  to="/bulk"
+                  class="block p-3 bg-black border border-gray-800 rounded-md hover:border-purple-500/50 transition-colors"
+                >
                   <div class="flex items-center gap-3">
                     <Mail class="w-5 h-5 text-purple-400" />
                     <div>
                       <div class="text-sm font-medium text-white">Bulk Validation</div>
-                      <div class="text-xs text-gray-500">Coming soon</div>
+                      <div class="text-xs text-gray-500">Validate multiple emails</div>
                     </div>
                   </div>
-                </div>
+                </NuxtLink>
               </div>
             </div>
           </div>

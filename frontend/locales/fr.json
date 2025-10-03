@@ -7,6 +7,7 @@
     "menu": {
       "dashboard": "Tableau de bord",
       "history": "Historique des validations",
+      "bulk": "Validation en masse",
       "logout": "Déconnexion",
       "credits": "{credits} crédits"
     },

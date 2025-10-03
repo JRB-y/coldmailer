@@ -3,8 +3,36 @@ import { authenticate } from '../middleware/auth.js'
 import { upload } from '../config/multer.js'
 import BulkJob from '../models/BulkJob.js'
 import fs from 'fs'
+import csvParser from 'csv-parser'
 
 const router = express.Router()
+
+/**
+ * Helper function to count emails in CSV
+ */
+function countEmailsInCSV(filePath) {
+  return new Promise((resolve, reject) => {
+    const emails = []
+
+    fs.createReadStream(filePath)
+      .pipe(csvParser())
+      .on('data', (row) => {
+        // Try to find email in the row
+        const email =
+          row.email || row.Email || row.EMAIL || row.emailAddress || Object.values(row)[0]
+
+        if (email && typeof email === 'string' && email.includes('@')) {
+          emails.push(email.trim().toLowerCase())
+        }
+      })
+      .on('end', () => {
+        resolve(emails.length)
+      })
+      .on('error', (error) => {
+        reject(error)
+      })
+  })
+}
 
 /**
  * POST /api/bulk/upload
@@ -19,11 +47,42 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
       })
     }
 
-    // Create a new bulk job
+    // Count emails in the CSV file
+    const emailCount = await countEmailsInCSV(req.file.path)
+
+    if (emailCount === 0) {
+      // Delete the uploaded file
+      fs.unlinkSync(req.file.path)
+      return res.status(400).json({
+        error: 'No valid emails found',
+        message: 'The CSV file does not contain any valid email addresses',
+      })
+    }
+
+    // Check if user has enough credits
+    if (req.user.credits < emailCount) {
+      // Delete the uploaded file
+      fs.unlinkSync(req.file.path)
+      return res.status(402).json({
+        error: 'Insufficient credits',
+        message: `You need ${emailCount} credits to validate this file, but you only have ${req.user.credits} credits available`,
+        required: emailCount,
+        available: req.user.credits,
+      })
+    }
+
+    // Create a new bulk job with the total count
     const bulkJob = new BulkJob({
       userId: req.user._id,
       filePath: req.file.path,
       status: 'pending',
+      counts: {
+        total: emailCount,
+        valid: 0,
+        invalid: 0,
+        risky: 0,
+        unknown: 0,
+      },
     })
 
     await bulkJob.save()
@@ -31,10 +90,18 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
     res.json({
       jobId: bulkJob._id,
       status: bulkJob.status,
+      emailCount: emailCount,
+      creditsRequired: emailCount,
       message: 'File uploaded successfully. Processing will begin shortly.',
     })
   } catch (error) {
     console.error('Upload error:', error)
+
+    // Clean up uploaded file on error
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path)
+    }
+
     res.status(500).json({
       error: 'Upload failed',
       message: 'An error occurred while uploading the file',

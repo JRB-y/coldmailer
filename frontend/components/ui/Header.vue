@@ -228,6 +228,14 @@ onBeforeUnmount(() => {
                   >
                     {{ t('header.menu.history') }}
                   </NuxtLink>
+                  <NuxtLink
+                    :to="localePath('/bulk')"
+                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                    role="menuitem"
+                    @click="closeMenu"
+                  >
+                    {{ t('header.menu.bulk') }}
+                  </NuxtLink>
                   <button
                     type="button"
                     class="block w-full rounded-lg text-red-600 px-3 py-2 text-left text-sm text-gray-300 transition-colors hover:bg-zinc-800"

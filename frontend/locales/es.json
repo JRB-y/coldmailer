@@ -7,6 +7,7 @@
     "menu": {
       "dashboard": "Panel",
       "history": "Historial de validaciones",
+      "bulk": "Validación masiva",
       "logout": "Cerrar sesión",
       "credits": "{credits} créditos"
     },
