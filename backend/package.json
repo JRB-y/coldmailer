@@ -8,7 +8,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "node --watch server.js",
+    "dev:api": "node --watch server.js",
+    "dev:worker": "node --watch worker.js",
     "start": "node server.js",
+    "start:worker": "node worker.js",
     "build": "echo 'Backend is ESM - no build required'",
     "test": "node tests/simple.test.js",
     "lint": "eslint . --ext .js,.ts",
@@ -17,11 +20,14 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
     "disposable-email-domains-js": "^1.17.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "fast-csv": "^5.0.5",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.0"
+    "mongoose": "^8.19.0",
+    "multer": "^2.0.2"
   },
   "engines": {
     "node": ">=18.0.0"

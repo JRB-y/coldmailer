@@ -37,3 +37,6 @@ out/
 .cache/
 tmp/
 temp/
+
+# Uploads
+backend/uploads/

@@ -1,0 +1,283 @@
+import dotenv from 'dotenv'
+import { connectDB } from './db.js'
+import BulkJob from './models/BulkJob.js'
+import Validation from './models/Validation.js'
+import User from './models/User.js'
+import { validateEmail } from './services/validator/index.js'
+import { getRiskScore } from './services/results/index.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import csvParser from 'csv-parser'
+import { format } from 'fast-csv'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+// Load environment variables
+dotenv.config()
+
+const POLL_INTERVAL = 5000 // Check for new jobs every 5 seconds
+const BATCH_SIZE = 10 // Process 10 emails at a time
+const UPDATE_INTERVAL = 5 // Update progress every 5 emails
+
+// DNS/MX cache to avoid repeated lookups
+const dnsCache = new Map()
+const mxCache = new Map()
+
+/**
+ * Process a single bulk job
+ */
+async function processBulkJob(job) {
+  console.log(`📧 Processing bulk job ${job._id}...`)
+
+  try {
+    // Mark job as processing
+    job.status = 'processing'
+    await job.save()
+
+    // Read CSV file and get all emails
+    const emails = await readEmailsFromCSV(job.filePath)
+
+    if (emails.length === 0) {
+      throw new Error('No valid emails found in CSV file')
+    }
+
+    // Update total count
+    job.counts.total = emails.length
+    await job.save()
+
+    // Get user to check credits
+    const user = await User.findById(job.userId)
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    // Check if user has enough credits
+    if (user.credits < emails.length) {
+      throw new Error(
+        `Insufficient credits. Required: ${emails.length}, Available: ${user.credits}`
+      )
+    }
+
+    // Process emails in batches
+    const results = []
+    const resultsDir = path.join(__dirname, 'uploads', 'results')
+
+    if (!fs.existsSync(resultsDir)) {
+      fs.mkdirSync(resultsDir, { recursive: true })
+    }
+
+    for (let i = 0; i < emails.length; i += BATCH_SIZE) {
+      const batch = emails.slice(i, i + BATCH_SIZE)
+
+      // Process batch in parallel
+      const batchResults = await Promise.allSettled(
+        batch.map((email) => processEmail(email, job._id, user._id))
+      )
+
+      // Collect results
+      for (const result of batchResults) {
+        if (result.status === 'fulfilled') {
+          results.push(result.value)
+
+          // Update counts based on status
+          const status = result.value.status
+          if (status === 'valid') job.counts.valid++
+          else if (status === 'invalid') job.counts.invalid++
+          else if (status === 'risky') job.counts.risky++
+          else job.counts.unknown++
+
+          // Deduct credits
+          user.credits -= 1
+        } else {
+          console.error('Error processing email:', result.reason)
+          results.push({
+            email: batch[0],
+            status: 'unknown',
+            riskScore: 100,
+            reason: 'Processing error',
+          })
+          job.counts.unknown++
+        }
+      }
+
+      // Update progress
+      const progress = Math.round(((i + batch.length) / emails.length) * 100)
+      job.progress = Math.min(progress, 100)
+      await job.save()
+
+      // Save user credits periodically
+      if (i % UPDATE_INTERVAL === 0) {
+        await user.save()
+      }
+
+      console.log(`📊 Progress: ${job.progress}% (${i + batch.length}/${emails.length})`)
+    }
+
+    // Save final credits
+    await user.save()
+
+    // Generate result CSV
+    const resultPath = path.join(resultsDir, `result-${job._id}.csv`)
+    await writeResultsToCSV(results, resultPath)
+
+    // Update job with results
+    job.resultPath = resultPath
+    job.status = 'completed'
+    job.progress = 100
+    await job.save()
+
+    console.log(`✅ Bulk job ${job._id} completed successfully`)
+  } catch (error) {
+    console.error(`❌ Error processing bulk job ${job._id}:`, error)
+
+    job.status = 'failed'
+    job.error = error.message
+    await job.save()
+  }
+}
+
+/**
+ * Process a single email
+ */
+async function processEmail(email, jobId, userId) {
+  try {
+    // Validate email
+    const checks = await validateEmail(email)
+    const { riskScore, status, reason } = getRiskScore(checks)
+
+    // Save validation result
+    const validationResult = new Validation({
+      userId,
+      jobId,
+      email,
+      status,
+      riskScore,
+      checks,
+      reason,
+      creditsUsed: 1,
+    })
+
+    await validationResult.save()
+
+    return {
+      email,
+      status,
+      riskScore,
+      checks,
+      reason,
+    }
+  } catch (error) {
+    console.error(`Error validating email ${email}:`, error)
+    throw error
+  }
+}
+
+/**
+ * Read emails from CSV file
+ */
+function readEmailsFromCSV(filePath) {
+  return new Promise((resolve, reject) => {
+    const emails = []
+
+    fs.createReadStream(filePath)
+      .pipe(csvParser())
+      .on('data', (row) => {
+        // Try to find email in the row
+        const email =
+          row.email || row.Email || row.EMAIL || row.emailAddress || Object.values(row)[0]
+
+        if (email && typeof email === 'string' && email.includes('@')) {
+          emails.push(email.trim().toLowerCase())
+        }
+      })
+      .on('end', () => {
+        console.log(`📥 Read ${emails.length} emails from CSV`)
+        resolve(emails)
+      })
+      .on('error', (error) => {
+        console.error('Error reading CSV:', error)
+        reject(error)
+      })
+  })
+}
+
+/**
+ * Write results to CSV file
+ */
+function writeResultsToCSV(results, filePath) {
+  return new Promise((resolve, reject) => {
+    const csvStream = format({ headers: true })
+    const writeStream = fs.createWriteStream(filePath)
+
+    csvStream.pipe(writeStream)
+
+    writeStream.on('finish', () => {
+      console.log(`💾 Results saved to ${filePath}`)
+      resolve()
+    })
+
+    writeStream.on('error', (error) => {
+      console.error('Error writing CSV:', error)
+      reject(error)
+    })
+
+    // Write each result
+    for (const result of results) {
+      csvStream.write({
+        email: result.email,
+        status: result.status,
+        riskScore: result.riskScore,
+        reason: result.reason,
+        syntax: result.checks?.syntax ? 'Yes' : 'No',
+        dns: result.checks?.dns ? 'Yes' : 'No',
+        mx: result.checks?.mx ? 'Yes' : 'No',
+        smtp: result.checks?.smtp ? 'Yes' : 'No',
+        disposable: result.checks?.disposable ? 'Yes' : 'No',
+        freeEmail: result.checks?.freeEmail ? 'Yes' : 'No',
+        roleAccount: result.checks?.roleAccount ? 'Yes' : 'No',
+        suspiciousPattern: result.checks?.suspiciousPattern ? 'Yes' : 'No',
+      })
+    }
+
+    csvStream.end()
+  })
+}
+
+/**
+ * Main worker loop
+ */
+async function startWorker() {
+  console.log('🚀 Bulk validation worker started')
+  console.log(`📊 Polling interval: ${POLL_INTERVAL}ms`)
+  console.log(`📦 Batch size: ${BATCH_SIZE}`)
+
+  // Connect to MongoDB
+  await connectDB()
+
+  // Main loop
+  while (true) {
+    try {
+      // Find the oldest pending job
+      const job = await BulkJob.findOne({ status: 'pending' }).sort({ createdAt: 1 })
+
+      if (job) {
+        await processBulkJob(job)
+      } else {
+        // No pending jobs, wait before checking again
+        await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
+      }
+    } catch (error) {
+      console.error('Worker error:', error)
+      // Wait before retrying
+      await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
+    }
+  }
+}
+
+// Start the worker
+startWorker().catch((error) => {
+  console.error('Failed to start worker:', error)
+  process.exit(1)
+})
