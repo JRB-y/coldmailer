@@ -3,6 +3,11 @@ import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
 import { authenticate } from '../middleware/auth.js'
 import { authRateLimiter } from '../middleware/rateLimiter.js'
+import {
+  checkLoginLockout,
+  recordFailedLogin,
+  resetFailedLogin,
+} from '../middleware/loginLockout.js'
 
 const router = express.Router()
 
@@ -55,7 +60,7 @@ router.post('/register', authRateLimiter, async (req, res) => {
 })
 
 // POST /api/auth/login - User login
-router.post('/login', authRateLimiter, async (req, res) => {
+router.post('/login', authRateLimiter, checkLoginLockout, async (req, res) => {
   try {
     const { email, password } = req.body
 
@@ -67,14 +72,35 @@ router.post('/login', authRateLimiter, async (req, res) => {
     // Find user
     const user = await User.findOne({ email: email.toLowerCase() })
     if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' })
+      // Record failed login attempt
+      const lockoutInfo = recordFailedLogin(req)
+      const response = { error: 'Invalid email or password' }
+
+      // Add warning if approaching lockout
+      if (lockoutInfo.remainingAttempts > 0 && lockoutInfo.remainingAttempts <= 2) {
+        response.warning = `${lockoutInfo.remainingAttempts} attempt${lockoutInfo.remainingAttempts > 1 ? 's' : ''} remaining before temporary lockout`
+      }
+
+      return res.status(401).json(response)
     }
 
     // Verify password
     const isPasswordValid = await user.comparePassword(password)
     if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid email or password' })
+      // Record failed login attempt
+      const lockoutInfo = recordFailedLogin(req)
+      const response = { error: 'Invalid email or password' }
+
+      // Add warning if approaching lockout
+      if (lockoutInfo.remainingAttempts > 0 && lockoutInfo.remainingAttempts <= 2) {
+        response.warning = `${lockoutInfo.remainingAttempts} attempt${lockoutInfo.remainingAttempts > 1 ? 's' : ''} remaining before temporary lockout`
+      }
+
+      return res.status(401).json(response)
     }
+
+    // Reset failed login attempts on successful login
+    resetFailedLogin(req)
 
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })

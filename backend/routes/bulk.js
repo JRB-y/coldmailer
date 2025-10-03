@@ -39,76 +39,82 @@ function countEmailsInCSV(filePath) {
  * POST /api/bulk/upload
  * Upload a CSV file for bulk email validation
  */
-router.post('/upload', authenticate, bulkUploadRateLimiter, upload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({
-        error: 'No file uploaded',
-        message: 'Please upload a CSV file',
+router.post(
+  '/upload',
+  authenticate,
+  bulkUploadRateLimiter,
+  upload.single('file'),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({
+          error: 'No file uploaded',
+          message: 'Please upload a CSV file',
+        })
+      }
+
+      // Count emails in the CSV file
+      const emailCount = await countEmailsInCSV(req.file.path)
+
+      if (emailCount === 0) {
+        // Delete the uploaded file
+        fs.unlinkSync(req.file.path)
+        return res.status(400).json({
+          error: 'No valid emails found',
+          message: 'The CSV file does not contain any valid email addresses',
+        })
+      }
+
+      // Check if user has enough credits
+      if (req.user.credits < emailCount) {
+        // Delete the uploaded file
+        fs.unlinkSync(req.file.path)
+        return res.status(402).json({
+          error: 'Insufficient credits',
+          message: `You need ${emailCount} credits to validate this file, but you only have ${req.user.credits} credits available`,
+          required: emailCount,
+          available: req.user.credits,
+        })
+      }
+
+      // Create a new bulk job with the total count
+      const bulkJob = new BulkJob({
+        userId: req.user._id,
+        filePath: req.file.path,
+        status: 'pending',
+        counts: {
+          total: emailCount,
+          valid: 0,
+          invalid: 0,
+          risky: 0,
+          unknown: 0,
+        },
+      })
+
+      await bulkJob.save()
+
+      res.json({
+        jobId: bulkJob._id,
+        status: bulkJob.status,
+        emailCount: emailCount,
+        creditsRequired: emailCount,
+        message: 'File uploaded successfully. Processing will begin shortly.',
+      })
+    } catch (error) {
+      console.error('Upload error:', error)
+
+      // Clean up uploaded file on error
+      if (req.file && fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path)
+      }
+
+      res.status(500).json({
+        error: 'Upload failed',
+        message: 'An error occurred while uploading the file',
       })
     }
-
-    // Count emails in the CSV file
-    const emailCount = await countEmailsInCSV(req.file.path)
-
-    if (emailCount === 0) {
-      // Delete the uploaded file
-      fs.unlinkSync(req.file.path)
-      return res.status(400).json({
-        error: 'No valid emails found',
-        message: 'The CSV file does not contain any valid email addresses',
-      })
-    }
-
-    // Check if user has enough credits
-    if (req.user.credits < emailCount) {
-      // Delete the uploaded file
-      fs.unlinkSync(req.file.path)
-      return res.status(402).json({
-        error: 'Insufficient credits',
-        message: `You need ${emailCount} credits to validate this file, but you only have ${req.user.credits} credits available`,
-        required: emailCount,
-        available: req.user.credits,
-      })
-    }
-
-    // Create a new bulk job with the total count
-    const bulkJob = new BulkJob({
-      userId: req.user._id,
-      filePath: req.file.path,
-      status: 'pending',
-      counts: {
-        total: emailCount,
-        valid: 0,
-        invalid: 0,
-        risky: 0,
-        unknown: 0,
-      },
-    })
-
-    await bulkJob.save()
-
-    res.json({
-      jobId: bulkJob._id,
-      status: bulkJob.status,
-      emailCount: emailCount,
-      creditsRequired: emailCount,
-      message: 'File uploaded successfully. Processing will begin shortly.',
-    })
-  } catch (error) {
-    console.error('Upload error:', error)
-
-    // Clean up uploaded file on error
-    if (req.file && fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path)
-    }
-
-    res.status(500).json({
-      error: 'Upload failed',
-      message: 'An error occurred while uploading the file',
-    })
   }
-})
+)
 
 /**
  * GET /api/bulk/jobs

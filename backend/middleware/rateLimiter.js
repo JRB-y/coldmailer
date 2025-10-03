@@ -14,13 +14,17 @@ const createKeyGenerator = (mode = 'ip') => {
       // For authenticated routes, rate limit by user ID
       return `user:${req.user._id}`
     }
-    // Default to IP-based rate limiting
-    // Support various proxy headers for accurate IP detection
-    const ip =
-      req.ip ||
-      req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
-      req.connection.remoteAddress
-    return `ip:${ip}`
+
+    // Default to IP-based rate limiting using the helper to correctly
+    // normalise IPv4/IPv6 (including forwarded headers when trust proxy is set)
+    const ipKey =
+      typeof rateLimit.ipKeyGenerator === 'function'
+        ? rateLimit.ipKeyGenerator(req)
+        : req.ip ||
+          req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+          req.connection.remoteAddress
+
+    return `ip:${ipKey}`
   }
 }
 
