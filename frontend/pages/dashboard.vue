@@ -4,7 +4,6 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  LogOut,
   Mail,
   BarChart3,
   Clock,
@@ -285,34 +284,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- Low Credits Warning -->
-        <div
-          v-if="user && user.credits < 100"
-          class="mb-8 bg-gradient-to-r from-yellow-950/50 to-orange-950/50 border border-yellow-800/50 rounded-lg p-6"
-        >
-          <div class="flex items-start gap-4">
-            <div
-              class="flex-shrink-0 w-12 h-12 bg-yellow-500/10 rounded-full flex items-center justify-center"
-            >
-              <AlertCircle class="w-6 h-6 text-yellow-400" />
-            </div>
-            <div class="flex-1">
-              <h3 class="text-lg font-semibold text-yellow-400 mb-1">
-                {{ t('dashboard.lowCredits.title') }}
-              </h3>
-              <p class="text-sm text-gray-300 mb-4">
-                {{ t('dashboard.lowCredits.description', { credits: user.credits }) }}
-              </p>
-              <NuxtLink
-                :to="localePath('/pricing')"
-                class="inline-flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
-              >
-                <TrendingUp class="w-4 h-4" />
-                {{ t('dashboard.lowCredits.cta') }}
-              </NuxtLink>
-            </div>
-          </div>
-        </div>
+        <LowCreditWarning />
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -369,7 +341,9 @@ onMounted(() => {
                     v-if="loading"
                     class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-sm font-medium text-blue-300"
                   >
-                    <span class="relative flex h-2 w-12 overflow-hidden rounded-full bg-blue-500/20">
+                    <span
+                      class="relative flex h-2 w-12 overflow-hidden rounded-full bg-blue-500/20"
+                    >
                       <span
                         class="absolute inset-0 h-full w-1/2 animate-[pulse_800ms_ease-in-out_infinite] bg-gradient-to-r from-blue-400/60 via-purple-400/60 to-transparent"
                       ></span>
