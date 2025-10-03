@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import helmet from 'helmet'
 import dotenv from 'dotenv'
 import { connectDB } from './db.js'
 import validateRouter from './routes/validate.js'
@@ -23,6 +24,12 @@ const startServer = async () => {
   const PORT = process.env.PORT || 4000
 
   // Middleware
+  app.use(
+    helmet({
+      contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
+      crossOriginEmbedderPolicy: false,
+    })
+  )
   app.use(
     cors({
       origin: process.env.FRONTEND_URL || 'http://localhost:3000',
