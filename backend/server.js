@@ -8,6 +8,7 @@ import bulkRouter from './routes/bulk.js';
 import creditsRouter from './routes/credits.js';
 import subscriptionsRouter from './routes/subscriptions.js';
 import validationsRouter from './routes/validations.js';
+import diagnosticRouter from './routes/diagnostic.js';
 
 // Load environment variables
 dotenv.config();
@@ -32,6 +33,9 @@ app.use('/api/bulk', bulkRouter);
 app.use('/api/credits', creditsRouter);
 app.use('/api/subscriptions', subscriptionsRouter);
 app.use('/api/validations', validationsRouter);
+
+// used only for testing and debugging purposes
+app.use('/api/diagnostic', diagnosticRouter);
 
 // Health check endpoint
 app.get('/health', (_req, res) => {
