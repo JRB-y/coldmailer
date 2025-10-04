@@ -268,7 +268,7 @@ async function startWorker() {
     try {
       // Find the oldest pending job
       const job = await BulkJob.findOne({ status: 'pending' }).sort({ createdAt: 1 })
-
+      console.log('Checking for new jobs...')
       if (job) {
         await processBulkJob(job)
       } else {
