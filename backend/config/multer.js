@@ -10,7 +10,8 @@ const __dirname = path.dirname(__filename)
 const uploadsDir =
   process.env.NODE_ENV === 'production' ? '/tmp/uploads' : path.join(__dirname, '..', 'uploads')
 
-const resultsDir = path.join(__dirname, '..', 'uploads', 'results')
+const resultsDir =
+  process.env.NODE_ENV === 'production' ? '/tmp/results' : path.join(__dirname, '..', 'results')
 
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true })
