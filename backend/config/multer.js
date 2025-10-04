@@ -7,7 +7,9 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Create uploads directory if it doesn't exist
-const uploadsDir = path.join(__dirname, '..', 'uploads')
+const uploadsDir =
+  process.env.NODE_ENV === 'production' ? '/tmp/uploads' : path.join(__dirname, '..', 'uploads')
+
 const resultsDir = path.join(__dirname, '..', 'uploads', 'results')
 
 if (!fs.existsSync(uploadsDir)) {
