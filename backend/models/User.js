@@ -12,7 +12,12 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false, // Not required for Google OAuth users
+    },
+    googleId: {
+      type: String,
+      sparse: true,
+      unique: true,
     },
     credits: {
       type: Number,
@@ -27,7 +32,7 @@ const userSchema = new mongoose.Schema(
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next()
+  if (!this.isModified('password') || !this.password) return next()
 
   try {
     const salt = await bcrypt.genSalt(10)
@@ -40,6 +45,7 @@ userSchema.pre('save', async function (next) {
 
 // Method to compare password
 userSchema.methods.comparePassword = async function (candidatePassword) {
+  if (!this.password) return false
   return await bcrypt.compare(candidatePassword, this.password)
 }
 

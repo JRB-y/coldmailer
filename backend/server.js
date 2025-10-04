@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
+import passport from 'passport'
 import { connectDB } from './db.js'
 import validateRouter from './routes/validate.js'
 import authRouter from './routes/auth.js'
@@ -40,6 +41,9 @@ const startServer = async () => {
   app.disable('x-powered-by')
 
   app.use(express.json())
+
+  // Initialize Passport
+  app.use(passport.initialize())
 
   // Apply global rate limiter to all requests
   app.use(globalRateLimiter)

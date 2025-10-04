@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:4000',
       minCreditWarning: parseInt(process.env.MINIMUL_CREDIT_WARANING || '100', 10),
+      googleAuthEnabled: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET), // replace in prod
     },
   },
 
