@@ -90,6 +90,16 @@ function formatDate(dateString: string) {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
+// Format execution time
+function formatExecutionTime(ms: number) {
+  if (!ms || ms === 0) return null
+  if (ms < 1000) return `${ms}ms`
+  if (ms < 60000) return `${(ms / 1000).toFixed(2)}s`
+  const mins = Math.floor(ms / 60000)
+  const secs = Math.floor((ms % 60000) / 1000)
+  return `${mins}m ${secs}s`
+}
+
 // Get job status icon
 function getStatusIcon(status: string) {
   switch (status) {
@@ -239,6 +249,10 @@ onMounted(() => {
                       <UiBadge variant="secondary" class="text-xs"> Single Validation </UiBadge>
                       <span class="text-xs text-gray-600">·</span>
                       <span class="text-xs text-gray-500">{{ item.creditsUsed || 1 }} credit</span>
+                      <template v-if="formatExecutionTime(item.executionTime)">
+                        <span class="text-xs text-gray-600">·</span>
+                        <span class="text-xs text-gray-500">{{ formatExecutionTime(item.executionTime) }}</span>
+                      </template>
                     </div>
                     <p class="text-base font-medium text-white font-mono mb-1">{{ item.email }}</p>
                     <p class="text-xs text-gray-500">{{ formatDate(item.createdAt) }}</p>
@@ -285,6 +299,10 @@ onMounted(() => {
                       <UiBadge variant="secondary" class="text-xs"> Bulk Validation </UiBadge>
                       <span class="text-xs text-gray-600">·</span>
                       <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
+                      <template v-if="formatExecutionTime(item.executionTime)">
+                        <span class="text-xs text-gray-600">·</span>
+                        <span class="text-xs text-gray-500">{{ formatExecutionTime(item.executionTime) }}</span>
+                      </template>
                     </div>
                     <div class="flex items-center gap-2">
                       <h3 class="text-lg font-semibold text-white">Job {{ item.id.slice(-8) }}</h3>

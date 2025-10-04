@@ -180,6 +180,16 @@ function formatDate(date: string) {
   return new Date(date).toLocaleString()
 }
 
+// Format execution time
+function formatExecutionTime(ms: number) {
+  if (!ms || ms === 0) return null
+  if (ms < 1000) return `${ms}ms`
+  if (ms < 60000) return `${(ms / 1000).toFixed(2)}s`
+  const mins = Math.floor(ms / 60000)
+  const secs = Math.floor((ms % 60000) / 1000)
+  return `${mins}m ${secs}s`
+}
+
 // Format file size
 function formatFileSize(bytes: number) {
   if (bytes < 1024) return bytes + ' B'
@@ -378,6 +388,9 @@ onUnmounted(() => {
                           <UiBadge :variant="getStatusBadgeVariant(job.status)" class="text-xs">
                             {{ job.status.charAt(0).toUpperCase() + job.status.slice(1) }}
                           </UiBadge>
+                          <span v-if="formatExecutionTime(job.executionTime)" class="text-xs text-gray-500">
+                            · {{ formatExecutionTime(job.executionTime) }}
+                          </span>
                         </div>
                         <p class="text-xs md:text-sm text-gray-400 mt-1">
                           {{ formatDate(job.createdAt) }}

@@ -49,6 +49,10 @@ const validationSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    executionTime: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

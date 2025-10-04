@@ -134,7 +134,7 @@ router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
 
     const jobs = await BulkJob.find(query)
       .sort({ createdAt: -1 })
-      .select('status progress counts error createdAt updatedAt')
+      .select('status progress counts error executionTime createdAt updatedAt')
 
     res.json({
       jobs: jobs.map((job) => ({
@@ -143,6 +143,7 @@ router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
         progress: job.progress,
         counts: job.counts,
         error: job.error,
+        executionTime: job.executionTime,
         createdAt: job.createdAt,
         updatedAt: job.updatedAt,
         hasResults: !!job.resultPath,
@@ -194,6 +195,7 @@ router.get('/jobs/:id', authenticate, bulkJobRateLimiter, async (req, res) => {
       progress: job.progress,
       counts: job.counts,
       error: job.error,
+      executionTime: job.executionTime,
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
       hasResults: !!job.resultPath,
@@ -234,7 +236,7 @@ router.get('/jobs/:id/validations', authenticate, bulkJobRateLimiter, async (req
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit))
-      .select('email status riskScore checks reason createdAt')
+      .select('email status riskScore checks reason executionTime createdAt')
 
     const total = await Validation.countDocuments({ jobId: req.params.id })
 

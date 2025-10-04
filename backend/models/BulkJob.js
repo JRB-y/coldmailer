@@ -55,6 +55,10 @@ const bulkJobSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    executionTime: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

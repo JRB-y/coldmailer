@@ -27,6 +27,8 @@ const UPDATE_INTERVAL = 5 // Update progress every 5 emails
 async function processBulkJob(job) {
   console.log(`📧 Processing bulk job ${job._id}...`)
 
+  const jobStartTime = Date.now()
+
   try {
     // Mark job as processing
     job.status = 'processing'
@@ -114,9 +116,10 @@ async function processBulkJob(job) {
     job.resultPath = resultPath
     job.status = 'completed'
     job.progress = 100
+    job.executionTime = Date.now() - jobStartTime
     await job.save()
 
-    console.log(`✅ Bulk job ${job._id} completed successfully`)
+    console.log(`✅ Bulk job ${job._id} completed successfully in ${job.executionTime}ms`)
   } catch (error) {
     console.error(`❌ Error processing bulk job ${job._id}:`, error)
 
@@ -131,8 +134,11 @@ async function processBulkJob(job) {
  */
 async function processEmail(email, jobId, userId) {
   try {
-    // Validate email
+    // Validate email and track execution time
+    const startTime = Date.now()
     const checks = await validateEmail(email)
+    const executionTime = Date.now() - startTime
+
     const { riskScore, status, reason } = getRiskScore(checks)
 
     // Save validation result
@@ -145,6 +151,7 @@ async function processEmail(email, jobId, userId) {
       checks,
       reason,
       creditsUsed: 1,
+      executionTime,
     })
 
     await validationResult.save()

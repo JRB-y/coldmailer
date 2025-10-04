@@ -33,8 +33,10 @@ router.post('/validate', authenticate, validationRateLimiter, async (req, res) =
       })
     }
 
-    // Validate email
+    // Validate email and track execution time
+    const startTime = Date.now()
     const checks = await validateEmail(email)
+    const executionTime = Date.now() - startTime
 
     const { riskScore, status, reason } = getRiskScore(checks)
 
@@ -51,6 +53,7 @@ router.post('/validate', authenticate, validationRateLimiter, async (req, res) =
       checks,
       reason,
       creditsUsed: 1,
+      executionTime,
     })
 
     await validationResult.save()
