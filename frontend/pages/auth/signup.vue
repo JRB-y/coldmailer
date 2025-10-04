@@ -7,6 +7,8 @@ definePageMeta({
 })
 
 const { register } = useAuth()
+const { t } = useI18n()
+const localePath = useLocalePath()
 
 const email = ref('')
 const password = ref('')
@@ -48,12 +50,12 @@ const handleSignup = async () => {
 
   // Validate password
   if (!isPasswordValid.value) {
-    error.value = 'Password does not meet security requirements'
+    error.value = t('auth.signup.errors.passwordRequirements')
     return
   }
 
   if (password.value !== confirmPassword.value) {
-    error.value = 'Passwords do not match'
+    error.value = t('auth.signup.errors.passwordMismatch')
     return
   }
 
@@ -65,13 +67,13 @@ const handleSignup = async () => {
 
   if (result.success) {
     // Use navigateTo for better Nuxt 3 compatibility
-    await navigateTo('/', { replace: true })
+    await navigateTo(localePath('/'), { replace: true })
   } else {
     // Handle error with details if available
     if (result.error && typeof result.error === 'object' && result.error.details) {
       error.value = result.error.details.join(', ')
     } else {
-      error.value = result.error || 'Registration failed'
+      error.value = result.error || t('auth.signup.error')
     }
   }
 }
@@ -81,27 +83,29 @@ const handleSignup = async () => {
   <div class="min-h-screen bg-black flex items-center justify-center p-4">
     <div class="w-full max-w-md">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-white mb-2">Valix Mailer</h1>
-        <p class="text-zinc-400">Create your account</p>
+        <h1 class="text-4xl font-bold text-white mb-2">{{ t('auth.common.brand') }}</h1>
+        <p class="text-zinc-400">{{ t('auth.signup.subtitle') }}</p>
       </div>
 
       <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-8">
         <form @submit.prevent="handleSignup" class="space-y-6">
           <div>
-            <label for="email" class="block text-sm font-medium text-zinc-200 mb-2"> Email </label>
+            <label for="email" class="block text-sm font-medium text-zinc-200 mb-2">
+              {{ t('auth.common.email') }}
+            </label>
             <input
               id="email"
               v-model="email"
               type="email"
               required
               class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="you@example.com"
+              :placeholder="t('auth.common.emailPlaceholder')"
             />
           </div>
 
           <div>
             <label for="password" class="block text-sm font-medium text-zinc-200 mb-2">
-              Password
+              {{ t('auth.common.password') }}
             </label>
             <input
               id="password"
@@ -110,7 +114,7 @@ const handleSignup = async () => {
               required
               @focus="showPasswordRequirements = true"
               class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="••••••••"
+              :placeholder="t('auth.common.passwordPlaceholder')"
             />
 
             <!-- Password Requirements -->
@@ -118,7 +122,7 @@ const handleSignup = async () => {
               v-if="showPasswordRequirements"
               class="mt-3 p-3 bg-zinc-800/50 border border-zinc-700 rounded-md space-y-1.5"
             >
-              <p class="text-xs font-medium text-zinc-300 mb-2">Password must include:</p>
+              <p class="text-xs font-medium text-zinc-300 mb-2">{{ t('auth.passwordRules.title') }}</p>
               <div class="space-y-1">
                 <div class="flex items-center text-xs">
                   <span
@@ -132,7 +136,7 @@ const handleSignup = async () => {
                   >
                     {{ passwordChecks.length ? '✓' : '○' }}
                   </span>
-                  <span class="ml-2 text-zinc-400">At least 10 characters</span>
+                  <span class="ml-2 text-zinc-400">{{ t('auth.passwordRules.length') }}</span>
                 </div>
                 <div class="flex items-center text-xs">
                   <span
@@ -146,7 +150,7 @@ const handleSignup = async () => {
                   >
                     {{ passwordChecks.uppercase ? '✓' : '○' }}
                   </span>
-                  <span class="ml-2 text-zinc-400">One uppercase letter (A-Z)</span>
+                  <span class="ml-2 text-zinc-400">{{ t('auth.passwordRules.uppercase') }}</span>
                 </div>
                 <div class="flex items-center text-xs">
                   <span
@@ -160,7 +164,7 @@ const handleSignup = async () => {
                   >
                     {{ passwordChecks.number ? '✓' : '○' }}
                   </span>
-                  <span class="ml-2 text-zinc-400">One number (0-9)</span>
+                  <span class="ml-2 text-zinc-400">{{ t('auth.passwordRules.number') }}</span>
                 </div>
                 <div class="flex items-center text-xs">
                   <span
@@ -174,7 +178,7 @@ const handleSignup = async () => {
                   >
                     {{ passwordChecks.symbol ? '✓' : '○' }}
                   </span>
-                  <span class="ml-2 text-zinc-400">One symbol (!@#$%^&* etc.)</span>
+                  <span class="ml-2 text-zinc-400">{{ t('auth.passwordRules.symbol') }}</span>
                 </div>
                 <div class="flex items-center text-xs">
                   <span
@@ -188,7 +192,7 @@ const handleSignup = async () => {
                   >
                     {{ passwordChecks.notCommon ? '✓' : '○' }}
                   </span>
-                  <span class="ml-2 text-zinc-400">Not a common password</span>
+                  <span class="ml-2 text-zinc-400">{{ t('auth.passwordRules.notCommon') }}</span>
                 </div>
               </div>
             </div>
@@ -196,7 +200,7 @@ const handleSignup = async () => {
 
           <div>
             <label for="confirmPassword" class="block text-sm font-medium text-zinc-200 mb-2">
-              Confirm Password
+              {{ t('auth.common.confirmPassword') }}
             </label>
             <input
               id="confirmPassword"
@@ -204,7 +208,7 @@ const handleSignup = async () => {
               type="password"
               required
               class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-md text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="••••••••"
+              :placeholder="t('auth.common.passwordPlaceholder')"
             />
           </div>
 
@@ -213,7 +217,7 @@ const handleSignup = async () => {
           </div>
 
           <div class="bg-blue-500/10 border border-blue-500/20 rounded-md p-3">
-            <p class="text-sm text-blue-400">🎁 Get 1000 free credits upon registration!</p>
+            <p class="text-sm text-blue-400">{{ t('auth.signup.banner') }}</p>
           </div>
 
           <button
@@ -221,15 +225,15 @@ const handleSignup = async () => {
             :disabled="loading"
             class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white font-medium py-2 px-4 rounded-md transition-colors"
           >
-            {{ loading ? 'Creating account...' : 'Create Account' }}
+            {{ loading ? t('auth.signup.submitting') : t('auth.signup.submit') }}
           </button>
         </form>
 
         <div class="mt-6 text-center">
           <p class="text-zinc-400 text-sm">
-            Already have an account?
-            <NuxtLink to="/auth/login" class="text-blue-400 hover:text-blue-300 font-medium">
-              Sign in
+            {{ t('auth.signup.ctaText') }}
+            <NuxtLink :to="localePath('/auth/login')" class="text-blue-400 hover:text-blue-300 font-medium">
+              {{ t('auth.signup.ctaLink') }}
             </NuxtLink>
           </p>
         </div>

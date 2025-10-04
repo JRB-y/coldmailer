@@ -2,21 +2,44 @@
   "common": {
     "back": "Retour"
   },
-  "footer": {
-    "tagline": "La vérification d'emails précise pour freelances, agences et équipes growth.",
-    "links": {
-      "product": "Produit",
-      "company": "Entreprise",
-      "about": "À propos",
-      "blog": "Blog",
-      "careers": "Carrières",
-      "privacy": "Confidentialité",
-      "terms": "Conditions"
+  "auth": {
+    "common": {
+      "brand": "Valix Mailer",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "emailPlaceholder": "vous@exemple.com",
+      "passwordPlaceholder": "••••••••"
     },
-    "language": {
-      "title": "Langue"
+    "login": {
+      "subtitle": "Connectez-vous à votre compte",
+      "submit": "Se connecter",
+      "submitting": "Connexion...",
+      "error": "Échec de la connexion",
+      "ctaText": "Vous n'avez pas de compte ?",
+      "ctaLink": "Inscription"
     },
-    "rights": "Tous droits réservés."
+    "signup": {
+      "subtitle": "Créez votre compte",
+      "submit": "Créer un compte",
+      "submitting": "Création du compte...",
+      "error": "Échec de l'inscription",
+      "ctaText": "Vous avez déjà un compte ?",
+      "ctaLink": "Se connecter",
+      "banner": "🎁 Recevez 1000 crédits gratuits à l'inscription !",
+      "errors": {
+        "passwordRequirements": "Le mot de passe ne respecte pas les exigences de sécurité",
+        "passwordMismatch": "Les mots de passe ne correspondent pas"
+      }
+    },
+    "passwordRules": {
+      "title": "Le mot de passe doit inclure :",
+      "length": "Au moins 10 caractères",
+      "uppercase": "Une majuscule (A-Z)",
+      "number": "Un chiffre (0-9)",
+      "symbol": "Un symbole ()",
+      "notCommon": "Un mot de passe peu courant"
+    }
   },
   "dashboard": {
     "title": "Tableau de bord",

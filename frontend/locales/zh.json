@@ -2,21 +2,44 @@
   "common": {
     "back": "返回"
   },
-  "footer": {
-    "tagline": "为自由职业者、机构和增长团队提供精准的邮箱验证。",
-    "links": {
-      "product": "产品",
-      "company": "公司",
-      "about": "关于我们",
-      "blog": "博客",
-      "careers": "加入我们",
-      "privacy": "隐私政策",
-      "terms": "服务条款"
+  "auth": {
+    "common": {
+      "brand": "Valix Mailer",
+      "email": "邮箱",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "emailPlaceholder": "youexample.com",
+      "passwordPlaceholder": "••••••••"
     },
-    "language": {
-      "title": "语言"
+    "login": {
+      "subtitle": "登录您的账户",
+      "submit": "登录",
+      "submitting": "正在登录...",
+      "error": "登录失败",
+      "ctaText": "还没有账户？",
+      "ctaLink": "注册"
     },
-    "rights": "版权所有。"
+    "signup": {
+      "subtitle": "创建您的账户",
+      "submit": "创建账户",
+      "submitting": "正在创建账户...",
+      "error": "注册失败",
+      "ctaText": "已经有账户了？",
+      "ctaLink": "登录",
+      "banner": "🎁 注册即可获得 1000 个免费积分！",
+      "errors": {
+        "passwordRequirements": "密码不符合安全要求",
+        "passwordMismatch": "两次输入的密码不一致"
+      }
+    },
+    "passwordRules": {
+      "title": "密码必须包含：",
+      "length": "至少 10 个字符",
+      "uppercase": "至少一个大写字母 (A-Z)",
+      "number": "至少一个数字 (0-9)",
+      "symbol": "至少一个符号 ",
+      "notCommon": "不是常见密码"
+    }
   },
   "dashboard": {
     "title": "控制面板",

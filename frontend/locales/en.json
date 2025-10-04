@@ -2,21 +2,44 @@
   "common": {
     "back": "Back"
   },
-  "footer": {
-    "tagline": "Precision email validation for freelancers, agencies, and growth teams.",
-    "links": {
-      "product": "Product",
-      "company": "Company",
-      "about": "About",
-      "blog": "Blog",
-      "careers": "Careers",
-      "privacy": "Privacy",
-      "terms": "Terms"
+  "auth": {
+    "common": {
+      "brand": "Valix Mailer",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "emailPlaceholder": "youexample.com",
+      "passwordPlaceholder": "••••••••"
     },
-    "language": {
-      "title": "Language"
+    "login": {
+      "subtitle": "Sign in to your account",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "error": "Login failed",
+      "ctaText": "Don't have an account?",
+      "ctaLink": "Sign up"
     },
-    "rights": "All rights reserved."
+    "signup": {
+      "subtitle": "Create your account",
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "error": "Registration failed",
+      "ctaText": "Already have an account?",
+      "ctaLink": "Sign in",
+      "banner": "🎁 Get 1000 free credits upon registration!",
+      "errors": {
+        "passwordRequirements": "Password does not meet security requirements",
+        "passwordMismatch": "Passwords do not match"
+      }
+    },
+    "passwordRules": {
+      "title": "Password must include:",
+      "length": "At least 10 characters",
+      "uppercase": "One uppercase letter (A-Z)",
+      "number": "One number (0-9)",
+      "symbol": "One symbol ()",
+      "notCommon": "Not a common password"
+    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -209,46 +232,6 @@
       "title": "Start verifying your cold outreach emails today",
       "description": "Freelancers and agencies use ValixMail to protect their sender reputation and close more deals. Pay with crypto, validate anywhere.",
       "primary": "Get 1000 Free Credits"
-    }
-  },
-  "legal": {
-    "privacy": {
-      "title": "Privacy Policy",
-      "updated": "Last updated: March 1, 2024",
-      "intro": "This placeholder policy outlines how Valix expects to handle data. We will replace it with the official legal text soon.",
-      "sections": [
-        {
-          "heading": "Data We Process",
-          "body": "We collect basic account information, usage analytics, and email validation logs so the platform can operate reliably."
-        },
-        {
-          "heading": "How We Use Information",
-          "body": "Details are processed to deliver validation results, keep your credits in sync, and provide support when you contact us."
-        },
-        {
-          "heading": "Your Controls",
-          "body": "You can request exports or deletion of your data by reaching out to the team while we finalize the full compliance workflow."
-        }
-      ]
-    },
-    "terms": {
-      "title": "Terms of Service",
-      "updated": "Last updated: March 1, 2024",
-      "intro": "These draft terms describe the relationship between Valix and customers. Final legal wording will arrive shortly.",
-      "sections": [
-        {
-          "heading": "Using Valix",
-          "body": "You agree to use the validation tools responsibly, respect rate limits, and comply with applicable email laws."
-        },
-        {
-          "heading": "Accounts & Credits",
-          "body": "Accounts include free trial credits and optional purchases. Credits are non-transferable and expire according to the final policy."
-        },
-        {
-          "heading": "Liability Preview",
-          "body": "Valix provides validation insights on a best-effort basis. Users remain responsible for outreach decisions and compliance."
-        }
-      ]
     }
   },
   "footer": {
