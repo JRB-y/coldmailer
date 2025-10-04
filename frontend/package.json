@@ -13,23 +13,24 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "clean": "rm -rf .nuxt .output node_modules",
-    "lint": "eslint . --ext .js,.ts,.vue",
-    "format": "prettier --write ."
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "nuxt": "3.10.3",
-    "vue": "^3.4.15",
-    "radix-vue": "^1.4.1",
+    "@nuxtjs/i18n": "^8.2.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "tailwind-merge": "^2.2.1",
     "lucide-vue-next": "^0.323.0",
-    "@nuxtjs/i18n": "^8.2.0"
+    "nuxt": "3.10.3",
+    "radix-vue": "^1.4.1",
+    "tailwind-merge": "^2.2.1",
+    "vue": "^3.4.15"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "autoprefixer": "^10.4.17",
     "tailwindcss": "^3.4.1",
-    "autoprefixer": "^10.4.17"
+    "typescript": "^5.9.3",
+    "vue-tsc": "^1.8.27"
   },
   "engines": {
     "node": ">=18.0.0"
