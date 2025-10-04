@@ -6,12 +6,24 @@ import fs from 'fs'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Create uploads directory if it doesn't exist
-const uploadsDir =
-  process.env.NODE_ENV === 'production' ? '/tmp/uploads' : path.join(__dirname, '..', 'uploads')
+const getWritableDir = (subfolder) => {
+  // /tmp is the only writable location in Vercel serverless env
+  const baseDir =
+    process.env.VERCEL || process.env.NODE_ENV === 'production'
+      ? '/tmp'
+      : path.join(__dirname, '..')
+  const dir = path.join(baseDir, subfolder)
 
-const resultsDir =
-  process.env.NODE_ENV === 'production' ? '/tmp/results' : path.join(__dirname, '..', 'results')
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true })
+  }
+
+  return dir
+}
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = getWritableDir('uploads')
+const resultsDir = getWritableDir('results')
 
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true })
