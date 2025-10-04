@@ -234,26 +234,21 @@ async function fetchStats() {
     const authToken = localStorage.getItem('auth-token')
     if (!authToken) return
 
-    const response = await fetch(`${apiUrl}/api/validations?limit=5`, {
+    const response = await fetch(`${apiUrl}/api/dashboard/stats`, {
       headers: { Authorization: `Bearer ${authToken}` },
     })
 
     const data = await response.json()
 
-    if (response.ok && data.validations) {
-      recentValidations.value = data.validations
+    if (response.ok) {
+      // Update stats from aggregated data
+      stats.value.totalValidations = data.totalValidations || 0
+      stats.value.validCount = data.validCount || 0
+      stats.value.invalidCount = data.invalidCount || 0
+      stats.value.riskyCount = data.riskyCount || 0
 
-      // Calculate stats
-      stats.value.totalValidations = data.pagination.total || 0
-      stats.value.validCount = recentValidations.value.filter(
-        (v: any) => v.status === 'valid'
-      ).length
-      stats.value.invalidCount = recentValidations.value.filter(
-        (v: any) => v.status === 'invalid'
-      ).length
-      stats.value.riskyCount = recentValidations.value.filter(
-        (v: any) => v.status === 'risky'
-      ).length
+      // Update recent validations
+      recentValidations.value = data.recentValidations || []
     }
   } catch (err) {
     console.error('Failed to fetch stats:', err)
