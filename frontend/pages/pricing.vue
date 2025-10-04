@@ -87,162 +87,146 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-black">
-    <!-- Header -->
-    <UiHeader />
-
-    <!-- Success Toast -->
-    <Transition
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="opacity-0 translate-y-2"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition duration-200 ease-in"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-2"
+  <!-- Success Toast -->
+  <Transition
+    enter-active-class="transition duration-300 ease-out"
+    enter-from-class="opacity-0 translate-y-2"
+    enter-to-class="opacity-100 translate-y-0"
+    leave-active-class="transition duration-200 ease-in"
+    leave-from-class="opacity-100 translate-y-0"
+    leave-to-class="opacity-0 translate-y-2"
+  >
+    <div
+      v-if="showToast"
+      class="fixed top-4 right-4 z-50 bg-green-950/90 border border-green-800 rounded-lg p-4 shadow-xl backdrop-blur"
     >
-      <div
-        v-if="showToast"
-        class="fixed top-4 right-4 z-50 bg-green-950/90 border border-green-800 rounded-lg p-4 shadow-xl backdrop-blur"
-      >
-        <div class="flex items-center gap-3">
-          <Check class="w-5 h-5 text-green-400" />
-          <p class="text-sm font-medium text-green-400">{{ toastMessage }}</p>
-        </div>
+      <div class="flex items-center gap-3">
+        <Check class="w-5 h-5 text-green-400" />
+        <p class="text-sm font-medium text-green-400">{{ toastMessage }}</p>
       </div>
-    </Transition>
+    </div>
+  </Transition>
 
-    <!-- Main Content -->
-    <main class="py-12 md:py-20 px-4">
-      <div class="max-w-7xl mx-auto">
-        <!-- Page Header -->
-        <div class="text-center mb-12 md:mb-16">
-          <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-            Simple, Transparent
-            <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Pricing
-            </span>
-          </h1>
-          <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Pay once with USDC. No subscriptions, no hidden fees. Just credits that never expire.
+  <div class="max-w-7xl mx-auto pt-10">
+    <!-- Page Header -->
+    <div class="text-center mb-12 md:mb-16">
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+        Simple, Transparent
+        <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          Pricing
+        </span>
+      </h1>
+      <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+        Pay once with USDC. No subscriptions, no hidden fees. Just credits that never expire.
+      </p>
+    </div>
+
+    <!-- Loading State -->
+    <div v-if="loading" class="flex justify-center py-20">
+      <Loader2 class="w-12 h-12 text-blue-400 animate-spin" />
+    </div>
+
+    <!-- Pricing Cards -->
+    <div v-else class="grid md:grid-cols-3 gap-6 md:gap-8">
+      <div
+        v-for="plan in plans"
+        :key="plan.id"
+        :class="[
+          'relative bg-zinc-900 border rounded-2xl p-6 md:p-8 transition-all duration-300',
+          plan.popular
+            ? 'border-purple-500 ring-2 ring-purple-500/20 scale-105'
+            : 'border-gray-800 hover:border-blue-500/50',
+        ]"
+      >
+        <!-- Popular Badge -->
+        <div
+          v-if="plan.popular"
+          class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-bold px-4 py-1 rounded-full"
+        >
+          Most Popular
+        </div>
+
+        <!-- Plan Header -->
+        <div class="mb-6">
+          <h3 class="text-2xl font-bold text-white mb-2">{{ plan.name }}</h3>
+          <p class="text-gray-400 text-sm">{{ plan.description }}</p>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-6">
+          <div class="flex items-baseline gap-2 mb-1">
+            <span class="text-5xl font-bold text-white">${{ plan.priceUSDC }}</span>
+            <span class="text-gray-400">USDC</span>
+          </div>
+          <p class="text-sm text-gray-500">{{ plan.credits.toLocaleString() }} email validations</p>
+        </div>
+
+        <!-- Features -->
+        <ul class="space-y-3 mb-8">
+          <li v-for="feature in plan.features" :key="feature" class="flex items-start gap-3">
+            <Check class="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <span class="text-sm text-gray-300">{{ feature }}</span>
+          </li>
+        </ul>
+
+        <!-- CTA Button -->
+        <UiButton
+          :disabled="purchasing"
+          :class="[
+            'w-full',
+            plan.popular
+              ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+              : 'bg-blue-600 hover:bg-blue-700',
+          ]"
+          size="lg"
+          @click="purchasePlan(plan.id)"
+        >
+          <Zap v-if="!purchasing || selectedPlanId !== plan.id" class="w-4 h-4 mr-2" />
+          <Loader2 v-else class="w-4 h-4 mr-2 animate-spin" />
+          {{ purchasing && selectedPlanId === plan.id ? 'Processing...' : 'Buy with USDC' }}
+        </UiButton>
+      </div>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="mt-16 text-center">
+      <div
+        class="inline-flex items-center gap-2 bg-zinc-900 border border-gray-800 rounded-full px-6 py-3"
+      >
+        <Zap class="w-5 h-5 text-yellow-400" />
+        <p class="text-sm text-gray-300">
+          <span class="font-semibold text-white">Mock Purchase:</span> Real USDC integration coming
+          soon
+        </p>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="mt-20">
+      <h2 class="text-3xl font-bold text-white text-center mb-12">Frequently Asked Questions</h2>
+      <div class="max-w-3xl mx-auto space-y-6">
+        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">Do credits expire?</h3>
+          <p class="text-gray-400">
+            No, credits never expire. Buy once and use them whenever you need.
           </p>
         </div>
 
-        <!-- Loading State -->
-        <div v-if="loading" class="flex justify-center py-20">
-          <Loader2 class="w-12 h-12 text-blue-400 animate-spin" />
+        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">What payment methods do you accept?</h3>
+          <p class="text-gray-400">
+            We accept USDC (USD Coin) for crypto-friendly, instant payments. Traditional payment
+            methods coming soon.
+          </p>
         </div>
 
-        <!-- Pricing Cards -->
-        <div v-else class="grid md:grid-cols-3 gap-6 md:gap-8">
-          <div
-            v-for="plan in plans"
-            :key="plan.id"
-            :class="[
-              'relative bg-zinc-900 border rounded-2xl p-6 md:p-8 transition-all duration-300',
-              plan.popular
-                ? 'border-purple-500 ring-2 ring-purple-500/20 scale-105'
-                : 'border-gray-800 hover:border-blue-500/50',
-            ]"
-          >
-            <!-- Popular Badge -->
-            <div
-              v-if="plan.popular"
-              class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-bold px-4 py-1 rounded-full"
-            >
-              Most Popular
-            </div>
-
-            <!-- Plan Header -->
-            <div class="mb-6">
-              <h3 class="text-2xl font-bold text-white mb-2">{{ plan.name }}</h3>
-              <p class="text-gray-400 text-sm">{{ plan.description }}</p>
-            </div>
-
-            <!-- Price -->
-            <div class="mb-6">
-              <div class="flex items-baseline gap-2 mb-1">
-                <span class="text-5xl font-bold text-white">${{ plan.priceUSDC }}</span>
-                <span class="text-gray-400">USDC</span>
-              </div>
-              <p class="text-sm text-gray-500">
-                {{ plan.credits.toLocaleString() }} email validations
-              </p>
-            </div>
-
-            <!-- Features -->
-            <ul class="space-y-3 mb-8">
-              <li v-for="feature in plan.features" :key="feature" class="flex items-start gap-3">
-                <Check class="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span class="text-sm text-gray-300">{{ feature }}</span>
-              </li>
-            </ul>
-
-            <!-- CTA Button -->
-            <UiButton
-              :disabled="purchasing"
-              :class="[
-                'w-full',
-                plan.popular
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
-                  : 'bg-blue-600 hover:bg-blue-700',
-              ]"
-              size="lg"
-              @click="purchasePlan(plan.id)"
-            >
-              <Zap v-if="!purchasing || selectedPlanId !== plan.id" class="w-4 h-4 mr-2" />
-              <Loader2 v-else class="w-4 h-4 mr-2 animate-spin" />
-              {{
-                purchasing && selectedPlanId === plan.id ? 'Processing...' : 'Buy with USDC'
-              }}
-            </UiButton>
-          </div>
-        </div>
-
-        <!-- Additional Info -->
-        <div class="mt-16 text-center">
-          <div class="inline-flex items-center gap-2 bg-zinc-900 border border-gray-800 rounded-full px-6 py-3">
-            <Zap class="w-5 h-5 text-yellow-400" />
-            <p class="text-sm text-gray-300">
-              <span class="font-semibold text-white">Mock Purchase:</span> Real USDC integration coming soon
-            </p>
-          </div>
-        </div>
-
-        <!-- FAQ Section -->
-        <div class="mt-20">
-          <h2 class="text-3xl font-bold text-white text-center mb-12">
-            Frequently Asked Questions
-          </h2>
-          <div class="max-w-3xl mx-auto space-y-6">
-            <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-              <h3 class="text-lg font-semibold text-white mb-2">
-                Do credits expire?
-              </h3>
-              <p class="text-gray-400">
-                No, credits never expire. Buy once and use them whenever you need.
-              </p>
-            </div>
-
-            <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-              <h3 class="text-lg font-semibold text-white mb-2">
-                What payment methods do you accept?
-              </h3>
-              <p class="text-gray-400">
-                We accept USDC (USD Coin) for crypto-friendly, instant payments. Traditional payment methods coming soon.
-              </p>
-            </div>
-
-            <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-              <h3 class="text-lg font-semibold text-white mb-2">
-                Can I get a refund?
-              </h3>
-              <p class="text-gray-400">
-                We offer a 7-day money-back guarantee if you're not satisfied with our service.
-              </p>
-            </div>
-          </div>
+        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">Can I get a refund?</h3>
+          <p class="text-gray-400">
+            We offer a 7-day money-back guarantee if you're not satisfied with our service.
+          </p>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 </template>

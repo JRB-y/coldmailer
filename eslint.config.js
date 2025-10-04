@@ -10,7 +10,7 @@ export default [
   {
     files: ['**/*.{js,ts}'],
     languageOptions: {
-      ecmaVersion: 2021,
+      ecmaVersion: 'latest',
       sourceType: 'module',
     },
     plugins: {

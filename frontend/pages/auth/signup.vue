@@ -122,7 +122,9 @@ const handleSignup = async () => {
               v-if="showPasswordRequirements"
               class="mt-3 p-3 bg-zinc-800/50 border border-zinc-700 rounded-md space-y-1.5"
             >
-              <p class="text-xs font-medium text-zinc-300 mb-2">{{ t('auth.passwordRules.title') }}</p>
+              <p class="text-xs font-medium text-zinc-300 mb-2">
+                {{ t('auth.passwordRules.title') }}
+              </p>
               <div class="space-y-1">
                 <div class="flex items-center text-xs">
                   <span
@@ -232,7 +234,10 @@ const handleSignup = async () => {
         <div class="mt-6 text-center">
           <p class="text-zinc-400 text-sm">
             {{ t('auth.signup.ctaText') }}
-            <NuxtLink :to="localePath('/auth/login')" class="text-blue-400 hover:text-blue-300 font-medium">
+            <NuxtLink
+              :to="localePath('/auth/login')"
+              class="text-blue-400 hover:text-blue-300 font-medium"
+            >
               {{ t('auth.signup.ctaLink') }}
             </NuxtLink>
           </p>

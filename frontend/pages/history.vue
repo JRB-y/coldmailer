@@ -184,217 +184,209 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-black">
-    <!-- Header -->
-    <UiHeader />
+  <div class="max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8 flex flex-col gap-3">
+      <UiBackButton />
+      <div>
+        <h1 class="text-3xl font-bold text-white mb-2">Validation History</h1>
+        <p class="text-gray-400">View all your validations and jobs</p>
+      </div>
+    </div>
 
-    <!-- Main Content -->
-    <main class="py-12 px-4">
-      <div class="max-w-7xl mx-auto">
-        <!-- Page Header -->
-        <div class="mb-8 flex flex-col gap-3">
-          <UiBackButton />
-          <div>
-            <h1 class="text-3xl font-bold text-white mb-2">Validation History</h1>
-            <p class="text-gray-400">View all your validations and jobs</p>
+    <!-- Loading State -->
+    <div v-if="loading" class="flex items-center justify-center py-20">
+      <Loader2 class="w-12 h-12 text-blue-400 animate-spin" />
+    </div>
+
+    <!-- Error State -->
+    <div
+      v-else-if="error"
+      class="bg-red-500/10 border border-red-500/20 rounded-lg p-6 text-center"
+    >
+      <p class="text-red-400">{{ error }}</p>
+      <UiButton @click="fetchHistory" variant="destructive" size="sm" class="mt-4">
+        Retry
+      </UiButton>
+    </div>
+
+    <!-- Empty State -->
+    <div
+      v-else-if="!history.length"
+      class="bg-zinc-900 border border-gray-800 rounded-lg p-12 text-center"
+    >
+      <FileText class="w-16 h-16 text-gray-600 mx-auto mb-4" />
+      <h3 class="text-xl font-semibold text-white mb-2">No history yet</h3>
+      <p class="text-gray-400 mb-6">Start validating emails to see your history here</p>
+      <NuxtLink to="/">
+        <UiButton variant="default" size="lg"> Validate Email </UiButton>
+      </NuxtLink>
+    </div>
+
+    <!-- History List -->
+    <div v-else class="space-y-4">
+      <div
+        v-for="item in history"
+        :key="item.type === 'job' ? item.id : item._id"
+        class="bg-zinc-900 border border-gray-800 rounded-lg p-6 hover:border-gray-700 transition-colors cursor-pointer"
+        @click="handleItemClick(item)"
+      >
+        <!-- Individual Validation -->
+        <div v-if="item.type === 'validation'">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start gap-4 flex-1">
+              <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                <Mail class="w-6 h-6 text-blue-400" />
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <UiBadge variant="secondary" class="text-xs"> Single Validation </UiBadge>
+                  <span class="text-xs text-gray-600">·</span>
+                  <span class="text-xs text-gray-500">{{ item.creditsUsed || 1 }} credit</span>
+                  <template v-if="formatExecutionTime(item.executionTime)">
+                    <span class="text-xs text-gray-600">·</span>
+                    <span class="text-xs text-gray-500">{{
+                      formatExecutionTime(item.executionTime)
+                    }}</span>
+                  </template>
+                </div>
+                <p class="text-base font-medium text-white font-mono mb-1">{{ item.email }}</p>
+                <p class="text-xs text-gray-500">{{ formatDate(item.createdAt) }}</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-2">
+              <div class="flex items-center gap-2">
+                <component
+                  :is="getStatusIcon(item.status)"
+                  :class="['w-5 h-5', getStatusColor(item.status)]"
+                />
+                <UiBadge :variant="getStatusBadgeVariant(item.status)">
+                  {{ item.status }}
+                </UiBadge>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-400">Risk Score:</span>
+                <span
+                  :class="[
+                    'text-lg font-bold',
+                    item.riskScore >= 70
+                      ? 'text-red-400'
+                      : item.riskScore >= 40
+                        ? 'text-yellow-400'
+                        : 'text-green-400',
+                  ]"
+                >
+                  {{ item.riskScore }}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Loading State -->
-        <div v-if="loading" class="flex items-center justify-center py-20">
-          <Loader2 class="w-12 h-12 text-blue-400 animate-spin" />
-        </div>
-
-        <!-- Error State -->
-        <div
-          v-else-if="error"
-          class="bg-red-500/10 border border-red-500/20 rounded-lg p-6 text-center"
-        >
-          <p class="text-red-400">{{ error }}</p>
-          <UiButton @click="fetchHistory" variant="destructive" size="sm" class="mt-4">
-            Retry
-          </UiButton>
-        </div>
-
-        <!-- Empty State -->
-        <div
-          v-else-if="!history.length"
-          class="bg-zinc-900 border border-gray-800 rounded-lg p-12 text-center"
-        >
-          <FileText class="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <h3 class="text-xl font-semibold text-white mb-2">No history yet</h3>
-          <p class="text-gray-400 mb-6">Start validating emails to see your history here</p>
-          <NuxtLink to="/">
-            <UiButton variant="default" size="lg"> Validate Email </UiButton>
-          </NuxtLink>
-        </div>
-
-        <!-- History List -->
-        <div v-else class="space-y-4">
-          <div
-            v-for="item in history"
-            :key="item.type === 'job' ? item.id : item._id"
-            class="bg-zinc-900 border border-gray-800 rounded-lg p-6 hover:border-gray-700 transition-colors cursor-pointer"
-            @click="handleItemClick(item)"
-          >
-            <!-- Individual Validation -->
-            <div v-if="item.type === 'validation'">
-              <div class="flex items-start justify-between">
-                <div class="flex items-start gap-4 flex-1">
-                  <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                    <Mail class="w-6 h-6 text-blue-400" />
-                  </div>
-                  <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-2">
-                      <UiBadge variant="secondary" class="text-xs"> Single Validation </UiBadge>
-                      <span class="text-xs text-gray-600">·</span>
-                      <span class="text-xs text-gray-500">{{ item.creditsUsed || 1 }} credit</span>
-                      <template v-if="formatExecutionTime(item.executionTime)">
-                        <span class="text-xs text-gray-600">·</span>
-                        <span class="text-xs text-gray-500">{{ formatExecutionTime(item.executionTime) }}</span>
-                      </template>
-                    </div>
-                    <p class="text-base font-medium text-white font-mono mb-1">{{ item.email }}</p>
-                    <p class="text-xs text-gray-500">{{ formatDate(item.createdAt) }}</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end gap-2">
-                  <div class="flex items-center gap-2">
-                    <component
-                      :is="getStatusIcon(item.status)"
-                      :class="['w-5 h-5', getStatusColor(item.status)]"
-                    />
-                    <UiBadge :variant="getStatusBadgeVariant(item.status)">
-                      {{ item.status }}
-                    </UiBadge>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-xs text-gray-400">Risk Score:</span>
-                    <span
-                      :class="[
-                        'text-lg font-bold',
-                        item.riskScore >= 70
-                          ? 'text-red-400'
-                          : item.riskScore >= 40
-                            ? 'text-yellow-400'
-                            : 'text-green-400',
-                      ]"
-                    >
-                      {{ item.riskScore }}
-                    </span>
-                  </div>
-                </div>
+        <!-- Bulk Job -->
+        <div v-else>
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-start gap-4">
+              <div class="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                <Layers class="w-6 h-6 text-purple-400" />
               </div>
-            </div>
-
-            <!-- Bulk Job -->
-            <div v-else>
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex items-start gap-4">
-                  <div class="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-                    <Layers class="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-2 mb-2">
-                      <UiBadge variant="secondary" class="text-xs"> Bulk Validation </UiBadge>
-                      <span class="text-xs text-gray-600">·</span>
-                      <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
-                      <template v-if="formatExecutionTime(item.executionTime)">
-                        <span class="text-xs text-gray-600">·</span>
-                        <span class="text-xs text-gray-500">{{ formatExecutionTime(item.executionTime) }}</span>
-                      </template>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <h3 class="text-lg font-semibold text-white">Job {{ item.id.slice(-8) }}</h3>
-                      <component
-                        :is="getStatusIcon(item.status)"
-                        :class="[
-                          'w-5 h-5 flex-shrink-0',
-                          getStatusColor(item.status),
-                          item.status === 'processing' ? 'animate-spin' : '',
-                        ]"
-                      />
-                      <UiBadge :variant="getStatusBadgeVariant(item.status)">
-                        {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
-                      </UiBadge>
-                    </div>
-                    <p class="text-sm text-gray-400 mt-1">{{ formatDate(item.createdAt) }}</p>
-                  </div>
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <UiBadge variant="secondary" class="text-xs"> Bulk Validation </UiBadge>
+                  <span class="text-xs text-gray-600">·</span>
+                  <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
+                  <template v-if="formatExecutionTime(item.executionTime)">
+                    <span class="text-xs text-gray-600">·</span>
+                    <span class="text-xs text-gray-500">{{
+                      formatExecutionTime(item.executionTime)
+                    }}</span>
+                  </template>
                 </div>
-
                 <div class="flex items-center gap-2">
-                  <UiButton
-                    variant="outline"
-                    size="sm"
-                    class="border-gray-700 text-gray-300 hover:bg-zinc-800"
-                    @click.stop="viewJob(item.id)"
-                  >
-                    <Eye class="w-4 h-4 mr-2" />
-                    View
-                  </UiButton>
-                  <UiButton
-                    v-if="item.status === 'completed' && item.hasResults"
-                    variant="outline"
-                    size="sm"
-                    class="border-green-700 text-green-400 hover:bg-green-950/50"
-                    @click.stop="download(item.id)"
-                  >
-                    <Download class="w-4 h-4 mr-2" />
-                    Download
-                  </UiButton>
+                  <h3 class="text-lg font-semibold text-white">Job {{ item.id.slice(-8) }}</h3>
+                  <component
+                    :is="getStatusIcon(item.status)"
+                    :class="[
+                      'w-5 h-5 flex-shrink-0',
+                      getStatusColor(item.status),
+                      item.status === 'processing' ? 'animate-spin' : '',
+                    ]"
+                  />
+                  <UiBadge :variant="getStatusBadgeVariant(item.status)">
+                    {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
+                  </UiBadge>
                 </div>
-              </div>
-
-              <!-- Progress Bar -->
-              <div v-if="item.status === 'processing' || item.status === 'completed'" class="mb-4">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm text-gray-400">Progress</span>
-                  <span class="text-sm font-semibold text-white">{{ item.progress }}%</span>
-                </div>
-                <div class="w-full bg-gray-800 rounded-full h-2">
-                  <div
-                    class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    :style="{ width: item.progress + '%' }"
-                  ></div>
-                </div>
-              </div>
-
-              <!-- Counts -->
-              <div v-if="item.counts.total > 0" class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div class="p-3 bg-black border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">Total</div>
-                  <div class="text-xl font-bold text-white">{{ item.counts.total }}</div>
-                </div>
-                <div class="p-3 bg-black border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">Valid</div>
-                  <div class="text-xl font-bold text-green-400">{{ item.counts.valid }}</div>
-                </div>
-                <div class="p-3 bg-black border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">Invalid</div>
-                  <div class="text-xl font-bold text-red-400">{{ item.counts.invalid }}</div>
-                </div>
-                <div class="p-3 bg-black border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">Risky</div>
-                  <div class="text-xl font-bold text-yellow-400">{{ item.counts.risky }}</div>
-                </div>
-                <div class="p-3 bg-black border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">Unknown</div>
-                  <div class="text-xl font-bold text-gray-400">{{ item.counts.unknown }}</div>
-                </div>
-              </div>
-
-              <!-- Error Message -->
-              <div
-                v-if="item.error"
-                class="mt-4 p-3 bg-red-950/50 border border-red-800 rounded-md"
-              >
-                <p class="text-sm text-red-400">{{ item.error }}</p>
+                <p class="text-sm text-gray-400 mt-1">{{ formatDate(item.createdAt) }}</p>
               </div>
             </div>
+
+            <div class="flex items-center gap-2">
+              <UiButton
+                variant="outline"
+                size="sm"
+                class="border-gray-700 text-gray-300 hover:bg-zinc-800"
+                @click.stop="viewJob(item.id)"
+              >
+                <Eye class="w-4 h-4 mr-2" />
+                View
+              </UiButton>
+              <UiButton
+                v-if="item.status === 'completed' && item.hasResults"
+                variant="outline"
+                size="sm"
+                class="border-green-700 text-green-400 hover:bg-green-950/50"
+                @click.stop="download(item.id)"
+              >
+                <Download class="w-4 h-4 mr-2" />
+                Download
+              </UiButton>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div v-if="item.status === 'processing' || item.status === 'completed'" class="mb-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-gray-400">Progress</span>
+              <span class="text-sm font-semibold text-white">{{ item.progress }}%</span>
+            </div>
+            <div class="w-full bg-gray-800 rounded-full h-2">
+              <div
+                class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                :style="{ width: item.progress + '%' }"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Counts -->
+          <div v-if="item.counts.total > 0" class="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <div class="p-3 bg-black border border-gray-800 rounded-md">
+              <div class="text-xs text-gray-400 mb-1">Total</div>
+              <div class="text-xl font-bold text-white">{{ item.counts.total }}</div>
+            </div>
+            <div class="p-3 bg-black border border-gray-800 rounded-md">
+              <div class="text-xs text-gray-400 mb-1">Valid</div>
+              <div class="text-xl font-bold text-green-400">{{ item.counts.valid }}</div>
+            </div>
+            <div class="p-3 bg-black border border-gray-800 rounded-md">
+              <div class="text-xs text-gray-400 mb-1">Invalid</div>
+              <div class="text-xl font-bold text-red-400">{{ item.counts.invalid }}</div>
+            </div>
+            <div class="p-3 bg-black border border-gray-800 rounded-md">
+              <div class="text-xs text-gray-400 mb-1">Risky</div>
+              <div class="text-xl font-bold text-yellow-400">{{ item.counts.risky }}</div>
+            </div>
+            <div class="p-3 bg-black border border-gray-800 rounded-md">
+              <div class="text-xs text-gray-400 mb-1">Unknown</div>
+              <div class="text-xl font-bold text-gray-400">{{ item.counts.unknown }}</div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div v-if="item.error" class="mt-4 p-3 bg-red-950/50 border border-red-800 rounded-md">
+            <p class="text-sm text-red-400">{{ item.error }}</p>
           </div>
         </div>
       </div>
-    </main>
-    <UiFooter />
+    </div>
   </div>
 </template>
