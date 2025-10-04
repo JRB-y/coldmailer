@@ -32,6 +32,11 @@ const startServer = async () => {
       crossOriginEmbedderPolicy: false,
     })
   )
+
+  // increase body limit for JSON/form data
+  app.use(express.json({ limit: '10mb' }))
+  app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+
   app.use(cors({ oroigin: '*' }))
   app.disable('x-powered-by')
 
