@@ -26,7 +26,7 @@
       "error": "Registration failed",
       "ctaText": "Already have an account?",
       "ctaLink": "Sign in",
-      "banner": "🎁 Get 1000 free credits upon registration!",
+      "banner": "🎁 Get 200 free credits upon registration!",
       "errors": {
         "passwordRequirements": "Password does not meet security requirements",
         "passwordMismatch": "Passwords do not match"

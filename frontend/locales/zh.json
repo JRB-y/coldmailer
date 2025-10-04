@@ -26,7 +26,7 @@
       "error": "注册失败",
       "ctaText": "已经有账户了？",
       "ctaLink": "登录",
-      "banner": "🎁 注册即可获得 1000 个免费积分！",
+      "banner": "🎁 注册即可获得 200 个免费积分！",
       "errors": {
         "passwordRequirements": "密码不符合安全要求",
         "passwordMismatch": "两次输入的密码不一致"

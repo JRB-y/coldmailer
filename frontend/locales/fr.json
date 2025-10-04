@@ -26,7 +26,7 @@
       "error": "Échec de l'inscription",
       "ctaText": "Vous avez déjà un compte ?",
       "ctaLink": "Se connecter",
-      "banner": "🎁 Recevez 1000 crédits gratuits à l'inscription !",
+      "banner": "🎁 Recevez 200 crédits gratuits à l'inscription !",
       "errors": {
         "passwordRequirements": "Le mot de passe ne respecte pas les exigences de sécurité",
         "passwordMismatch": "Les mots de passe ne correspondent pas"

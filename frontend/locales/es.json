@@ -8,7 +8,7 @@
       "email": "Correo electrónico",
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
-      "emailPlaceholder": "tu@ejemplo.com",
+      "emailPlaceholder": "tuejemplo.com",
       "passwordPlaceholder": "••••••••"
     },
     "login": {
@@ -26,7 +26,7 @@
       "error": "Error al registrarse",
       "ctaText": "¿Ya tienes una cuenta?",
       "ctaLink": "Inicia sesión",
-      "banner": "🎁 ¡Obtén 1000 créditos gratis al registrarte!",
+      "banner": "🎁 ¡Obtén 200 créditos gratis al registrarte!",
       "errors": {
         "passwordRequirements": "La contraseña no cumple los requisitos de seguridad",
         "passwordMismatch": "Las contraseñas no coinciden"
