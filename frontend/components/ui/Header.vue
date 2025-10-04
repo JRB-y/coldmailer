@@ -184,6 +184,12 @@ onBeforeUnmount(() => {
           <template v-else>
             <div class="flex items-center gap-3 relative">
               <NuxtLink
+                :to="localePath('/blog')"
+                class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
+                Blog
+              </NuxtLink>
+              <NuxtLink
                 :to="localePath('/pricing')"
                 class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
               >

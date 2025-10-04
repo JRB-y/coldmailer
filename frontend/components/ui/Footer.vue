@@ -47,13 +47,17 @@ function selectLocale(code: string) {
           </p>
           <div class="flex items-center gap-3 text-sm text-zinc-500">
             <Mail class="h-4 w-4 text-blue-400" />
-            <a href="mailto:hello@valix.dev" class="hover:text-blue-300 transition-colors">hello@valix.dev</a>
+            <a href="mailto:hello@valix.dev" class="hover:text-blue-300 transition-colors"
+              >hello@valix.dev</a
+            >
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-6 text-sm text-zinc-400">
           <div class="space-y-3">
-            <p class="text-xs uppercase tracking-wide text-zinc-500">{{ t('footer.links.product') }}</p>
+            <p class="text-xs uppercase tracking-wide text-zinc-500">
+              {{ t('footer.links.product') }}
+            </p>
             <div class="flex flex-col gap-2">
               <NuxtLink :to="localePath('/dashboard')" class="hover:text-white transition-colors">
                 {{ t('header.menu.dashboard') }}
@@ -70,13 +74,15 @@ function selectLocale(code: string) {
             </div>
           </div>
           <div class="space-y-3">
-            <p class="text-xs uppercase tracking-wide text-zinc-500">{{ t('footer.links.company') }}</p>
+            <p class="text-xs uppercase tracking-wide text-zinc-500">
+              {{ t('footer.links.company') }}
+            </p>
             <div class="flex flex-col gap-2">
+              <NuxtLink :to="localePath('/blog')" class="hover:text-white transition-colors">
+                {{ t('footer.links.blog') }}
+              </NuxtLink>
               <a href="#" class="hover:text-white transition-colors">
                 {{ t('footer.links.about') }}
-              </a>
-              <a href="#" class="hover:text-white transition-colors">
-                {{ t('footer.links.blog') }}
               </a>
               <a href="#" class="hover:text-white transition-colors">
                 {{ t('footer.links.careers') }}
@@ -86,7 +92,9 @@ function selectLocale(code: string) {
         </div>
 
         <div class="space-y-4">
-          <p class="text-xs uppercase tracking-wide text-zinc-500">{{ t('footer.language.title') }}</p>
+          <p class="text-xs uppercase tracking-wide text-zinc-500">
+            {{ t('footer.language.title') }}
+          </p>
           <div class="rounded-2xl border border-gray-800/80 bg-zinc-950/60 p-4">
             <div class="flex items-center justify-between gap-4">
               <div class="flex items-center gap-2 text-sm text-zinc-300">
@@ -122,7 +130,9 @@ function selectLocale(code: string) {
         </div>
       </div>
 
-      <div class="flex flex-col gap-4 border-t border-gray-800/60 pt-6 text-sm text-zinc-500 md:flex-row md:items-center md:justify-between">
+      <div
+        class="flex flex-col gap-4 border-t border-gray-800/60 pt-6 text-sm text-zinc-500 md:flex-row md:items-center md:justify-between"
+      >
         <p>© {{ new Date().getFullYear() }} Valix. {{ t('footer.rights') }}</p>
         <div class="flex flex-wrap items-center gap-3">
           <NuxtLink :to="localePath('/privacy')" class="hover:text-white transition-colors">

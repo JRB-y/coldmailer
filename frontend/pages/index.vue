@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail } from 'lucide-vue-next'
+import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail, BookOpen } from 'lucide-vue-next'
+// import { queryContent } from '#content'
 
 definePageMeta({ ssr: true })
 

@@ -355,5 +355,10 @@
       "title": "Langue"
     },
     "rights": "Tous droits réservés."
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Dernières nouvelles, astuces et mises à jour de Valix Mailer",
+    "cta": "Lire l'article complet"
   }
 }

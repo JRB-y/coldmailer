@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
 
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n', '@nuxt/content'],
 
   experimental: {
     scanPageMeta: true,

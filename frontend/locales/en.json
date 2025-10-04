@@ -355,5 +355,10 @@
         }
       ]
     }
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Insights, tips, and updates on email verification and cold outreach.",
+    "cta": "Open Blog"
   }
 }

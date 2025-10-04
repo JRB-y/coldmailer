@@ -355,5 +355,10 @@
       "title": "Idioma"
     },
     "rights": "Todos los derechos reservados."
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Ideas, consejos y novedades sobre verificación de emails y prospección en frío.",
+    "cta": "Volver al blog"
   }
 }
