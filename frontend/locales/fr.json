@@ -8,7 +8,7 @@
       "email": "Adresse e-mail",
       "password": "Mot de passe",
       "confirmPassword": "Confirmer le mot de passe",
-      "emailPlaceholder": "vous@exemple.com",
+      "emailPlaceholder": "vousexemple.com",
       "passwordPlaceholder": "••••••••"
     },
     "login": {
