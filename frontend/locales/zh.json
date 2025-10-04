@@ -37,7 +37,7 @@
       "length": "至少 10 个字符",
       "uppercase": "至少一个大写字母 (A-Z)",
       "number": "至少一个数字 (0-9)",
-      "symbol": "至少一个符号 ",
+      "symbol": "至少一个符号 ( )",
       "notCommon": "不是常见密码"
     }
   },
@@ -294,6 +294,47 @@
           ]
         }
       ]
+    }
+  },
+  "pricing": {
+    "hero": {
+      "title": "简单透明的",
+      "highlight": "定价",
+      "subtitle": "一次性使用 USDC 付款。没有订阅，没有隐藏费用。积分永不过期。"
+    },
+    "mostPopular": "最受欢迎",
+    "card": {
+      "credits": "{count} 次邮箱验证"
+    },
+    "buttons": {
+      "buy": "使用 USDC 购买",
+      "processing": "处理中..."
+    },
+    "notice": {
+      "title": "模拟购买：",
+      "description": "真实的 USDC 集成即将上线"
+    },
+    "messages": {
+      "toastSuccess": "积分购买成功！",
+      "purchaseFailed": "购买失败，请重试。",
+      "purchaseError": "购买过程中出现错误，请重试。"
+    },
+    "faq": {
+      "title": "常见问题",
+      "items": {
+        "expiry": {
+          "question": "积分会过期吗？",
+          "answer": "不会，积分永不过期。一次购买，随时使用。"
+        },
+        "payment": {
+          "question": "你们接受哪些付款方式？",
+          "answer": "我们支持 USDC（USD Coin），带来快捷的加密支付体验。传统支付方式即将上线。"
+        },
+        "refund": {
+          "question": "可以退款吗？",
+          "answer": "如果您对服务不满意，我们提供 7 天退款保证。"
+        }
+      }
     }
   },
   "footer": {

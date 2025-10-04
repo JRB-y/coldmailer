@@ -8,6 +8,8 @@ const config = useRuntimeConfig()
 const apiUrl = config.public.apiUrl
 const { user, isAuthenticated, fetchUser } = useAuth()
 const router = useRouter()
+const { t } = useI18n()
+const localePath = useLocalePath()
 
 const plans = ref<any[]>([])
 const loading = ref(false)
@@ -36,7 +38,7 @@ async function fetchPlans() {
 // Purchase credits
 async function purchasePlan(planId: string) {
   if (!isAuthenticated.value) {
-    router.push('/auth/login')
+    router.push(localePath('/auth/login'))
     return
   }
 
@@ -59,7 +61,7 @@ async function purchasePlan(planId: string) {
 
     if (response.ok) {
       // Show success toast
-      toastMessage.value = data.message || 'Credits purchased successfully!'
+      toastMessage.value = data.message || t('pricing.messages.toastSuccess')
       showToast.value = true
 
       // Refresh user credits
@@ -70,11 +72,11 @@ async function purchasePlan(planId: string) {
         showToast.value = false
       }, 5000)
     } else {
-      alert(data.message || 'Purchase failed. Please try again.')
+      alert(data.message || t('pricing.messages.purchaseFailed'))
     }
   } catch (error) {
     console.error('Purchase error:', error)
-    alert('An error occurred during purchase. Please try again.')
+    alert(t('pricing.messages.purchaseError'))
   } finally {
     purchasing.value = false
     selectedPlanId.value = null
@@ -111,13 +113,13 @@ onMounted(() => {
     <!-- Page Header -->
     <div class="text-center mb-12 md:mb-16">
       <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-        Simple, Transparent
+        {{ t('pricing.hero.title') }}
         <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          Pricing
+          {{ t('pricing.hero.highlight') }}
         </span>
       </h1>
       <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-        Pay once with USDC. No subscriptions, no hidden fees. Just credits that never expire.
+        {{ t('pricing.hero.subtitle') }}
       </p>
     </div>
 
@@ -143,7 +145,7 @@ onMounted(() => {
           v-if="plan.popular"
           class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-bold px-4 py-1 rounded-full"
         >
-          Most Popular
+          {{ t('pricing.mostPopular') }}
         </div>
 
         <!-- Plan Header -->
@@ -158,7 +160,9 @@ onMounted(() => {
             <span class="text-5xl font-bold text-white">${{ plan.priceUSDC }}</span>
             <span class="text-gray-400">USDC</span>
           </div>
-          <p class="text-sm text-gray-500">{{ plan.credits.toLocaleString() }} email validations</p>
+          <p class="text-sm text-gray-500">
+            {{ t('pricing.card.credits', { count: plan.credits.toLocaleString() }) }}
+          </p>
         </div>
 
         <!-- Features -->
@@ -183,7 +187,11 @@ onMounted(() => {
         >
           <Zap v-if="!purchasing || selectedPlanId !== plan.id" class="w-4 h-4 mr-2" />
           <Loader2 v-else class="w-4 h-4 mr-2 animate-spin" />
-          {{ purchasing && selectedPlanId === plan.id ? 'Processing...' : 'Buy with USDC' }}
+          {{
+            purchasing && selectedPlanId === plan.id
+              ? t('pricing.buttons.processing')
+              : t('pricing.buttons.buy')
+          }}
         </UiButton>
       </div>
     </div>
@@ -195,35 +203,42 @@ onMounted(() => {
       >
         <Zap class="w-5 h-5 text-yellow-400" />
         <p class="text-sm text-gray-300">
-          <span class="font-semibold text-white">Mock Purchase:</span> Real USDC integration coming
-          soon
+          <span class="font-semibold text-white">{{ t('pricing.notice.title') }}</span>
+          {{ t('pricing.notice.description') }}
         </p>
       </div>
     </div>
 
     <!-- FAQ Section -->
     <div class="mt-20">
-      <h2 class="text-3xl font-bold text-white text-center mb-12">Frequently Asked Questions</h2>
+      <h2 class="text-3xl font-bold text-white text-center mb-12">
+        {{ t('pricing.faq.title') }}
+      </h2>
       <div class="max-w-3xl mx-auto space-y-6">
         <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-white mb-2">Do credits expire?</h3>
+          <h3 class="text-lg font-semibold text-white mb-2">
+            {{ t('pricing.faq.items.expiry.question') }}
+          </h3>
           <p class="text-gray-400">
-            No, credits never expire. Buy once and use them whenever you need.
+            {{ t('pricing.faq.items.expiry.answer') }}
           </p>
         </div>
 
         <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-white mb-2">What payment methods do you accept?</h3>
+          <h3 class="text-lg font-semibold text-white mb-2">
+            {{ t('pricing.faq.items.payment.question') }}
+          </h3>
           <p class="text-gray-400">
-            We accept USDC (USD Coin) for crypto-friendly, instant payments. Traditional payment
-            methods coming soon.
+            {{ t('pricing.faq.items.payment.answer') }}
           </p>
         </div>
 
         <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-white mb-2">Can I get a refund?</h3>
+          <h3 class="text-lg font-semibold text-white mb-2">
+            {{ t('pricing.faq.items.refund.question') }}
+          </h3>
           <p class="text-gray-400">
-            We offer a 7-day money-back guarantee if you're not satisfied with our service.
+            {{ t('pricing.faq.items.refund.answer') }}
           </p>
         </div>
       </div>

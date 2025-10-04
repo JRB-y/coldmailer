@@ -87,7 +87,7 @@ export const validatePassword = (password) => {
 
   // Check for symbol/special character
   if (PASSWORD_POLICY.requireSymbol && !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-    errors.push('Password must contain at least one symbol (!@#$%^&* etc.)')
+    errors.push('Password must contain at least one symbol ( )')
   }
 
   // Check against blacklist (case-insensitive)
@@ -101,7 +101,11 @@ export const validatePassword = (password) => {
     errors.push('Password cannot consist of repeating characters')
   }
 
-  if (/^(012|123|234|345|456|567|678|789|890|abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz)+$/i.test(password)) {
+  if (
+    /^(012|123|234|345|456|567|678|789|890|abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz)+$/i.test(
+      password
+    )
+  ) {
     // Sequential patterns
     errors.push('Password cannot consist of sequential characters')
   }
@@ -126,7 +130,7 @@ export const getPasswordRequirements = () => {
       `At least ${PASSWORD_POLICY.minLength} characters long`,
       'At least one uppercase letter (A-Z)',
       'At least one number (0-9)',
-      'At least one symbol (!@#$%^&* etc.)',
+      'At least one symbol ( )',
       'Not a common or weak password',
     ],
   }

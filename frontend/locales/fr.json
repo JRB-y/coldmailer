@@ -8,7 +8,7 @@
       "email": "Adresse e-mail",
       "password": "Mot de passe",
       "confirmPassword": "Confirmer le mot de passe",
-      "emailPlaceholder": "vousexemple.com",
+      "emailPlaceholder": "vous@exemple.com",
       "passwordPlaceholder": "••••••••"
     },
     "login": {
@@ -37,8 +37,49 @@
       "length": "Au moins 10 caractères",
       "uppercase": "Une majuscule (A-Z)",
       "number": "Un chiffre (0-9)",
-      "symbol": "Un symbole ()",
+      "symbol": "Un symbole ( )",
       "notCommon": "Un mot de passe peu courant"
+    }
+  },
+  "pricing": {
+    "hero": {
+      "title": "Simple et transparent",
+      "highlight": "Tarifs",
+      "subtitle": "Payez une fois en USDC. Pas d'abonnement, pas de frais cachés. Des crédits qui n'expirent jamais."
+    },
+    "mostPopular": "Le plus populaire",
+    "card": {
+      "credits": "{count} validations d'emails"
+    },
+    "buttons": {
+      "buy": "Acheter avec USDC",
+      "processing": "Traitement..."
+    },
+    "notice": {
+      "title": "Achat test :",
+      "description": "Intégration USDC réelle bientôt disponible"
+    },
+    "messages": {
+      "toastSuccess": "Crédits achetés avec succès !",
+      "purchaseFailed": "L'achat a échoué. Veuillez réessayer.",
+      "purchaseError": "Une erreur est survenue pendant l'achat. Veuillez réessayer."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": {
+        "expiry": {
+          "question": "Les crédits expirent-ils ?",
+          "answer": "Non, les crédits n'expirent jamais. Payez une fois et utilisez-les quand vous en avez besoin."
+        },
+        "payment": {
+          "question": "Quels moyens de paiement acceptez-vous ?",
+          "answer": "Nous acceptons l'USDC (USD Coin) pour des paiements instantanés adaptés à la crypto. Les méthodes traditionnelles arrivent bientôt."
+        },
+        "refund": {
+          "question": "Puis-je obtenir un remboursement ?",
+          "answer": "Nous proposons une garantie de remboursement de 7 jours si vous n'êtes pas satisfait de notre service."
+        }
+      }
     }
   },
   "dashboard": {

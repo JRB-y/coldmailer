@@ -8,7 +8,7 @@
       "email": "Correo electrónico",
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
-      "emailPlaceholder": "tuejemplo.com",
+      "emailPlaceholder": "tu@ejemplo.com",
       "passwordPlaceholder": "••••••••"
     },
     "login": {
@@ -37,8 +37,49 @@
       "length": "Al menos 10 caracteres",
       "uppercase": "Una letra mayúscula (A-Z)",
       "number": "Un número (0-9)",
-      "symbol": "Un símbolo ()",
+      "symbol": "Un símbolo ( )",
       "notCommon": "Que no sea una contraseña común"
+    }
+  },
+  "pricing": {
+    "hero": {
+      "title": "Simple y transparente",
+      "highlight": "Precios",
+      "subtitle": "Paga una vez con USDC. Sin suscripciones ni cargos ocultos. Solo créditos que nunca caducan."
+    },
+    "mostPopular": "Más popular",
+    "card": {
+      "credits": "{count} validaciones de email"
+    },
+    "buttons": {
+      "buy": "Comprar con USDC",
+      "processing": "Procesando..."
+    },
+    "notice": {
+      "title": "Compra simulada:",
+      "description": "La integración real de USDC llegará pronto"
+    },
+    "messages": {
+      "toastSuccess": "¡Créditos comprados con éxito!",
+      "purchaseFailed": "La compra falló. Inténtalo de nuevo.",
+      "purchaseError": "Ocurrió un error durante la compra. Inténtalo de nuevo."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": {
+        "expiry": {
+          "question": "¿Los créditos caducan?",
+          "answer": "No, los créditos nunca caducan. Compra una vez y úsalos cuando los necesites."
+        },
+        "payment": {
+          "question": "¿Qué métodos de pago aceptan?",
+          "answer": "Aceptamos USDC (USD Coin) para pagos instantáneos compatibles con cripto. Métodos tradicionales próximamente."
+        },
+        "refund": {
+          "question": "¿Puedo obtener un reembolso?",
+          "answer": "Ofrecemos una garantía de devolución de dinero de 7 días si no estás satisfecho con el servicio."
+        }
+      }
     }
   },
   "dashboard": {
