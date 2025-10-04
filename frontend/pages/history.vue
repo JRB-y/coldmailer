@@ -215,9 +215,7 @@ onMounted(() => {
           <h3 class="text-xl font-semibold text-white mb-2">No history yet</h3>
           <p class="text-gray-400 mb-6">Start validating emails to see your history here</p>
           <NuxtLink to="/">
-            <UiButton variant="default" size="lg">
-              Validate Email
-            </UiButton>
+            <UiButton variant="default" size="lg"> Validate Email </UiButton>
           </NuxtLink>
         </div>
 
@@ -238,9 +236,7 @@ onMounted(() => {
                   </div>
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
-                      <UiBadge variant="secondary" class="text-xs">
-                        Single Validation
-                      </UiBadge>
+                      <UiBadge variant="secondary" class="text-xs"> Single Validation </UiBadge>
                       <span class="text-xs text-gray-600">·</span>
                       <span class="text-xs text-gray-500">{{ item.creditsUsed || 1 }} credit</span>
                     </div>
@@ -286,16 +282,12 @@ onMounted(() => {
                   </div>
                   <div>
                     <div class="flex items-center gap-2 mb-2">
-                      <UiBadge variant="secondary" class="text-xs">
-                        Bulk Validation
-                      </UiBadge>
+                      <UiBadge variant="secondary" class="text-xs"> Bulk Validation </UiBadge>
                       <span class="text-xs text-gray-600">·</span>
                       <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
                     </div>
                     <div class="flex items-center gap-2">
-                      <h3 class="text-lg font-semibold text-white">
-                        Job {{ item.id.slice(-8) }}
-                      </h3>
+                      <h3 class="text-lg font-semibold text-white">Job {{ item.id.slice(-8) }}</h3>
                       <component
                         :is="getStatusIcon(item.status)"
                         :class="[
@@ -336,10 +328,7 @@ onMounted(() => {
               </div>
 
               <!-- Progress Bar -->
-              <div
-                v-if="item.status === 'processing' || item.status === 'completed'"
-                class="mb-4"
-              >
+              <div v-if="item.status === 'processing' || item.status === 'completed'" class="mb-4">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm text-gray-400">Progress</span>
                   <span class="text-sm font-semibold text-white">{{ item.progress }}%</span>
