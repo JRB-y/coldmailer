@@ -154,14 +154,27 @@ onMounted(() => {
           <p class="text-gray-400 text-sm">{{ plan.description }}</p>
         </div>
 
-        <!-- Price -->
-        <div class="mb-6">
-          <div class="flex items-baseline gap-2 mb-1">
-            <span class="text-5xl font-bold text-white">${{ plan.priceUSDC }}</span>
-            <span class="text-gray-400">USDC</span>
+        <!-- Price & Credits -->
+        <div class="mb-6 space-y-4">
+          <div
+            class="rounded-2xl border border-blue-500/30 bg-blue-500/5 px-4 py-5 text-center"
+          >
+            <p class="text-xs font-semibold uppercase tracking-wide text-blue-300">
+              {{ t('pricing.card.creditBadge') }}
+            </p>
+            <p class="mt-3 text-4xl font-bold text-white md:text-5xl">
+              {{ plan.credits.toLocaleString() }}
+            </p>
+            <p class="text-sm text-gray-400">
+              {{ t('pricing.card.creditsUnit') }}
+            </p>
           </div>
-          <p class="text-sm text-gray-500">
-            {{ t('pricing.card.credits', { count: plan.credits.toLocaleString() }) }}
+          <div class="flex items-baseline justify-center gap-2 md:justify-start">
+            <span class="text-4xl font-bold text-white md:text-5xl">${{ plan.priceUSDC }}</span>
+            <span class="text-gray-400 text-sm font-semibold uppercase tracking-wide">USDC</span>
+          </div>
+          <p class="text-sm font-medium text-blue-300 text-center md:text-left">
+            {{ t('pricing.card.oneTime') }}
           </p>
         </div>
 

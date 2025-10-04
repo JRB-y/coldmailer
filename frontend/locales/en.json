@@ -49,7 +49,10 @@
     },
     "mostPopular": "Most Popular",
     "card": {
-      "credits": "{count} email validations"
+      "credits": "{count} email validations",
+      "creditBadge": "Credits Included",
+      "creditsUnit": "Email validations",
+      "oneTime": "One-time purchase — pay once and keep the credits. No subscriptions."
     },
     "buttons": {
       "buy": "Buy with USDC",

@@ -304,7 +304,10 @@
     },
     "mostPopular": "最受欢迎",
     "card": {
-      "credits": "{count} 次邮箱验证"
+      "credits": "{count} 次邮箱验证",
+      "creditBadge": "包含积分",
+      "creditsUnit": "次邮箱验证",
+      "oneTime": "一次性购买——只需支付一次即可拥有积分，无需订阅。"
     },
     "buttons": {
       "buy": "使用 USDC 购买",
