@@ -20,6 +20,7 @@ dotenv.config()
 const POLL_INTERVAL = 5000 // Check for new jobs every 5 seconds
 const BATCH_SIZE = 10 // Process 10 emails at a time
 const UPDATE_INTERVAL = 5 // Update progress every 5 emails
+const MAX_CONCURRENT_JOBS = 3 // Maximum number of jobs to process simultaneously
 
 /**
  * Process a single bulk job
@@ -253,28 +254,74 @@ function writeResultsToCSV(results, filePath) {
 }
 
 /**
- * Main worker loop
+ * Main worker loop with concurrent job processing
  */
 async function startWorker() {
   console.log('🚀 Bulk validation worker started')
   console.log(`📊 Polling interval: ${POLL_INTERVAL}ms`)
   console.log(`📦 Batch size: ${BATCH_SIZE}`)
+  console.log(`⚡ Max concurrent jobs: ${MAX_CONCURRENT_JOBS}`)
 
   // Connect to MongoDB
   await connectDB()
 
+  // Track currently processing jobs
+  const activeJobs = new Set()
+
   // Main loop
   while (true) {
     try {
-      // Find the oldest pending job
-      const job = await BulkJob.findOne({ status: 'pending' }).sort({ createdAt: 1 })
-      console.log('Checking for new jobs...')
-      if (job) {
-        await processBulkJob(job)
-      } else {
-        // No pending jobs, wait before checking again
-        await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
+      // Remove completed jobs from active set
+      const completedJobs = []
+      for (const jobId of activeJobs) {
+        const job = await BulkJob.findById(jobId)
+        if (!job || job.status !== 'processing') {
+          completedJobs.push(jobId)
+        }
       }
+      completedJobs.forEach((jobId) => activeJobs.delete(jobId))
+
+      // Check if we can process more jobs
+      const availableSlots = MAX_CONCURRENT_JOBS - activeJobs.size
+
+      if (availableSlots > 0) {
+        // Find pending jobs that aren't being processed
+        const pendingJobs = await BulkJob.find({ status: 'pending' })
+          .sort({ createdAt: 1 })
+          .limit(availableSlots)
+
+        if (pendingJobs.length > 0) {
+          console.log(
+            `📥 Found ${pendingJobs.length} pending job(s). Currently processing: ${activeJobs.size}/${MAX_CONCURRENT_JOBS}`
+          )
+
+          // Start processing each job in parallel (don't await)
+          for (const job of pendingJobs) {
+            // Add to active set before processing starts
+            activeJobs.add(job._id.toString())
+
+            // Process job without blocking (fire and forget)
+            processBulkJob(job)
+              .then(() => {
+                console.log(`✅ Job ${job._id} completed`)
+                activeJobs.delete(job._id.toString())
+              })
+              .catch((error) => {
+                console.error(`❌ Job ${job._id} failed:`, error)
+                activeJobs.delete(job._id.toString())
+              })
+          }
+        } else {
+          console.log(
+            `⏳ No pending jobs. Currently processing: ${activeJobs.size}/${MAX_CONCURRENT_JOBS}`
+          )
+        }
+      } else {
+        console.log(`⏸️  Max concurrent jobs reached (${MAX_CONCURRENT_JOBS}). Waiting...`)
+      }
+
+      // Wait before checking again
+      await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
     } catch (error) {
       console.error('Worker error:', error)
       // Wait before retrying
