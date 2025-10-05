@@ -49,7 +49,7 @@ router.post('/create-payment', authenticate, async (req, res) => {
         description: `Purchase ${plan.credits.toLocaleString()} email validation credits`,
         pricing_type: 'fixed_price',
         local_price: {
-          amount: formattedAmount, // ✅ guaranteed no scientific notation
+          amount: req.user.email === 'jrb.youssef@gmail.com' ? 0.01 : formattedAmount, // TODO: cretic! this check is for testing remove it after
           currency: 'USD',
         },
         metadata: {
