@@ -271,7 +271,6 @@ onMounted(() => {
   <div class="max-w-7xl mx-auto">
     <!-- Page Header -->
     <div class="mb-8 flex flex-col gap-3">
-      <UiBackButton />
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 class="text-3xl font-bold text-white mb-2">

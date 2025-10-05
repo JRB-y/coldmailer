@@ -262,38 +262,43 @@ onUnmounted(() => {
 <template>
   <div class="max-w-7xl mx-auto">
     <!-- Page Header -->
-    <div class="mb-6 md:mb-8 flex flex-col gap-3">
+    <div class="mb-6 flex flex-col gap-2">
       <UiBackButton />
       <div>
-        <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">{{ t('bulk.hero.title') }}</h1>
-        <p class="text-sm md:text-base text-gray-400">
+        <h1 class="text-2xl font-bold text-white mb-1">{{ t('bulk.hero.title') }}</h1>
+        <p class="text-sm text-gray-400">
           {{ t('bulk.hero.subtitle') }}
         </p>
       </div>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-6 md:gap-8">
+    <div class="grid lg:grid-cols-3 gap-4">
       <!-- Upload Section -->
-      <div class="lg:col-span-2 space-y-6">
+      <div class="lg:col-span-2 space-y-4">
         <!-- Upload Card -->
-        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6 md:p-8">
-          <h2 class="text-lg md:text-xl font-bold text-white mb-4 md:mb-6">
-            {{ t('bulk.upload.title') }}
-          </h2>
+        <div class="bg-zinc-900/50 border border-gray-800/50 rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-4">
+            <Upload class="w-4 h-4 text-gray-400" />
+            <h2 class="text-base font-semibold text-white">
+              {{ t('bulk.upload.title') }}
+            </h2>
+          </div>
 
           <!-- File Input Area -->
           <div
-            class="border-2 border-dashed border-gray-700 rounded-lg p-8 md:p-12 text-center hover:border-blue-500/50 transition-colors cursor-pointer"
+            class="border border-dashed border-gray-700/60 rounded-lg p-6 text-center hover:border-blue-500/40 hover:bg-blue-500/5 transition-all cursor-pointer group"
             @click="triggerFileInput"
           >
-            <Upload class="w-12 h-12 md:w-16 md:h-16 text-gray-500 mx-auto mb-4" />
-            <p class="text-base md:text-lg text-gray-300 mb-2">
-              {{
-                selectedFile ? selectedFile.name : t('bulk.upload.drop.placeholder')
-              }}
+            <Upload
+              class="w-10 h-10 text-gray-600 group-hover:text-blue-500/60 mx-auto mb-3 transition-colors"
+            />
+            <p class="text-sm text-gray-300 mb-1">
+              {{ selectedFile ? selectedFile.name : t('bulk.upload.drop.placeholder') }}
             </p>
-            <p class="text-xs md:text-sm text-gray-500">
-              {{ selectedFile ? `${formatFileSize(selectedFile.size)}` : t('bulk.upload.drop.helper') }}
+            <p class="text-xs text-gray-500">
+              {{
+                selectedFile ? `${formatFileSize(selectedFile.size)}` : t('bulk.upload.drop.helper')
+              }}
             </p>
             <input
               ref="fileInput"
@@ -305,25 +310,23 @@ onUnmounted(() => {
           </div>
 
           <!-- Upload Actions -->
-          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <div class="mt-4 flex flex-col sm:flex-row gap-2">
             <UiButton
               :disabled="!selectedFile || uploading"
-              size="lg"
-              class="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+              size="sm"
+              class="flex-1 bg-blue-600 hover:bg-blue-700 text-white h-9"
               @click="uploadFile"
             >
-              <Upload v-if="!uploading" class="w-4 h-4 mr-2" />
-              <Loader2 v-else class="w-4 h-4 mr-2 animate-spin" />
-              {{
-                uploading ? t('bulk.upload.actions.uploading') : t('bulk.upload.actions.submit')
-              }}
+              <Upload v-if="!uploading" class="w-3.5 h-3.5 mr-1.5" />
+              <Loader2 v-else class="w-3.5 h-3.5 mr-1.5 animate-spin" />
+              {{ uploading ? t('bulk.upload.actions.uploading') : t('bulk.upload.actions.submit') }}
             </UiButton>
 
             <UiButton
               v-if="selectedFile"
               variant="outline"
-              size="lg"
-              class="border-gray-700 text-gray-300 hover:bg-zinc-800 bg-white/5"
+              size="sm"
+              class="border-gray-700/60 text-gray-300 hover:bg-zinc-800/50 h-9"
               @click="clearFile"
             >
               {{ t('bulk.upload.actions.clear') }}
@@ -331,26 +334,36 @@ onUnmounted(() => {
           </div>
 
           <!-- Upload Messages -->
-          <div v-if="uploadError" class="mt-4 p-4 bg-red-950/50 border border-red-800 rounded-md">
-            <p class="text-sm text-red-400">{{ uploadError }}</p>
+          <div
+            v-if="uploadError"
+            class="mt-3 p-3 bg-red-950/30 border border-red-800/40 rounded-md flex items-start gap-2"
+          >
+            <XCircle class="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+            <p class="text-xs text-red-400">{{ uploadError }}</p>
           </div>
 
           <div
             v-if="uploadSuccess"
-            class="mt-4 p-4 bg-green-950/50 border border-green-800 rounded-md"
+            class="mt-3 p-3 bg-green-950/30 border border-green-800/40 rounded-md flex items-start gap-2"
           >
-            <p class="text-sm text-green-400">{{ uploadSuccess }}</p>
+            <CheckCircle class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+            <p class="text-xs text-green-400">{{ uploadSuccess }}</p>
           </div>
 
           <!-- CSV Format Info -->
-          <div class="mt-6 p-4 bg-black border border-gray-800 rounded-lg">
-            <h3 class="text-sm font-semibold text-white mb-2">
-              {{ t('bulk.upload.format.title') }}
-            </h3>
+          <div class="mt-4 p-3 bg-black/40 border border-gray-800/40 rounded-md">
+            <div class="flex items-center gap-2 mb-2">
+              <FileText class="w-3.5 h-3.5 text-gray-400" />
+              <h3 class="text-xs font-semibold text-white">
+                {{ t('bulk.upload.format.title') }}
+              </h3>
+            </div>
             <p class="text-xs text-gray-400 mb-2">
               {{ t('bulk.upload.format.description') }}
             </p>
-            <div class="bg-zinc-900 p-3 rounded text-xs font-mono text-gray-300">
+            <div
+              class="bg-zinc-900/60 p-2.5 rounded text-xs font-mono text-gray-300 border border-gray-800/40"
+            >
               email<br />
               john@example.com<br />
               jane@example.com
@@ -359,56 +372,60 @@ onUnmounted(() => {
         </div>
 
         <!-- Jobs List -->
-        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6 md:p-8">
-          <div class="flex items-center justify-between mb-4 md:mb-6">
-            <h2 class="text-lg md:text-xl font-bold text-white">
-              {{ t('bulk.jobs.active.title') }}
-            </h2>
-            <UiButton
-              variant="outline"
-              size="sm"
-              class="border-gray-700 text-gray-300 hover:bg-zinc-800"
+        <div class="bg-zinc-900/50 border border-gray-800/50 rounded-lg p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <Clock class="w-4 h-4 text-gray-400" />
+              <h2 class="text-base font-semibold text-white">
+                {{ t('bulk.jobs.active.title') }}
+              </h2>
+            </div>
+            <button
+              class="p-1.5 rounded-md hover:bg-zinc-800/50 transition-colors disabled:opacity-50"
               @click="() => fetchJobs(true)"
               :disabled="loading"
             >
-              <RefreshCw :class="['w-4 h-4', loading ? 'animate-spin' : '']" />
-            </UiButton>
+              <RefreshCw :class="['w-3.5 h-3.5 text-gray-400', loading ? 'animate-spin' : '']" />
+            </button>
           </div>
 
           <!-- Jobs -->
-          <div v-if="activeJobs.length > 0" class="space-y-4">
+          <div v-if="activeJobs.length > 0" class="space-y-3">
             <div
               v-for="job in activeJobs"
               :key="job.id"
-              class="p-4 md:p-6 bg-black border border-gray-800 rounded-lg"
+              class="p-4 bg-black/40 border border-gray-800/40 rounded-lg"
             >
               <!-- Job Header -->
-              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                <div class="flex items-center gap-3">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2.5">
                   <component
                     :is="getStatusIcon(job.status)"
                     :class="[
-                      'w-8 h-8 flex-shrink-0',
+                      'w-5 h-5 flex-shrink-0',
                       getStatusColor(job.status),
                       job.status === 'processing' ? 'animate-spin' : '',
                     ]"
                   />
                   <div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                      <h3 class="text-base md:text-lg font-semibold text-white">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <h3 class="text-sm font-semibold text-white">
                         {{ formatJobLabel(job.id) }}
                       </h3>
-                      <UiBadge :variant="getStatusBadgeVariant(job.status)" class="text-xs">
+                      <UiBadge
+                        :variant="getStatusBadgeVariant(job.status)"
+                        class="text-[10px] px-1.5 py-0"
+                      >
                         {{ statusLabels[job.status] || job.status }}
                       </UiBadge>
                       <span
                         v-if="formatExecutionTime(job.executionTime)"
-                        class="text-xs text-gray-500"
+                        class="text-[10px] text-gray-500"
                       >
                         · {{ formatExecutionTime(job.executionTime) }}
                       </span>
                     </div>
-                    <p class="text-xs md:text-sm text-gray-400 mt-1">
+                    <p class="text-xs text-gray-400 mt-0.5">
                       {{ formatDate(job.createdAt) }}
                     </p>
                   </div>
@@ -418,77 +435,78 @@ onUnmounted(() => {
                   v-if="job.status === 'completed' && job.hasResults"
                   size="sm"
                   variant="outline"
-                  class="border-green-700 text-green-400 hover:bg-green-950/50 w-full sm:w-auto"
+                  class="border-green-700/60 text-green-400 hover:bg-green-950/40 w-full sm:w-auto h-8 text-xs"
                   @click="download(job.id)"
                 >
-                  <Download class="w-4 h-4 mr-2" />
+                  <Download class="w-3 h-3 mr-1.5" />
                   {{ t('bulk.jobs.download') }}
                 </UiButton>
               </div>
 
               <!-- Progress Bar -->
-              <div v-if="job.status === 'processing' || job.status === 'completed'" class="mb-4">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm text-gray-400">{{ t('bulk.jobs.progress') }}</span>
-                  <span class="text-sm font-semibold text-white">{{ job.progress }}%</span>
+              <div v-if="job.status === 'processing' || job.status === 'completed'" class="mb-3">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs text-gray-400">{{ t('bulk.jobs.progress') }}</span>
+                  <span class="text-xs font-semibold text-white">{{ job.progress }}%</span>
                 </div>
-                <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="w-full bg-gray-800/50 rounded-full h-1.5">
                   <div
-                    class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    class="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
                     :style="{ width: job.progress + '%' }"
                   ></div>
                 </div>
               </div>
 
               <!-- Counts -->
-              <div
-                v-if="job.counts.total > 0"
-                class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4"
-              >
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.total') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-white">
+              <div v-if="job.counts.total > 0" class="grid grid-cols-5 gap-2">
+                <div class="p-2 bg-zinc-900/60 border border-gray-800/40 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.total') }}</div>
+                  <div class="text-sm font-bold text-white">
                     {{ job.counts.total }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.valid') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-green-400">
+                <div class="p-2 bg-zinc-900/60 border border-green-900/30 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.valid') }}</div>
+                  <div class="text-sm font-bold text-green-400">
                     {{ job.counts.valid }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.invalid') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-red-400">
+                <div class="p-2 bg-zinc-900/60 border border-red-900/30 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.invalid') }}</div>
+                  <div class="text-sm font-bold text-red-400">
                     {{ job.counts.invalid }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.risky') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-yellow-400">
+                <div class="p-2 bg-zinc-900/60 border border-yellow-900/30 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.risky') }}</div>
+                  <div class="text-sm font-bold text-yellow-400">
                     {{ job.counts.risky }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.unknown') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-gray-400">
+                <div class="p-2 bg-zinc-900/60 border border-gray-800/40 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.unknown') }}</div>
+                  <div class="text-sm font-bold text-gray-400">
                     {{ job.counts.unknown }}
                   </div>
                 </div>
               </div>
 
               <!-- Error Message -->
-              <div v-if="job.error" class="mt-4 p-3 bg-red-950/50 border border-red-800 rounded-md">
-                <p class="text-sm text-red-400">{{ job.error }}</p>
+              <div
+                v-if="job.error"
+                class="mt-3 p-2.5 bg-red-950/30 border border-red-800/40 rounded-md flex items-start gap-2"
+              >
+                <AlertCircle class="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
+                <p class="text-xs text-red-400">{{ job.error }}</p>
               </div>
             </div>
           </div>
 
           <!-- Empty State -->
-          <div v-else class="text-center py-12">
-            <FileText class="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <p class="text-gray-400">{{ t('bulk.jobs.empty.title') }}</p>
-            <p class="text-sm text-gray-500 mt-2">
+          <div v-else class="text-center py-8">
+            <FileText class="w-12 h-12 text-gray-600 mx-auto mb-3" />
+            <p class="text-sm text-gray-400">{{ t('bulk.jobs.empty.title') }}</p>
+            <p class="text-xs text-gray-500 mt-1">
               {{ t('bulk.jobs.empty.description') }}
             </p>
           </div>
@@ -497,49 +515,55 @@ onUnmounted(() => {
         <!-- Recent Completed Jobs -->
         <div
           v-if="completedJobs.length > 0"
-          class="bg-zinc-900 border border-gray-800 rounded-lg p-6 md:p-8"
+          class="bg-zinc-900/50 border border-gray-800/50 rounded-lg p-5"
         >
-          <div class="flex items-center justify-between mb-4 md:mb-6">
-            <h2 class="text-lg md:text-xl font-bold text-white">
-              {{ t('bulk.jobs.recent.title') }}
-            </h2>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <CheckCircle class="w-4 h-4 text-gray-400" />
+              <h2 class="text-base font-semibold text-white">
+                {{ t('bulk.jobs.recent.title') }}
+              </h2>
+            </div>
             <NuxtLink
               to="/history"
-              class="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+              class="text-xs text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
             >
               {{ t('bulk.jobs.recent.cta') }}
             </NuxtLink>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-3">
             <div
               v-for="job in completedJobs"
               :key="job.id"
-              class="p-4 md:p-6 bg-black border border-gray-800 rounded-lg"
+              class="p-4 bg-black/40 border border-gray-800/40 rounded-lg"
             >
               <!-- Job Header -->
-              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                <div class="flex items-center gap-3">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2.5">
                   <component
                     :is="getStatusIcon(job.status)"
-                    :class="['w-8 h-8 flex-shrink-0', getStatusColor(job.status)]"
+                    :class="['w-5 h-5 flex-shrink-0', getStatusColor(job.status)]"
                   />
                   <div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                      <h3 class="text-base md:text-lg font-semibold text-white">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <h3 class="text-sm font-semibold text-white">
                         {{ formatJobLabel(job.id) }}
                       </h3>
-                      <UiBadge :variant="getStatusBadgeVariant(job.status)" class="text-xs">
+                      <UiBadge
+                        :variant="getStatusBadgeVariant(job.status)"
+                        class="text-[10px] px-1.5 py-0"
+                      >
                         {{ statusLabels[job.status] || job.status }}
                       </UiBadge>
                       <span
                         v-if="formatExecutionTime(job.executionTime)"
-                        class="text-xs text-gray-500"
+                        class="text-[10px] text-gray-500"
                       >
                         · {{ formatExecutionTime(job.executionTime) }}
                       </span>
                     </div>
-                    <p class="text-xs md:text-sm text-gray-400 mt-1">
+                    <p class="text-xs text-gray-400 mt-0.5">
                       {{ formatDate(job.createdAt) }}
                     </p>
                   </div>
@@ -548,54 +572,55 @@ onUnmounted(() => {
                   v-if="job.status === 'completed' && job.hasResults"
                   size="sm"
                   variant="outline"
-                  class="border-green-700 text-green-400 hover:bg-green-950/50 w-full sm:w-auto"
+                  class="border-green-700/60 text-green-400 hover:bg-green-950/40 w-full sm:w-auto h-8 text-xs"
                   @click="download(job.id)"
                 >
-                  <Download class="w-4 h-4 mr-2" />
+                  <Download class="w-3 h-3 mr-1.5" />
                   {{ t('bulk.jobs.downloadResults') }}
                 </UiButton>
               </div>
 
               <!-- Counts -->
-              <div
-                v-if="job.counts.total > 0"
-                class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4"
-              >
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.total') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-white">
+              <div v-if="job.counts.total > 0" class="grid grid-cols-5 gap-2">
+                <div class="p-2 bg-zinc-900/60 border border-gray-800/40 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.total') }}</div>
+                  <div class="text-sm font-bold text-white">
                     {{ job.counts.total }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-green-900/30 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.valid') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-green-400">
+                <div class="p-2 bg-zinc-900/60 border border-green-900/30 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.valid') }}</div>
+                  <div class="text-sm font-bold text-green-400">
                     {{ job.counts.valid }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-red-900/30 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.invalid') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-red-400">
+                <div class="p-2 bg-zinc-900/60 border border-red-900/30 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.invalid') }}</div>
+                  <div class="text-sm font-bold text-red-400">
                     {{ job.counts.invalid }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-yellow-900/30 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.risky') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-yellow-400">
+                <div class="p-2 bg-zinc-900/60 border border-yellow-900/30 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.risky') }}</div>
+                  <div class="text-sm font-bold text-yellow-400">
                     {{ job.counts.risky }}
                   </div>
                 </div>
-                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
-                  <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.unknown') }}</div>
-                  <div class="text-lg md:text-xl font-bold text-gray-400">
+                <div class="p-2 bg-zinc-900/60 border border-gray-800/40 rounded">
+                  <div class="text-[10px] text-gray-400 mb-0.5">{{ t('bulk.counts.unknown') }}</div>
+                  <div class="text-sm font-bold text-gray-400">
                     {{ job.counts.unknown }}
                   </div>
                 </div>
               </div>
 
               <!-- Error Message -->
-              <div v-if="job.error" class="mt-4 p-3 bg-red-950/50 border border-red-800 rounded-md">
-                <p class="text-sm text-red-400">{{ job.error }}</p>
+              <div
+                v-if="job.error"
+                class="mt-3 p-2.5 bg-red-950/30 border border-red-800/40 rounded-md flex items-start gap-2"
+              >
+                <AlertCircle class="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
+                <p class="text-xs text-red-400">{{ job.error }}</p>
               </div>
             </div>
           </div>
@@ -603,59 +628,69 @@ onUnmounted(() => {
       </div>
 
       <!-- Sidebar -->
-      <div class="space-y-6">
+      <div class="space-y-4">
         <!-- Credits Info -->
-        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-white mb-4">
-            {{ t('bulk.sidebar.credits.title') }}
-          </h3>
-          <div class="text-center p-6 bg-black border border-gray-800 rounded-lg">
-            <div class="text-4xl font-bold text-blue-400 mb-2">
+        <div class="bg-zinc-900/50 border border-gray-800/50 rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="p-1.5 bg-blue-500/10 rounded">
+              <FileText class="w-3.5 h-3.5 text-blue-400" />
+            </div>
+            <h3 class="text-sm font-semibold text-white">
+              {{ t('bulk.sidebar.credits.title') }}
+            </h3>
+          </div>
+          <div class="text-center p-5 bg-black/40 border border-gray-800/40 rounded-lg">
+            <div class="text-3xl font-bold text-blue-400 mb-1">
               {{ Intl.NumberFormat(locale.value).format(user?.credits || 0) }}
             </div>
-            <div class="text-sm text-gray-400">{{ t('bulk.sidebar.credits.available') }}</div>
+            <div class="text-xs text-gray-400">{{ t('bulk.sidebar.credits.available') }}</div>
           </div>
           <div
             v-if="(user?.credits || 0) < 100"
-            class="mt-4 p-3 bg-yellow-950/30 border border-yellow-800/50 rounded-lg"
+            class="mt-3 p-2.5 bg-yellow-950/20 border border-yellow-800/30 rounded-md"
           >
-            <p class="text-xs text-yellow-400 mb-2">
+            <p class="text-xs text-yellow-400 mb-1.5">
               {{ t('bulk.sidebar.credits.low') }}
             </p>
             <NuxtLink to="/pricing" class="text-xs text-blue-400 hover:text-blue-300 underline">
-              {{ t('bulk.sidebar.credits.cta') }}
+              {{ t('bulk.sidebar.credits.cta') }} →
             </NuxtLink>
           </div>
-          <p v-else class="text-xs text-gray-500 mt-4">
+          <p v-else class="text-xs text-gray-500 mt-3">
             {{ t('bulk.sidebar.credits.info') }}
           </p>
         </div>
 
         <!-- Help Card -->
-        <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-white mb-4">
-            {{ t('bulk.steps.title') }}
-          </h3>
-          <ol class="space-y-3 text-sm text-gray-400">
-            <li class="flex gap-3">
+        <div class="bg-zinc-900/50 border border-gray-800/50 rounded-lg p-5">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="p-1.5 bg-blue-500/10 rounded">
+              <AlertCircle class="w-3.5 h-3.5 text-blue-400" />
+            </div>
+            <h3 class="text-sm font-semibold text-white">
+              {{ t('bulk.steps.title') }}
+            </h3>
+          </div>
+          <ol class="space-y-2.5 text-xs text-gray-400">
+            <li class="flex gap-2.5">
               <span
-                class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold"
+                class="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold"
               >
                 1
               </span>
               <span>{{ t('bulk.steps.items.upload') }}</span>
             </li>
-            <li class="flex gap-3">
+            <li class="flex gap-2.5">
               <span
-                class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold"
+                class="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold"
               >
                 2
               </span>
               <span>{{ t('bulk.steps.items.wait') }}</span>
             </li>
-            <li class="flex gap-3">
+            <li class="flex gap-2.5">
               <span
-                class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold"
+                class="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold"
               >
                 3
               </span>

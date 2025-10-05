@@ -303,6 +303,51 @@
       "next": "Suivant"
     }
   },
+  "validationDetail": {
+    "hero": {
+      "title": "Détails de la validation"
+    },
+    "messages": {
+      "loadError": "Impossible de charger la validation"
+    },
+    "risk": {
+      "title": "Score de risque"
+    },
+    "checks": {
+      "title": "Contrôles de validation",
+      "labels": {
+        "syntax": "Syntaxe",
+        "dns": "Enregistrements DNS",
+        "mx": "Enregistrements MX",
+        "smtp": "Vérification SMTP",
+        "disposable": "Email jetable",
+        "freeEmail": "Fournisseur gratuit",
+        "roleAccount": "Compte de rôle",
+        "suspicious": "Schéma suspect"
+      },
+      "status": {
+        "valid": "Valide",
+        "invalid": "Invalide",
+        "found": "Trouvé",
+        "notFound": "Non trouvé",
+        "verified": "Vérifié",
+        "notChecked": "Non vérifié",
+        "yes": "Oui",
+        "no": "Non",
+        "detected": "Détecté",
+        "none": "Aucun"
+      }
+    },
+    "domain": {
+      "title": "Informations sur le domaine",
+      "age": "Âge du domaine",
+      "newDomain": "Nouveau domaine",
+      "days": "{count} jours",
+      "unknown": "Inconnu",
+      "isNewYes": "Oui (< 90 jours)",
+      "isNewNo": "Non"
+    }
+  },
   "header": {
     "auth": {
       "login": "Connexion",
