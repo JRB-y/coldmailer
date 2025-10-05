@@ -63,8 +63,8 @@
       "processing": "Processing..."
     },
     "notice": {
-      "title": "Test Mode:",
-      "description": "Real USDC payments are in preview — live on-chain integration launching soon."
+      "title": "Credits never expire:",
+      "description": "No monthly lock-in."
     },
     "messages": {
       "toastSuccess": "Credits purchased successfully!",

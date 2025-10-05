@@ -534,8 +534,8 @@
       "processing": "处理中..."
     },
     "notice": {
-      "title": "模拟购买：",
-      "description": "真实的 USDC 集成即将上线"
+      "title": "模积分永久有效: ",
+      "description": "无月度绑定"
     },
     "messages": {
       "toastSuccess": "积分购买成功！",

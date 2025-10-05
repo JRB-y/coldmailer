@@ -63,8 +63,8 @@
       "processing": "Procesando..."
     },
     "notice": {
-      "title": "Compra simulada:",
-      "description": "La integración real de USDC llegará pronto"
+      "title": "Los créditos nunca caducan:",
+      "description": "sin compromiso mensual."
     },
     "messages": {
       "toastSuccess": "¡Créditos comprados con éxito!",
