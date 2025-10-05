@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import {
   Upload,
   FileText,
@@ -32,6 +32,16 @@ const previousJobStatuses = ref<Map<string, string>>(new Map())
 let pollInterval: any = null
 
 const { locale } = useI18n()
+
+// Separate active and completed jobs
+const activeJobs = computed(() =>
+  jobs.value.filter((job) => job.status === 'pending' || job.status === 'processing')
+)
+
+const completedJobs = computed(
+  () =>
+    jobs.value.filter((job) => job.status === 'completed' || job.status === 'failed').slice(0, 10) // Show only last 10 completed jobs
+)
 
 // File selection
 function onFileSelect(event: Event) {
@@ -86,10 +96,10 @@ async function uploadFile() {
   }
 }
 
-// Fetch running jobs only (pending, processing)
+// Fetch all jobs (including completed ones for download)
 async function fetchJobs(refreshCredits = false) {
   loading.value = true
-  const result = await getJobs('pending,processing')
+  const result = await getJobs() // Fetch all jobs, not just pending/processing
   loading.value = false
 
   if (result.success) {
@@ -205,11 +215,7 @@ function startPolling() {
 
   polling.value = true
   pollInterval = setInterval(async () => {
-    const hasActiveJobs = jobs.value.some(
-      (job) => job.status === 'pending' || job.status === 'processing'
-    )
-
-    if (hasActiveJobs) {
+    if (activeJobs.value.length > 0) {
       await fetchJobs(true)
     } else {
       stopPolling()
@@ -229,11 +235,7 @@ function stopPolling() {
 onMounted(async () => {
   await fetchJobs()
 
-  const hasActiveJobs = jobs.value.some(
-    (job) => job.status === 'pending' || job.status === 'processing'
-  )
-
-  if (hasActiveJobs) {
+  if (activeJobs.value.length > 0) {
     startPolling()
   }
 })
@@ -352,9 +354,9 @@ onUnmounted(() => {
           </div>
 
           <!-- Jobs -->
-          <div v-if="jobs.length > 0" class="space-y-4">
+          <div v-if="activeJobs.length > 0" class="space-y-4">
             <div
-              v-for="job in jobs"
+              v-for="job in activeJobs"
               :key="job.id"
               class="p-4 md:p-6 bg-black border border-gray-800 rounded-lg"
             >
@@ -465,7 +467,111 @@ onUnmounted(() => {
             <FileText class="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <p class="text-gray-400">No active jobs</p>
             <p class="text-sm text-gray-500 mt-2">Upload a CSV file to start validation</p>
-            <p class="text-xs text-gray-600 mt-4">View completed jobs in the History page</p>
+          </div>
+        </div>
+
+        <!-- Recent Completed Jobs -->
+        <div
+          v-if="completedJobs.length > 0"
+          class="bg-zinc-900 border border-gray-800 rounded-lg p-6 md:p-8"
+        >
+          <div class="flex items-center justify-between mb-4 md:mb-6">
+            <h2 class="text-lg md:text-xl font-bold text-white">Recent Completed Jobs</h2>
+            <NuxtLink
+              to="/history"
+              class="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              View All →
+            </NuxtLink>
+          </div>
+
+          <div class="space-y-4">
+            <div
+              v-for="job in completedJobs"
+              :key="job.id"
+              class="p-4 md:p-6 bg-black border border-gray-800 rounded-lg"
+            >
+              <!-- Job Header -->
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                  <component
+                    :is="getStatusIcon(job.status)"
+                    :class="['w-8 h-8 flex-shrink-0', getStatusColor(job.status)]"
+                  />
+                  <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <h3 class="text-base md:text-lg font-semibold text-white">
+                        Job {{ job.id.slice(-8) }}
+                      </h3>
+                      <UiBadge :variant="getStatusBadgeVariant(job.status)" class="text-xs">
+                        {{ job.status.charAt(0).toUpperCase() + job.status.slice(1) }}
+                      </UiBadge>
+                      <span
+                        v-if="formatExecutionTime(job.executionTime)"
+                        class="text-xs text-gray-500"
+                      >
+                        · {{ formatExecutionTime(job.executionTime) }}
+                      </span>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-400 mt-1">
+                      {{ formatDate(job.createdAt) }}
+                    </p>
+                  </div>
+                </div>
+                <UiButton
+                  v-if="job.status === 'completed' && job.hasResults"
+                  size="sm"
+                  variant="outline"
+                  class="border-green-700 text-green-400 hover:bg-green-950/50 w-full sm:w-auto"
+                  @click="download(job.id)"
+                >
+                  <Download class="w-4 h-4 mr-2" />
+                  Download Results
+                </UiButton>
+              </div>
+
+              <!-- Counts -->
+              <div
+                v-if="job.counts.total > 0"
+                class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4"
+              >
+                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
+                  <div class="text-xs text-gray-400 mb-1">Total</div>
+                  <div class="text-lg md:text-xl font-bold text-white">
+                    {{ job.counts.total }}
+                  </div>
+                </div>
+                <div class="p-3 bg-zinc-900 border border-green-900/30 rounded-md">
+                  <div class="text-xs text-gray-400 mb-1">Valid</div>
+                  <div class="text-lg md:text-xl font-bold text-green-400">
+                    {{ job.counts.valid }}
+                  </div>
+                </div>
+                <div class="p-3 bg-zinc-900 border border-red-900/30 rounded-md">
+                  <div class="text-xs text-gray-400 mb-1">Invalid</div>
+                  <div class="text-lg md:text-xl font-bold text-red-400">
+                    {{ job.counts.invalid }}
+                  </div>
+                </div>
+                <div class="p-3 bg-zinc-900 border border-yellow-900/30 rounded-md">
+                  <div class="text-xs text-gray-400 mb-1">Risky</div>
+                  <div class="text-lg md:text-xl font-bold text-yellow-400">
+                    {{ job.counts.risky }}
+                  </div>
+                </div>
+                <div class="p-3 bg-zinc-900 border border-gray-800 rounded-md">
+                  <div class="text-xs text-gray-400 mb-1">Unknown</div>
+                  <div class="text-lg md:text-xl font-bold text-gray-400">
+                    {{ job.counts.unknown }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Error Message -->
+              <div v-if="job.error" class="mt-4 p-3 bg-red-950/50 border border-red-800 rounded-md">
+                <p class="text-sm text-red-400">{{ job.error }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
