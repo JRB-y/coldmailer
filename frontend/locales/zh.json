@@ -230,6 +230,35 @@
       "creditPlural": "{count} 点数"
     }
   },
+  "jobDetail": {
+    "summary": {
+      "totalEmails": "{count} 个邮箱总计",
+      "creditsUsed": "{credits} 已使用",
+      "processing": "正在处理邮箱..."
+    },
+    "messages": {
+      "loadError": "无法加载验证结果"
+    },
+    "list": {
+      "title": "验证结果",
+      "loading": "正在加载验证结果...",
+      "emptyTitle": "暂无验证结果",
+      "emptyDescription": "邮箱验证完成后，结果会显示在这里"
+    },
+    "table": {
+      "email": "邮箱",
+      "status": "状态",
+      "risk": "风险评分",
+      "reason": "原因",
+      "time": "时间",
+      "noReason": "—"
+    },
+    "pagination": {
+      "label": "第 {current} / {total} 页",
+      "previous": "上一页",
+      "next": "下一页"
+    }
+  },
   "header": {
     "auth": {
       "login": "登录",

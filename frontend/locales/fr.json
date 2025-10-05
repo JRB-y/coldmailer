@@ -274,6 +274,35 @@
       "creditPlural": "{count} crédits"
     }
   },
+  "jobDetail": {
+    "summary": {
+      "totalEmails": "{count} e-mails au total",
+      "creditsUsed": "{credits} utilisés",
+      "processing": "Traitement des emails..."
+    },
+    "messages": {
+      "loadError": "Impossible de charger les validations"
+    },
+    "list": {
+      "title": "Résultats de validation",
+      "loading": "Chargement des validations...",
+      "emptyTitle": "Aucune validation pour le moment",
+      "emptyDescription": "Les résultats apparaîtront ici au fur et à mesure des validations"
+    },
+    "table": {
+      "email": "E-mail",
+      "status": "Statut",
+      "risk": "Score de risque",
+      "reason": "Raison",
+      "time": "Heure",
+      "noReason": "—"
+    },
+    "pagination": {
+      "label": "Page {current} sur {total}",
+      "previous": "Précédent",
+      "next": "Suivant"
+    }
+  },
   "header": {
     "auth": {
       "login": "Connexion",

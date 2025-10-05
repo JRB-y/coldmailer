@@ -27,6 +27,21 @@ const error = ref('')
 const currentPage = ref(1)
 const totalPages = ref(1)
 const limit = 50
+const { t, locale } = useI18n()
+
+const jobStatusLabels = computed(() => ({
+  completed: t('bulk.jobs.status.completed'),
+  failed: t('bulk.jobs.status.failed'),
+  processing: t('bulk.jobs.status.processing'),
+  pending: t('bulk.jobs.status.pending'),
+}))
+
+const validationStatusLabels = computed(() => ({
+  valid: t('dashboard.statuses.valid'),
+  invalid: t('dashboard.statuses.invalid'),
+  risky: t('dashboard.statuses.risky'),
+  unknown: t('dashboard.statuses.unknown'),
+}))
 
 let pollInterval: any = null
 
@@ -44,7 +59,7 @@ async function fetchValidations(page = 1) {
     currentPage.value = result.pagination?.page || 1
     totalPages.value = result.pagination?.pages || 1
   } else {
-    error.value = result.error || 'Failed to load validations'
+    error.value = result.error || t('jobDetail.messages.loadError')
   }
 }
 
@@ -71,7 +86,14 @@ function stopPolling() {
 // Format date
 function formatDate(dateString: string) {
   const date = new Date(dateString)
-  return date.toLocaleString('en-US', {
+  const localeMap: Record<string, string> = {
+    en: 'en-US',
+    fr: 'fr-FR',
+    es: 'es-ES',
+    zh: 'zh-CN',
+  }
+
+  return date.toLocaleString(localeMap[locale.value] || 'en-US', {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
@@ -133,6 +155,16 @@ const isJobActive = computed(() => {
   return job.value?.status === 'pending' || job.value?.status === 'processing'
 })
 
+function formatJobLabel(id: string) {
+  return t('bulk.jobs.jobLabel', { id: id.slice(-8) })
+}
+
+function formatCredits(count: number) {
+  const value = count || 0
+  const key = value === 1 ? 'history.labels.creditSingular' : 'history.labels.creditPlural'
+  return t(key, { count: value })
+}
+
 onMounted(() => {
   fetchValidations()
   startPolling()
@@ -155,16 +187,20 @@ onUnmounted(() => {
           @click="router.back()"
         >
           <ArrowLeft class="w-4 h-4 mr-2" />
-          Back
+          {{ t('common.back') }}
         </UiButton>
 
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl md:text-3xl font-bold text-white">Job {{ jobId.slice(-8) }}</h1>
+            <h1 class="text-2xl md:text-3xl font-bold text-white">{{ formatJobLabel(jobId) }}</h1>
             <div v-if="job" class="flex items-center gap-2 mt-2">
-              <p class="text-sm text-gray-400">{{ job.counts.total }} total emails</p>
+              <p class="text-sm text-gray-400">
+                {{ t('jobDetail.summary.totalEmails', { count: job.counts.total }) }}
+              </p>
               <span class="text-xs text-gray-700">·</span>
-              <p class="text-xs text-gray-500">{{ job.counts.total }} credits used</p>
+              <p class="text-xs text-gray-500">
+                {{ t('jobDetail.summary.creditsUsed', { credits: formatCredits(job.counts.total) }) }}
+              </p>
             </div>
           </div>
 
@@ -190,9 +226,11 @@ onUnmounted(() => {
 
             <div>
               <h2 class="text-lg font-semibold text-white">
-                {{ job.status.charAt(0).toUpperCase() + job.status.slice(1) }}
+                {{ jobStatusLabels[job.status] || job.status }}
               </h2>
-              <p v-if="isJobActive" class="text-sm text-gray-400">Processing emails...</p>
+              <p v-if="isJobActive" class="text-sm text-gray-400">
+                {{ t('jobDetail.summary.processing') }}
+              </p>
             </div>
           </div>
         </div>
@@ -200,7 +238,7 @@ onUnmounted(() => {
         <!-- Progress Bar -->
         <div class="mb-4">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-sm text-gray-400">Progress</span>
+            <span class="text-sm text-gray-400">{{ t('bulk.jobs.progress') }}</span>
             <span class="text-sm font-semibold text-white">{{ job.progress }}%</span>
           </div>
           <div class="w-full bg-gray-800 rounded-full h-2">
@@ -214,23 +252,23 @@ onUnmounted(() => {
         <!-- Counts -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
           <div class="p-3 bg-black border border-gray-800 rounded-md">
-            <div class="text-xs text-gray-400 mb-1">Total</div>
+            <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.total') }}</div>
             <div class="text-xl font-bold text-white">{{ job.counts.total }}</div>
           </div>
           <div class="p-3 bg-black border border-gray-800 rounded-md">
-            <div class="text-xs text-gray-400 mb-1">Valid</div>
+            <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.valid') }}</div>
             <div class="text-xl font-bold text-green-400">{{ job.counts.valid }}</div>
           </div>
           <div class="p-3 bg-black border border-gray-800 rounded-md">
-            <div class="text-xs text-gray-400 mb-1">Invalid</div>
+            <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.invalid') }}</div>
             <div class="text-xl font-bold text-red-400">{{ job.counts.invalid }}</div>
           </div>
           <div class="p-3 bg-black border border-gray-800 rounded-md">
-            <div class="text-xs text-gray-400 mb-1">Risky</div>
+            <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.risky') }}</div>
             <div class="text-xl font-bold text-yellow-400">{{ job.counts.risky }}</div>
           </div>
           <div class="p-3 bg-black border border-gray-800 rounded-md">
-            <div class="text-xs text-gray-400 mb-1">Unknown</div>
+            <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.unknown') }}</div>
             <div class="text-xl font-bold text-gray-400">{{ job.counts.unknown }}</div>
           </div>
         </div>
@@ -238,12 +276,12 @@ onUnmounted(() => {
 
       <!-- Validations List -->
       <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
-        <h2 class="text-xl font-bold text-white mb-6">Validation Results</h2>
+        <h2 class="text-xl font-bold text-white mb-6">{{ t('jobDetail.list.title') }}</h2>
 
         <!-- Loading State -->
         <div v-if="loading && validations.length === 0" class="text-center py-12">
           <Loader2 class="w-12 h-12 text-blue-400 mx-auto mb-4 animate-spin" />
-          <p class="text-gray-400">Loading validations...</p>
+          <p class="text-gray-400">{{ t('jobDetail.list.loading') }}</p>
         </div>
 
         <!-- Error State -->
@@ -255,8 +293,8 @@ onUnmounted(() => {
         <!-- Empty State -->
         <div v-else-if="validations.length === 0" class="text-center py-12">
           <Clock class="w-12 h-12 text-gray-600 mx-auto mb-4" />
-          <p class="text-gray-400">No validations yet</p>
-          <p class="text-sm text-gray-500 mt-2">Results will appear here as emails are validated</p>
+          <p class="text-gray-400">{{ t('jobDetail.list.emptyTitle') }}</p>
+          <p class="text-sm text-gray-500 mt-2">{{ t('jobDetail.list.emptyDescription') }}</p>
         </div>
 
         <!-- Validations Table -->
@@ -265,13 +303,21 @@ onUnmounted(() => {
             <table class="w-full">
               <thead>
                 <tr class="border-b border-gray-800">
-                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">Email</th>
-                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">Status</th>
                   <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">
-                    Risk Score
+                    {{ t('jobDetail.table.email') }}
                   </th>
-                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">Reason</th>
-                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">Time</th>
+                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">
+                    {{ t('jobDetail.table.status') }}
+                  </th>
+                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">
+                    {{ t('jobDetail.table.risk') }}
+                  </th>
+                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">
+                    {{ t('jobDetail.table.reason') }}
+                  </th>
+                  <th class="text-left py-3 px-4 text-sm font-semibold text-gray-400">
+                    {{ t('jobDetail.table.time') }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -291,7 +337,7 @@ onUnmounted(() => {
                         :class="['w-4 h-4', getStatusColor(validation.status)]"
                       />
                       <UiBadge :variant="getStatusBadgeVariant(validation.status)" class="text-xs">
-                        {{ validation.status }}
+                        {{ validationStatusLabels[validation.status] || validation.status }}
                       </UiBadge>
                     </div>
                   </td>
@@ -310,7 +356,7 @@ onUnmounted(() => {
                     </span>
                   </td>
                   <td class="py-3 px-4 text-sm text-gray-400 max-w-xs truncate">
-                    {{ validation.reason || '-' }}
+                    {{ validation.reason || t('jobDetail.table.noReason') }}
                   </td>
                   <td class="py-3 px-4 text-xs text-gray-500">
                     {{ formatDate(validation.createdAt) }}
@@ -322,7 +368,9 @@ onUnmounted(() => {
 
           <!-- Pagination -->
           <div v-if="totalPages > 1" class="flex items-center justify-between mt-6">
-            <p class="text-sm text-gray-400">Page {{ currentPage }} of {{ totalPages }}</p>
+            <p class="text-sm text-gray-400">
+              {{ t('jobDetail.pagination.label', { current: currentPage, total: totalPages }) }}
+            </p>
             <div class="flex items-center gap-2">
               <UiButton
                 variant="outline"
@@ -331,7 +379,7 @@ onUnmounted(() => {
                 @click="goToPage(currentPage - 1)"
                 class="text-gray-300 hover:bg-zinc-800 bg-transparent border-gray-700"
               >
-                Previous
+                {{ t('jobDetail.pagination.previous') }}
               </UiButton>
               <UiButton
                 variant="outline"
@@ -340,7 +388,7 @@ onUnmounted(() => {
                 @click="goToPage(currentPage + 1)"
                 class="border-gray-700 text-gray-300 hover:bg-zinc-800 bg-black"
               >
-                Next
+                {{ t('jobDetail.pagination.next') }}
               </UiButton>
             </div>
           </div>
