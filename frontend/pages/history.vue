@@ -26,6 +26,21 @@ const apiUrl = config.public.apiUrl
 const history = ref<any[]>([])
 const loading = ref(true)
 const error = ref('')
+const { t, locale } = useI18n()
+
+const jobStatusLabels = computed(() => ({
+  completed: t('bulk.jobs.status.completed'),
+  failed: t('bulk.jobs.status.failed'),
+  processing: t('bulk.jobs.status.processing'),
+  pending: t('bulk.jobs.status.pending'),
+}))
+
+const validationStatusLabels = computed(() => ({
+  valid: t('dashboard.statuses.valid'),
+  invalid: t('dashboard.statuses.invalid'),
+  risky: t('dashboard.statuses.risky'),
+  unknown: t('dashboard.statuses.unknown'),
+}))
 
 // Fetch both individual validations and jobs
 async function fetchHistory() {
@@ -49,7 +64,7 @@ async function fetchHistory() {
     const jobsResult = await getJobs()
 
     if (!validationsRes.ok && !jobsResult.success) {
-      throw new Error('Failed to load history')
+      throw new Error(t('history.messages.loadError'))
     }
 
     // Filter validations without jobId (individual email validations)
@@ -67,7 +82,7 @@ async function fetchHistory() {
 
     history.value = merged
   } catch (err: any) {
-    error.value = err.message || 'Failed to load history'
+    error.value = err.message || t('history.messages.loadError')
   } finally {
     loading.value = false
   }
@@ -82,12 +97,23 @@ function formatDate(dateString: string) {
   const diffHours = Math.floor(diffMs / 3600000)
   const diffDays = Math.floor(diffMs / 86400000)
 
-  if (diffMins < 1) return 'Just now'
-  if (diffMins < 60) return `${diffMins}m ago`
-  if (diffHours < 24) return `${diffHours}h ago`
-  if (diffDays < 7) return `${diffDays}d ago`
+  if (diffMins < 1) return t('history.time.justNow')
+  if (diffMins < 60) return t('history.time.minutesAgo', { count: diffMins })
+  if (diffHours < 24) return t('history.time.hoursAgo', { count: diffHours })
+  if (diffDays < 7) return t('history.time.daysAgo', { count: diffDays })
 
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  const localeMap: Record<string, string> = {
+    en: 'en-US',
+    fr: 'fr-FR',
+    es: 'es-ES',
+    zh: 'zh-CN',
+  }
+
+  return date.toLocaleDateString(localeMap[locale.value] || 'en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 }
 
 // Format execution time
@@ -173,8 +199,18 @@ function handleItemClick(item: any) {
 async function download(jobId: string) {
   const result = await downloadResults(jobId)
   if (!result.success) {
-    error.value = result.error || 'Download failed'
+    error.value = result.error || t('history.messages.downloadError')
   }
+}
+
+function formatJobLabel(jobId: string) {
+  return t('bulk.jobs.jobLabel', { id: jobId.slice(-8) })
+}
+
+function formatCredits(count: number) {
+  const value = count || 0
+  const key = value === 1 ? 'history.labels.creditSingular' : 'history.labels.creditPlural'
+  return t(key, { count: value })
 }
 
 // Load on mount
@@ -189,8 +225,8 @@ onMounted(() => {
     <div class="mb-8 flex flex-col gap-3">
       <UiBackButton />
       <div>
-        <h1 class="text-3xl font-bold text-white mb-2">Validation History</h1>
-        <p class="text-gray-400">View all your validations and jobs</p>
+        <h1 class="text-3xl font-bold text-white mb-2">{{ t('history.hero.title') }}</h1>
+        <p class="text-gray-400">{{ t('history.hero.subtitle') }}</p>
       </div>
     </div>
 
@@ -206,7 +242,7 @@ onMounted(() => {
     >
       <p class="text-red-400">{{ error }}</p>
       <UiButton @click="fetchHistory" variant="destructive" size="sm" class="mt-4">
-        Retry
+        {{ t('history.actions.retry') }}
       </UiButton>
     </div>
 
@@ -216,10 +252,10 @@ onMounted(() => {
       class="bg-zinc-900 border border-gray-800 rounded-lg p-12 text-center"
     >
       <FileText class="w-16 h-16 text-gray-600 mx-auto mb-4" />
-      <h3 class="text-xl font-semibold text-white mb-2">No history yet</h3>
-      <p class="text-gray-400 mb-6">Start validating emails to see your history here</p>
+      <h3 class="text-xl font-semibold text-white mb-2">{{ t('history.empty.title') }}</h3>
+      <p class="text-gray-400 mb-6">{{ t('history.empty.description') }}</p>
       <NuxtLink to="/">
-        <UiButton variant="default" size="lg"> Validate Email </UiButton>
+        <UiButton variant="default" size="lg"> {{ t('dashboard.validate.button') }} </UiButton>
       </NuxtLink>
     </div>
 
@@ -240,9 +276,11 @@ onMounted(() => {
               </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
-                  <UiBadge variant="secondary" class="text-xs"> Single Validation </UiBadge>
+                  <UiBadge variant="secondary" class="text-xs">
+                    {{ t('history.items.single.badge') }}
+                  </UiBadge>
                   <span class="text-xs text-gray-600">·</span>
-                  <span class="text-xs text-gray-500">{{ item.creditsUsed || 1 }} credit</span>
+                  <span class="text-xs text-gray-500">{{ formatCredits(item.creditsUsed || 1) }}</span>
                   <template v-if="formatExecutionTime(item.executionTime)">
                     <span class="text-xs text-gray-600">·</span>
                     <span class="text-xs text-gray-500">{{
@@ -261,11 +299,11 @@ onMounted(() => {
                   :class="['w-5 h-5', getStatusColor(item.status)]"
                 />
                 <UiBadge :variant="getStatusBadgeVariant(item.status)">
-                  {{ item.status }}
+                  {{ validationStatusLabels[item.status] || item.status }}
                 </UiBadge>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-xs text-gray-400">Risk Score:</span>
+                <span class="text-xs text-gray-400">{{ t('history.labels.riskScore') }}</span>
                 <span
                   :class="[
                     'text-lg font-bold',
@@ -292,9 +330,11 @@ onMounted(() => {
               </div>
               <div>
                 <div class="flex items-center gap-2 mb-2">
-                  <UiBadge variant="secondary" class="text-xs"> Bulk Validation </UiBadge>
+                  <UiBadge variant="secondary" class="text-xs">
+                    {{ t('history.items.bulk.badge') }}
+                  </UiBadge>
                   <span class="text-xs text-gray-600">·</span>
-                  <span class="text-xs text-gray-500">{{ item.counts.total }} credits</span>
+                  <span class="text-xs text-gray-500">{{ formatCredits(item.counts.total) }}</span>
                   <template v-if="formatExecutionTime(item.executionTime)">
                     <span class="text-xs text-gray-600">·</span>
                     <span class="text-xs text-gray-500">{{
@@ -303,7 +343,7 @@ onMounted(() => {
                   </template>
                 </div>
                 <div class="flex items-center gap-2">
-                  <h3 class="text-lg font-semibold text-white">Job {{ item.id.slice(-8) }}</h3>
+                  <h3 class="text-lg font-semibold text-white">{{ formatJobLabel(item.id) }}</h3>
                   <component
                     :is="getStatusIcon(item.status)"
                     :class="[
@@ -313,7 +353,7 @@ onMounted(() => {
                     ]"
                   />
                   <UiBadge :variant="getStatusBadgeVariant(item.status)">
-                    {{ item.status.charAt(0).toUpperCase() + item.status.slice(1) }}
+                    {{ jobStatusLabels[item.status] || item.status }}
                   </UiBadge>
                 </div>
                 <p class="text-sm text-gray-400 mt-1">{{ formatDate(item.createdAt) }}</p>
@@ -328,7 +368,7 @@ onMounted(() => {
                 @click.stop="viewJob(item.id)"
               >
                 <Eye class="w-4 h-4 mr-2" />
-                View
+                {{ t('history.actions.view') }}
               </UiButton>
               <UiButton
                 v-if="item.status === 'completed' && item.hasResults"
@@ -338,7 +378,7 @@ onMounted(() => {
                 @click.stop="download(item.id)"
               >
                 <Download class="w-4 h-4 mr-2" />
-                Download
+                {{ t('history.actions.download') }}
               </UiButton>
             </div>
           </div>
@@ -346,7 +386,7 @@ onMounted(() => {
           <!-- Progress Bar -->
           <div v-if="item.status === 'processing' || item.status === 'completed'" class="mb-4">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-sm text-gray-400">Progress</span>
+              <span class="text-sm text-gray-400">{{ t('bulk.jobs.progress') }}</span>
               <span class="text-sm font-semibold text-white">{{ item.progress }}%</span>
             </div>
             <div class="w-full bg-gray-800 rounded-full h-2">
@@ -360,23 +400,23 @@ onMounted(() => {
           <!-- Counts -->
           <div v-if="item.counts.total > 0" class="grid grid-cols-2 md:grid-cols-5 gap-3">
             <div class="p-3 bg-black border border-gray-800 rounded-md">
-              <div class="text-xs text-gray-400 mb-1">Total</div>
+              <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.total') }}</div>
               <div class="text-xl font-bold text-white">{{ item.counts.total }}</div>
             </div>
             <div class="p-3 bg-black border border-gray-800 rounded-md">
-              <div class="text-xs text-gray-400 mb-1">Valid</div>
+              <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.valid') }}</div>
               <div class="text-xl font-bold text-green-400">{{ item.counts.valid }}</div>
             </div>
             <div class="p-3 bg-black border border-gray-800 rounded-md">
-              <div class="text-xs text-gray-400 mb-1">Invalid</div>
+              <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.invalid') }}</div>
               <div class="text-xl font-bold text-red-400">{{ item.counts.invalid }}</div>
             </div>
             <div class="p-3 bg-black border border-gray-800 rounded-md">
-              <div class="text-xs text-gray-400 mb-1">Risky</div>
+              <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.risky') }}</div>
               <div class="text-xl font-bold text-yellow-400">{{ item.counts.risky }}</div>
             </div>
             <div class="p-3 bg-black border border-gray-800 rounded-md">
-              <div class="text-xs text-gray-400 mb-1">Unknown</div>
+              <div class="text-xs text-gray-400 mb-1">{{ t('bulk.counts.unknown') }}</div>
               <div class="text-xl font-bold text-gray-400">{{ item.counts.unknown }}</div>
             </div>
           </div>

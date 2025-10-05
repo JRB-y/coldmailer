@@ -236,6 +236,44 @@
       }
     }
   },
+  "history": {
+    "hero": {
+      "title": "Validation History",
+      "subtitle": "View all your validations and jobs"
+    },
+    "messages": {
+      "loadError": "Failed to load history",
+      "downloadError": "Download failed"
+    },
+    "time": {
+      "justNow": "Just now",
+      "minutesAgo": "{count}m ago",
+      "hoursAgo": "{count}h ago",
+      "daysAgo": "{count}d ago"
+    },
+    "actions": {
+      "retry": "Retry",
+      "view": "View",
+      "download": "Download"
+    },
+    "empty": {
+      "title": "No history yet",
+      "description": "Start validating emails to see your history here"
+    },
+    "items": {
+      "single": {
+        "badge": "Single Validation"
+      },
+      "bulk": {
+        "badge": "Bulk Validation"
+      }
+    },
+    "labels": {
+      "riskScore": "Risk Score:",
+      "creditSingular": "{count} credit",
+      "creditPlural": "{count} credits"
+    }
+  },
   "header": {
     "auth": {
       "login": "Login",

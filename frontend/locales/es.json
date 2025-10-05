@@ -236,6 +236,44 @@
       }
     }
   },
+  "history": {
+    "hero": {
+      "title": "Historial de validaciones",
+      "subtitle": "Consulta todas tus validaciones y trabajos"
+    },
+    "messages": {
+      "loadError": "No se pudo cargar el historial",
+      "downloadError": "La descarga falló"
+    },
+    "time": {
+      "justNow": "Hace un momento",
+      "minutesAgo": "hace {count} min",
+      "hoursAgo": "hace {count} h",
+      "daysAgo": "hace {count} d"
+    },
+    "actions": {
+      "retry": "Reintentar",
+      "view": "Ver",
+      "download": "Descargar"
+    },
+    "empty": {
+      "title": "Aún no hay historial",
+      "description": "Comienza a validar correos para ver tu historial aquí"
+    },
+    "items": {
+      "single": {
+        "badge": "Validación individual"
+      },
+      "bulk": {
+        "badge": "Validación masiva"
+      }
+    },
+    "labels": {
+      "riskScore": "Puntuación de riesgo:",
+      "creditSingular": "{count} crédito",
+      "creditPlural": "{count} créditos"
+    }
+  },
   "header": {
     "auth": {
       "login": "Iniciar sesión",

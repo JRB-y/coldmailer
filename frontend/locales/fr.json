@@ -236,6 +236,44 @@
       }
     }
   },
+  "history": {
+    "hero": {
+      "title": "Historique des validations",
+      "subtitle": "Consultez toutes vos validations et tâches"
+    },
+    "messages": {
+      "loadError": "Échec du chargement de l'historique",
+      "downloadError": "Le téléchargement a échoué"
+    },
+    "time": {
+      "justNow": "À l'instant",
+      "minutesAgo": "il y a {count} min",
+      "hoursAgo": "il y a {count} h",
+      "daysAgo": "il y a {count} j"
+    },
+    "actions": {
+      "retry": "Réessayer",
+      "view": "Voir",
+      "download": "Télécharger"
+    },
+    "empty": {
+      "title": "Aucun historique pour le moment",
+      "description": "Commencez à valider des emails pour voir votre historique ici"
+    },
+    "items": {
+      "single": {
+        "badge": "Validation unique"
+      },
+      "bulk": {
+        "badge": "Validation en masse"
+      }
+    },
+    "labels": {
+      "riskScore": "Score de risque :",
+      "creditSingular": "{count} crédit",
+      "creditPlural": "{count} crédits"
+    }
+  },
   "header": {
     "auth": {
       "login": "Connexion",
