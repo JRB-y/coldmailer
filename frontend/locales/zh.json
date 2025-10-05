@@ -602,6 +602,37 @@
       "cancelled": "已取消"
     }
   },
+  "contact": {
+    "hero": {
+      "title": "联系支持团队",
+      "subtitle": "告诉我们您的需求，我们会在一个工作日内回复。"
+    },
+    "form": {
+      "nameLabel": "您的姓名",
+      "namePlaceholder": "张三",
+      "emailLabel": "邮箱",
+      "emailPlaceholder": "you{'@'}example.com",
+      "subjectLabel": "主题",
+      "subjectPlaceholder": "我们能帮您什么？",
+      "messageLabel": "留言",
+      "messagePlaceholder": "请描述您的问题或需求...",
+      "submit": "发送消息",
+      "submitting": "发送中..."
+    },
+    "messages": {
+      "success": "感谢您的来信！我们会尽快回复您。",
+      "error": "消息发送失败，请稍后再试。"
+    },
+    "sidebar": {
+      "title": "需要快速支持？",
+      "description": "工作日内，我们通常会在数小时内回复大部分请求。",
+      "emailTitle": "邮件联系",
+      "responseTitle": "响应时间",
+      "responseDescription": "通常 24 小时内回复（周一至周五）。",
+      "feedbackTitle": "反馈建议",
+      "feedbackDescription": "欢迎提供产品想法或问题反馈。"
+    }
+  },
   "footer": {
     "tagline": "为自由职业者、机构和增长团队提供精准的邮箱验证。",
     "links": {
@@ -611,7 +642,8 @@
       "blog": "博客",
       "careers": "加入我们",
       "privacy": "隐私政策",
-      "terms": "服务条款"
+      "terms": "服务条款",
+      "contact": "联系我们"
     },
     "language": {
       "title": "语言"

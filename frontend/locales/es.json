@@ -131,6 +131,37 @@
       "cancelled": "Cancelado"
     }
   },
+  "contact": {
+    "hero": {
+      "title": "Contacta con soporte",
+      "subtitle": "Envíanos tu mensaje y responderemos dentro de un día laborable."
+    },
+    "form": {
+      "nameLabel": "Tu nombre",
+      "namePlaceholder": "Juan Pérez",
+      "emailLabel": "Correo",
+      "emailPlaceholder": "tu{'@'}ejemplo.com",
+      "subjectLabel": "Asunto",
+      "subjectPlaceholder": "¿En qué podemos ayudarte?",
+      "messageLabel": "Mensaje",
+      "messagePlaceholder": "Describe tu duda o solicitud...",
+      "submit": "Enviar mensaje",
+      "submitting": "Enviando..."
+    },
+    "messages": {
+      "success": "¡Gracias! Recibimos tu mensaje y te responderemos pronto.",
+      "error": "No pudimos enviar tu mensaje. Inténtalo de nuevo."
+    },
+    "sidebar": {
+      "title": "¿Necesitas ayuda rápida?",
+      "description": "Nuestro equipo responde la mayoría de los mensajes en pocas horas durante la semana.",
+      "emailTitle": "Escríbenos",
+      "responseTitle": "Tiempo de respuesta",
+      "responseDescription": "Normalmente respondemos en menos de 24 horas, de lunes a viernes.",
+      "feedbackTitle": "Comparte comentarios",
+      "feedbackDescription": "Tus ideas sobre el producto o informes de errores siempre son bienvenidos."
+    }
+  },
   "dashboard": {
     "title": "Panel",
     "subtitle": "Valida emails y controla tu uso",
@@ -611,7 +642,8 @@
       "blog": "Blog",
       "careers": "Carreras",
       "privacy": "Privacidad",
-      "terms": "Términos"
+      "terms": "Términos",
+      "contact": "Contacto"
     },
     "language": {
       "title": "Idioma"

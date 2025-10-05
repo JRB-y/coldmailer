@@ -131,6 +131,37 @@
       "cancelled": "Annulé"
     }
   },
+  "contact": {
+    "hero": {
+      "title": "Contacter l'équipe",
+      "subtitle": "Envoyez-nous votre message et nous vous répondrons sous un jour ouvré."
+    },
+    "form": {
+      "nameLabel": "Votre nom",
+      "namePlaceholder": "Jean Dupont",
+      "emailLabel": "Email",
+      "emailPlaceholder": "vous{'@'}example.com",
+      "subjectLabel": "Sujet",
+      "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Décrivez votre question ou votre demande...",
+      "submit": "Envoyer",
+      "submitting": "Envoi en cours..."
+    },
+    "messages": {
+      "success": "Merci ! Nous avons bien reçu votre message et vous répondrons rapidement.",
+      "error": "Impossible d'envoyer votre message. Veuillez réessayer."
+    },
+    "sidebar": {
+      "title": "Besoin d'aide rapidement ?",
+      "description": "Notre équipe répond à la plupart des demandes en quelques heures les jours ouvrés.",
+      "emailTitle": "Écrivez-nous",
+      "responseTitle": "Délai de réponse",
+      "responseDescription": "Réponse habituelle sous 24 heures, du lundi au vendredi.",
+      "feedbackTitle": "Vos retours",
+      "feedbackDescription": "Idées produit ou signalement de bug : nous sommes preneurs."
+    }
+  },
   "dashboard": {
     "title": "Tableau de bord",
     "subtitle": "Validez vos emails et suivez votre utilisation",
@@ -611,7 +642,8 @@
       "blog": "Blog",
       "careers": "Carrières",
       "privacy": "Confidentialité",
-      "terms": "Conditions"
+      "terms": "Conditions",
+      "contact": "Contact"
     },
     "language": {
       "title": "Langue"

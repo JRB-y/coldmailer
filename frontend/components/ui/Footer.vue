@@ -142,6 +142,10 @@ function selectLocale(code: string) {
           <NuxtLink :to="localePath('/terms')" class="hover:text-white transition-colors">
             {{ t('footer.links.terms') }}
           </NuxtLink>
+          <span class="h-3 w-px bg-gray-700"></span>
+          <NuxtLink :to="localePath('/contact')" class="hover:text-white transition-colors">
+            {{ t('footer.links.contact') }}
+          </NuxtLink>
         </div>
       </div>
     </div>

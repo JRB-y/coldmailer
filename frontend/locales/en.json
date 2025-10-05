@@ -131,6 +131,37 @@
       "cancelled": "Cancelled"
     }
   },
+  "contact": {
+    "hero": {
+      "title": "Contact Support",
+      "subtitle": "Send us a note and the Valix team will get back within one business day."
+    },
+    "form": {
+      "nameLabel": "Your name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you{'@'}example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "How can we help?",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Describe your question or request...",
+      "submit": "Send message",
+      "submitting": "Sending..."
+    },
+    "messages": {
+      "success": "Thanks! We received your message and will reply shortly.",
+      "error": "We couldn't send your message. Please try again."
+    },
+    "sidebar": {
+      "title": "Need immediate help?",
+      "description": "Our support team answers most questions within hours during the work week.",
+      "emailTitle": "Email us directly",
+      "responseTitle": "Response time",
+      "responseDescription": "We typically respond within 24 hours, Monday to Friday.",
+      "feedbackTitle": "Share feedback",
+      "feedbackDescription": "Product ideas or bug reports are always welcome."
+    }
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Verify emails, monitor results, and manage your credits easily.",
@@ -449,7 +480,8 @@
       "blog": "Blog",
       "careers": "Careers",
       "privacy": "Privacy",
-      "terms": "Terms"
+      "terms": "Terms",
+      "contact": "Contact"
     },
     "language": {
       "title": "Language"
