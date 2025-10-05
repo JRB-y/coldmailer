@@ -59,7 +59,6 @@ const paymentSchema = new mongoose.Schema(
 
 // Index for efficient querying
 paymentSchema.index({ userId: 1, status: 1 })
-paymentSchema.index({ coinbaseChargeId: 1 })
 
 const Payment = mongoose.model('Payment', paymentSchema)
 
