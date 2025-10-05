@@ -329,36 +329,36 @@
   },
   "landing": {
     "hero": {
-      "headlinePrimary": "冷启动邮件地址验证",
-      "headlineSecondary": "专为自由职业者和独立创业者打造",
-      "subheading": "在发送之前验证每一个邮箱地址。减少退信，保护发件人信誉，保障冷启动推广活动安全 —— 支持加密货币支付，无任何限制。",
-      "ctaPrimary": "立即获取200次免费验证",
-      "ctaDashboard": "进入控制面板"
+      "headlinePrimary": "支持加密货币支付的邮箱验证",
+      "headlineSecondary": "为自由职业者、营销人员与独立创业者打造",
+      "subheading": "验证每个邮箱地址，并使用加密货币轻松付款。保护发件人信誉，减少退信，提高冷邮件投递成功率——无需银行卡，无国界，无限制。",
+      "ctaPrimary": "获取 200 个免费积分",
+      "ctaDashboard": "进入控制台"
     },
     "features": {
       "items": {
         "diagnostics": {
-          "title": "精准的邮箱检查",
-          "description": "执行 DNS、MX 和 SMTP 测试，确保邮箱可达性，再开始您的推广活动。"
+          "title": "企业级邮箱检测",
+          "description": "执行 DNS、MX、SMTP 验证，确保邮箱可达后再发送邮件。"
         },
         "risk": {
-          "title": "智能风险评分",
-          "description": "每个地址都会获得 0–100 的风险评分，让您即时识别安全、风险或无效的联系人。"
+          "title": "精准风险评分",
+          "description": "每个邮箱都会获得 0–100 的风险分数，让你清楚知道哪些安全、哪些风险、哪些无效。"
         },
         "compliance": {
-          "title": "客户可用的报告",
-          "description": "导出验证报告，证明您的名单质量，保障自由职业合同合规。"
+          "title": "客户可用验证报告",
+          "description": "导出清晰的验证报告，展示名单质量并保护客户的邮件送达率。"
         }
       }
     },
     "stats": {
       "precision": "验证精度",
-      "credits": "免费点数",
+      "credits": "免费积分",
       "latency": "验证速度"
     },
     "checks": {
-      "title": "9 项技术验证",
-      "description": "ValixMail 在实时运行九项标准验证，让您放心发送，而不是凭感觉。",
+      "title": "九步邮箱验证流程",
+      "description": "ValixMail 结合九项实时检测——从 DNS、SMTP 到域名年龄与可疑模式识别——确保每个邮箱真实、安全并可接收邮件。",
       "labels": {
         "checkDns": "DNS 检查",
         "checkDomainAge": "域名年龄",
@@ -366,61 +366,61 @@
         "checkSmtp": "SMTP",
         "hasSuspiciousPatterns": "可疑模式",
         "isDisposable": "临时邮箱",
-        "isFreeDomain": "免费邮箱",
+        "isFreeDomain": "免费域名",
         "isRoleAccount": "角色邮箱",
-        "validateSyntax": "语法"
+        "validateSyntax": "语法检查"
       },
       "items": {
-        "checkDns": "确认域名是否存活并正确配置。",
-        "checkDomainAge": "标记新注册域名，这些域名常用于垃圾邮件。",
-        "checkMxRecords": "验证 MX 记录，确保邮箱可以接收邮件。",
-        "checkSmtp": "执行实时 SMTP 握手以检测有效邮箱。",
-        "hasSuspiciousPatterns": "发现假注册、拼写错误和可疑模式。",
-        "isDisposable": "拦截一次性/临时邮箱服务。",
-        "isFreeDomain": "标记免费邮箱提供商（Gmail、Yahoo、Outlook 等）。",
-        "isRoleAccount": "检测通用邮箱（info, support, sales）。",
-        "validateSyntax": "在发送前删除格式错误的邮箱。"
+        "checkDns": "确认域名存在并已正确配置用于接收邮件。",
+        "checkDomainAge": "标记新注册域名，这类域名常用于垃圾邮件。",
+        "checkMxRecords": "验证 MX 记录是否有效，邮箱是否可接收邮件。",
+        "checkSmtp": "执行实时 SMTP 握手，确认邮箱地址有效。",
+        "hasSuspiciousPatterns": "检测拼写错误、伪造地址及垃圾邮件特征。",
+        "isDisposable": "识别并屏蔽一次性或临时邮箱服务。",
+        "isFreeDomain": "检测 Gmail、Outlook 等免费域名，帮助精准定位。",
+        "isRoleAccount": "识别 info{'@'} 或 support{'@'} 等公共邮箱，减少个性化丢失。",
+        "validateSyntax": "清理无效或格式错误的邮箱地址。"
       }
     },
     "dataSources": {
-      "title": "可信的数据源",
-      "description": "ValixMail 结合 DNS 记录、SMTP 检查和已知的临时邮箱名单，为自由职业者提供企业级精度。",
+      "title": "可信数据源",
+      "description": "ValixMail 综合 DNS、SMTP 与全球信誉信号，提供企业级验证体验，并支持 Coinbase Commerce 加密支付。",
       "cards": {
         "signals": {
-          "title": "跨网络信号",
-          "description": "分析跨多个服务商的域名和邮箱信誉。"
+          "title": "信誉智能分析",
+          "description": "分析主要邮件服务中的发件人信誉与邮箱健康状况。"
         },
         "pings": {
-          "title": "实时邮箱 Ping",
-          "description": "执行轻量验证，同时遵守服务商限制。"
+          "title": "实时邮箱探测",
+          "description": "执行轻量、安全的实时 SMTP 检查，不触发垃圾过滤。"
         },
         "compliance": {
-          "title": "合规保障",
-          "description": "符合 GDPR 的文档，保障自由职业工作安全。"
+          "title": "GDPR 合规与隐私保护",
+          "description": "为负责任的邮件推广而设计——完全符合 GDPR，数据安全可靠。"
         }
       }
     },
     "process": {
-      "title": "使用流程",
+      "title": "工作流程",
       "steps": {
         "one": {
-          "title": "几秒完成注册",
-          "description": "创建您的免费账户，立即获得 1000 次邮箱验证。"
+          "title": "创建免费账户",
+          "description": "几秒内注册，立即获得 200 个免费验证积分开始测试。"
         },
         "two": {
           "title": "上传或连接",
-          "description": "上传 CSV 文件或通过 API 连接，即时验证您的推广名单。"
+          "description": "上传 CSV 文件或通过 API 即时验证整份名单。"
         },
         "three": {
-          "title": "放心发送",
-          "description": "交付干净的名单，减少退信，向客户证明投资回报率 (ROI)。"
+          "title": "使用加密货币支付，无国界扩展",
+          "description": "通过 Coinbase Commerce 随时购买积分——无需银行，无边界。"
         }
       }
     },
     "cta": {
-      "title": "立即开始验证您的冷启动推广邮箱",
-      "description": "全球自由职业者和代理机构信任 ValixMail，用它来保护发件人信誉并达成更多交易。支持加密货币支付，随时随地验证。",
-      "primary": "立即获取1000次免费验证"
+      "title": "立即验证冷邮件列表，用加密货币轻松付款",
+      "description": "数百名自由职业者与营销团队都在使用 ValixMail。通过 Coinbase Commerce 安全支付，享受全球访问与可靠的投递率。",
+      "primary": "获取 200 个免费积分"
     }
   },
   "legal": {
@@ -457,29 +457,55 @@
       ]
     },
     "terms": {
-      "title": "服务条款",
-      "updated": "最后更新：2024 年 10 月 1 日",
-      "intro": "本临时条款用于规范测试阶段的使用。在接受真实客户之前，我们会发布完整条款。",
+      "title": "Términos del servicio",
+      "updated": "Última actualización: 5 de octubre de 2025",
+      "intro": "Estos Términos del Servicio regulan el acceso y uso de ValixMail. Al crear una cuenta o utilizar la plataforma, aceptas hacerlo de forma responsable y conforme a las leyes de protección de datos y anti-spam aplicables.",
       "sections": [
         {
-          "heading": "接受条款",
+          "heading": "1. Aceptación de los términos",
           "body": [
-            "访问此预览即表示您仅在内部评估 Valix，不会上传受监管或实际生产数据。",
-            "正式上线后，继续使用需要同意最终合同，该合同将取代本说明。"
+            "Al acceder o utilizar ValixMail, reconoces que has leído y aceptado estos Términos del Servicio.",
+            "Si utilizas ValixMail en nombre de una empresa o cliente, garantizas tener la autoridad necesaria para aceptar estos términos en su nombre.",
+            "ValixMail podrá actualizar estos términos ocasionalmente. El uso continuado del servicio después de los cambios implica la aceptación de las nuevas condiciones."
           ]
         },
         {
-          "heading": "服务使用规则",
+          "heading": "2. Uso permitido del servicio",
           "body": [
-            "您可以体验单封及批量验证功能，但必须遵守所在地的反垃圾邮件和隐私法规。",
-            "若出现滥用、异常流量或逆向工程行为，我们保留暂停访问的权利。"
+            "ValixMail está diseñado para la validación legítima de correos electrónicos con fines de marketing, ventas o cumplimiento normativo.",
+            "No podrás usar el servicio para enviar correos no solicitados, recopilar direcciones ni realizar actividades que infrinjan las leyes anti-spam o de privacidad (como GDPR o CAN-SPAM).",
+            "Nos reservamos el derecho de suspender o cancelar cuentas que generen tráfico abusivo, automatizado o malintencionado."
           ]
         },
         {
-          "heading": "责任与支持",
+          "heading": "3. Pagos y créditos",
           "body": [
-            "测试期间平台按“现状”提供，不承诺可用性或 SLA。",
-            "如需说明或报告问题，请发送邮件至 legalvalix.dev，帮助我们完善最终协议。"
+            "Los pagos se realizan en USDC (USD Coin) a través de redes de criptomonedas compatibles. Los créditos comprados no son transferibles y no caducan salvo que se indique lo contrario.",
+            "Los precios se muestran antes de cada transacción. Los reembolsos pueden solicitarse dentro de los siete (7) días si los créditos no se han utilizado.",
+            "ValixMail no es responsable de retrasos o fallos derivados de la congestión de la red blockchain o errores de configuración de billetera."
+          ]
+        },
+        {
+          "heading": "4. Datos y privacidad",
+          "body": [
+            "Los datos subidos y los resultados de validación se procesan de forma segura y nunca se comparten ni se venden.",
+            "El usuario es responsable de garantizar que los datos cumplan con las normativas de privacidad y que exista consentimiento válido.",
+            "Consulta nuestra Política de Privacidad para más información sobre cómo tratamos tus datos."
+          ]
+        },
+        {
+          "heading": "5. Disponibilidad y responsabilidad",
+          "body": [
+            "ValixMail se ofrece «tal cual» durante la fase beta, sin garantías de disponibilidad continua o funcionamiento sin errores.",
+            "En ningún caso ValixMail ni sus desarrolladores serán responsables de daños indirectos o pérdida de datos derivados del uso del servicio.",
+            "El usuario asume toda la responsabilidad sobre el uso de los resultados de validación."
+          ]
+        },
+        {
+          "heading": "6. Soporte y contacto",
+          "body": [
+            "Ofrecemos soporte técnico razonable por correo electrónico para usuarios beta y clientes activos.",
+            "Para consultas legales o contractuales, contacta con nosotros en:"
           ]
         }
       ]
@@ -497,6 +523,10 @@
       "creditBadge": "包含积分",
       "creditsUnit": "次邮箱验证",
       "oneTime": "一次性购买——只需支付一次即可拥有积分，无需订阅。"
+    },
+    "cryptoNotice": {
+      "title": "仅通过 Coinbase 支持的加密支付",
+      "description": "所有订单均由 Coinbase Commerce 处理。请提前准备好支持链上的 USDC 以完成结算。"
     },
     "buttons": {
       "buy": "使用 USDC 购买",

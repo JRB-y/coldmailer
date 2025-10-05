@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Check, Zap, Loader2 } from 'lucide-vue-next'
+import { Check, Zap, Loader2, Coins } from 'lucide-vue-next'
 
 definePageMeta({ ssr: false })
 
@@ -168,6 +168,27 @@ onMounted(() => {
       <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
         {{ t('pricing.hero.subtitle') }}
       </p>
+    </div>
+
+    <!-- Crypto Payment Notice -->
+    <div class="max-w-3xl mx-auto mb-12">
+      <div
+        class="flex flex-col md:flex-row md:items-center gap-4 bg-zinc-900 border border-blue-500/40 rounded-2xl p-6 md:p-7 shadow-lg shadow-blue-500/5"
+      >
+        <span
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10 text-blue-400"
+        >
+          <Coins class="w-6 h-6" />
+        </span>
+        <div>
+          <h2 class="text-base md:text-lg font-semibold text-white">
+            {{ t('pricing.cryptoNotice.title') }}
+          </h2>
+          <p class="text-sm md:text-base text-gray-300 mt-1">
+            {{ t('pricing.cryptoNotice.description') }}
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- Loading State -->

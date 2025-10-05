@@ -54,6 +54,10 @@
       "creditsUnit": "Validaciones de email",
       "oneTime": "Compra única: paga una vez y conserva los créditos. Sin suscripciones."
     },
+    "cryptoNotice": {
+      "title": "Pagos solo con criptomonedas a través de Coinbase",
+      "description": "Todas las compras se procesan con Coinbase Commerce. Ten USDC listo en una red compatible para completar el pago."
+    },
     "buttons": {
       "buy": "Comprar con USDC",
       "processing": "Procesando..."
@@ -373,25 +377,25 @@
   },
   "landing": {
     "hero": {
-      "headlinePrimary": "Verificación de correos para prospección en frío",
-      "headlineSecondary": "diseñada para freelancers y solopreneurs",
-      "subheading": "Valida cada correo antes de enviarlo. Reduce rebotes, protege tu reputación como remitente y asegura tus campañas de prospección — paga con criptomonedas, sin límites.",
+      "headlinePrimary": "Verificación de correos con pago en criptomonedas",
+      "headlineSecondary": "creado para freelancers, marketers y solopreneurs",
+      "subheading": "Valida cada contacto y paga fácilmente con criptomonedas. Protege tu reputación de remitente, reduce los rebotes y mejora la entregabilidad de tus campañas frías — sin tarjetas, sin límites, sin fricción.",
       "ctaPrimary": "Obtén 200 créditos gratis",
-      "ctaDashboard": "Ir al Panel"
+      "ctaDashboard": "Ir al panel"
     },
     "features": {
       "items": {
         "diagnostics": {
-          "title": "Comprobaciones precisas de correo",
-          "description": "Ejecuta pruebas DNS, MX y SMTP para confirmar la entregabilidad antes de tu próxima campaña."
+          "title": "Verificación de nivel empresarial",
+          "description": "Ejecuta validaciones DNS, MX y SMTP para confirmar la entregabilidad antes de enviar tu próxima campaña."
         },
         "risk": {
-          "title": "Puntuación de riesgo inteligente",
-          "description": "Cada dirección recibe una puntuación de 0 a 100 para identificar al instante contactos seguros, riesgosos o inválidos."
+          "title": "Puntuación de riesgo precisa",
+          "description": "Cada correo recibe una puntuación de 0 a 100 para saber si es seguro, riesgoso o inválido — mantén tus campañas limpias y efectivas."
         },
         "compliance": {
           "title": "Informes listos para clientes",
-          "description": "Exporta informes de validación que demuestran la calidad de tus listas y mantienen seguros tus contratos freelance."
+          "description": "Descarga informes claros que demuestran la calidad de tus listas y protegen la reputación de tus clientes."
         }
       }
     },
@@ -401,46 +405,46 @@
       "latency": "Velocidad"
     },
     "checks": {
-      "title": "9 comprobaciones técnicas",
-      "description": "ValixMail ejecuta nueve controles estándar en tiempo real para que envíes con confianza y sin suposiciones.",
+      "title": "Proceso de verificación de 9 puntos",
+      "description": "ValixMail combina nueve pruebas en tiempo real — desde DNS y SMTP hasta edad de dominio y detección de patrones — para asegurar que cada dirección sea real, segura y lista para recibir tus mensajes.",
       "labels": {
-        "checkDns": "Verificación DNS",
-        "checkDomainAge": "Antigüedad del dominio",
+        "checkDns": "Comprobación DNS",
+        "checkDomainAge": "Edad del dominio",
         "checkMxRecords": "Registros MX",
         "checkSmtp": "SMTP",
         "hasSuspiciousPatterns": "Patrones sospechosos",
-        "isDisposable": "Desechable",
+        "isDisposable": "Temporal",
         "isFreeDomain": "Dominio gratuito",
-        "isRoleAccount": "Cuenta genérica",
+        "isRoleAccount": "Cuenta de rol",
         "validateSyntax": "Sintaxis"
       },
       "items": {
-        "checkDns": "Confirma que el dominio está activo y correctamente configurado.",
-        "checkDomainAge": "Detecta dominios recién registrados usados frecuentemente para spam.",
-        "checkMxRecords": "Valida los registros MX para garantizar que el buzón pueda recibir correos.",
-        "checkSmtp": "Prueba una conexión SMTP en vivo para detectar bandejas válidas.",
-        "hasSuspiciousPatterns": "Encuentra registros falsos, errores tipográficos y patrones sospechosos.",
-        "isDisposable": "Bloquea servicios de correo temporal/desechable.",
-        "isFreeDomain": "Identifica proveedores gratuitos (Gmail, Yahoo, Outlook…).",
-        "isRoleAccount": "Detecta direcciones genéricas (info, support, sales).",
-        "validateSyntax": "Elimina correos mal formateados antes de enviarlos."
+        "checkDns": "Confirma que el dominio existe y está correctamente configurado para recibir correos.",
+        "checkDomainAge": "Marca los dominios recién creados, comúnmente usados en spam.",
+        "checkMxRecords": "Verifica que los registros MX estén activos y las bandejas puedan recibir mensajes.",
+        "checkSmtp": "Realiza una comprobación SMTP en vivo para confirmar buzones válidos.",
+        "hasSuspiciousPatterns": "Detecta errores tipográficos, nombres falsos y patrones sospechosos.",
+        "isDisposable": "Identifica y bloquea servicios de correos temporales o desechables.",
+        "isFreeDomain": "Detecta dominios gratuitos como Gmail u Outlook para un mejor enfoque.",
+        "isRoleAccount": "Reconoce cuentas genéricas como info{'@'} o support{'@'} que reducen la personalización.",
+        "validateSyntax": "Elimina formatos de correo incorrectos o mal estructurados."
       }
     },
     "dataSources": {
       "title": "Fuentes de datos confiables",
-      "description": "ValixMail combina registros DNS, comprobaciones SMTP y listas de dominios desechables conocidos para ofrecer precisión de nivel empresarial a los freelancers.",
+      "description": "ValixMail combina DNS, SMTP y señales de reputación global para ofrecer validación de nivel empresarial con pagos en cripto sin fricción.",
       "cards": {
         "signals": {
-          "title": "Señales multi-red",
-          "description": "Analiza la reputación de dominios y buzones a través de varios proveedores."
+          "title": "Inteligencia de reputación",
+          "description": "Analiza la confianza del remitente y la salud del buzón en los principales proveedores."
         },
         "pings": {
-          "title": "Pings de buzón en vivo",
-          "description": "Realiza verificaciones ligeras respetando los límites de los proveedores."
+          "title": "Pings en tiempo real",
+          "description": "Realiza comprobaciones SMTP seguras en tiempo real sin activar filtros de spam."
         },
         "compliance": {
-          "title": "Cumplimiento integrado",
-          "description": "La documentación lista para RGPD mantiene tu trabajo freelance seguro."
+          "title": "Cumple RGPD y privacidad",
+          "description": "Diseñado para un uso responsable — totalmente conforme al RGPD y con manejo seguro de datos."
         }
       }
     },
@@ -448,23 +452,23 @@
       "title": "Cómo funciona",
       "steps": {
         "one": {
-          "title": "Regístrate en segundos",
-          "description": "Crea tu cuenta gratuita y obtén 1000 validaciones de correos gratis."
+          "title": "Crea una cuenta gratuita",
+          "description": "Regístrate en segundos y recibe 200 créditos gratis para empezar a probar."
         },
         "two": {
           "title": "Sube o conecta",
-          "description": "Carga un archivo CSV o conecta la API para validar tus listas al instante."
+          "description": "Sube un CSV o conéctate vía API para verificar listas completas en segundos."
         },
         "three": {
-          "title": "Envía con confianza",
-          "description": "Entrega listas limpias, reduce rebotes y demuestra el ROI a tus clientes."
+          "title": "Paga con cripto, crece sin límites",
+          "description": "Compra créditos en cualquier momento con Coinbase Commerce — sin bancos, sin fronteras."
         }
       }
     },
     "cta": {
-      "title": "Comienza a verificar tus correos de prospección hoy mismo",
-      "description": "Freelancers y agencias confían en ValixMail para proteger su reputación como remitentes y cerrar más contratos. Paga con criptomonedas, valida en cualquier lugar.",
-      "primary": "Obtén 1000 créditos gratis"
+      "title": "Valida tus listas frías — paga de forma moderna",
+      "description": "Únete a cientos de freelancers y agencias que verifican correos con ValixMail. Disfruta pagos sin fricción con Coinbase Commerce, acceso global y entregabilidad verificada.",
+      "primary": "Obtén 200 créditos gratis"
     }
   },
   "legal": {
@@ -501,29 +505,55 @@
       ]
     },
     "terms": {
-      "title": "Términos de servicio",
-      "updated": "Última actualización: 1 de octubre de 2024",
-      "intro": "Estos términos provisionales regulan el uso de Valix durante la beta. Publicaremos condiciones completas antes de aceptar clientes reales.",
+      "title": "Términos del servicio",
+      "updated": "Última actualización: 5 de octubre de 2025",
+      "intro": "Estos Términos del Servicio regulan el acceso y uso de ValixMail. Al crear una cuenta o utilizar la plataforma, aceptas hacerlo de forma responsable y conforme a las leyes de protección de datos y anti-spam aplicables.",
       "sections": [
         {
-          "heading": "Aceptación de los términos",
+          "heading": "1. Aceptación de los términos",
           "body": [
-            "Al acceder a esta versión previa confirmas que evalúas Valix con fines internos y que no subirás datos regulados ni de producción.",
-            "El uso continuado tras el lanzamiento requerirá aceptar el contrato definitivo que reemplazará este aviso."
+            "Al acceder o utilizar ValixMail, reconoces que has leído y aceptado estos Términos del Servicio.",
+            "Si utilizas ValixMail en nombre de una empresa o cliente, garantizas tener la autoridad necesaria para aceptar estos términos en su nombre.",
+            "ValixMail podrá actualizar estos términos ocasionalmente. El uso continuado del servicio después de los cambios implica la aceptación de las nuevas condiciones."
           ]
         },
         {
-          "heading": "Uso del servicio",
+          "heading": "2. Uso permitido del servicio",
           "body": [
-            "Puedes probar las funciones de validación individual y masiva, siempre respetando las leyes anti-spam y de privacidad aplicables.",
-            "Podemos suspender el acceso en caso de uso indebido, tráfico abusivo o intentos de ingeniería inversa."
+            "ValixMail está diseñado para la validación legítima de correos electrónicos con fines de marketing, ventas o cumplimiento normativo.",
+            "No podrás usar el servicio para enviar correos no solicitados, recopilar direcciones ni realizar actividades que infrinjan las leyes anti-spam o de privacidad (como GDPR o CAN-SPAM).",
+            "Nos reservamos el derecho de suspender o cancelar cuentas que generen tráfico abusivo, automatizado o malintencionado."
           ]
         },
         {
-          "heading": "Responsabilidad y soporte",
+          "heading": "3. Pagos y créditos",
           "body": [
-            "Durante la beta la plataforma se ofrece “tal cual”, sin garantías de disponibilidad ni SLA.",
-            "Escribe a legalvalix.dev para pedir aclaraciones o reportar incidencias y así mejorar el acuerdo final."
+            "Los pagos se realizan en USDC (USD Coin) a través de redes de criptomonedas compatibles. Los créditos comprados no son transferibles y no caducan salvo que se indique lo contrario.",
+            "Los precios se muestran antes de cada transacción. Los reembolsos pueden solicitarse dentro de los siete (7) días si los créditos no se han utilizado.",
+            "ValixMail no es responsable de retrasos o fallos derivados de la congestión de la red blockchain o errores de configuración de billetera."
+          ]
+        },
+        {
+          "heading": "4. Datos y privacidad",
+          "body": [
+            "Los datos subidos y los resultados de validación se procesan de forma segura y nunca se comparten ni se venden.",
+            "El usuario es responsable de garantizar que los datos cumplan con las normativas de privacidad y que exista consentimiento válido.",
+            "Consulta nuestra Política de Privacidad para más información sobre cómo tratamos tus datos."
+          ]
+        },
+        {
+          "heading": "5. Disponibilidad y responsabilidad",
+          "body": [
+            "ValixMail se ofrece «tal cual» durante la fase beta, sin garantías de disponibilidad continua o funcionamiento sin errores.",
+            "En ningún caso ValixMail ni sus desarrolladores serán responsables de daños indirectos o pérdida de datos derivados del uso del servicio.",
+            "El usuario asume toda la responsabilidad sobre el uso de los resultados de validación."
+          ]
+        },
+        {
+          "heading": "6. Soporte y contacto",
+          "body": [
+            "Ofrecemos soporte técnico razonable por correo electrónico para usuarios beta y clientes activos.",
+            "Para consultas legales o contractuales, contacta con nosotros en contactvalixmail.com."
           ]
         }
       ]

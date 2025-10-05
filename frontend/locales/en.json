@@ -12,24 +12,24 @@
       "passwordPlaceholder": "••••••••"
     },
     "login": {
-      "subtitle": "Sign in to your account",
+      "subtitle": "Sign in to access your dashboard and start verifying emails instantly.",
       "submit": "Sign In",
       "submitting": "Signing in...",
-      "error": "Login failed",
+      "error": "Login failed. Please check your credentials.",
       "ctaText": "Don't have an account?",
       "ctaLink": "Sign up"
     },
     "signup": {
-      "subtitle": "Create your account",
+      "subtitle": "Create your Valix account and boost your deliverability in minutes.",
       "submit": "Create Account",
       "submitting": "Creating account...",
-      "error": "Registration failed",
+      "error": "Registration failed. Please try again.",
       "ctaText": "Already have an account?",
       "ctaLink": "Sign in",
-      "banner": "🎁 Get 200 free credits upon registration!",
+      "banner": "🎁 Get 200 free credits instantly — no card required!",
       "errors": {
-        "passwordRequirements": "Password does not meet security requirements",
-        "passwordMismatch": "Passwords do not match"
+        "passwordRequirements": "Password does not meet security requirements.",
+        "passwordMismatch": "Passwords do not match."
       }
     },
     "passwordRules": {
@@ -37,62 +37,66 @@
       "length": "At least 10 characters",
       "uppercase": "One uppercase letter (A-Z)",
       "number": "One number (0-9)",
-      "symbol": "One symbol ( )",
-      "notCommon": "Not a common password"
+      "symbol": "One symbol",
+      "notCommon": "Not a common or leaked password"
     }
   },
   "pricing": {
     "hero": {
       "title": "Simple, Transparent",
       "highlight": "Pricing",
-      "subtitle": "Pay once with USDC. No subscriptions, no hidden fees. Just credits that never expire."
+      "subtitle": "Buy credits once with Crypto — no subscriptions, no renewals, no hidden costs. Perfect for freelancers and growth teams."
     },
     "mostPopular": "Most Popular",
     "card": {
-      "credits": "{count} email validations",
+      "credits": "{count} verified emails",
       "creditBadge": "Credits Included",
       "creditsUnit": "Email validations",
-      "oneTime": "One-time purchase — pay once and keep the credits. No subscriptions."
+      "oneTime": "One-time purchase — pay once, keep your credits forever."
+    },
+    "cryptoNotice": {
+      "title": "Crypto-only payments via Coinbase",
+      "description": "All purchases are processed with Coinbase Commerce."
     },
     "buttons": {
       "buy": "Buy with USDC",
       "processing": "Processing..."
     },
     "notice": {
-      "title": "Mock Purchase:",
-      "description": "Real USDC integration coming soon"
+      "title": "Test Mode:",
+      "description": "Real USDC payments are in preview — live on-chain integration launching soon."
     },
     "messages": {
       "toastSuccess": "Credits purchased successfully!",
       "purchaseFailed": "Purchase failed. Please try again.",
-      "purchaseError": "An error occurred during purchase. Please try again."
+      "purchaseError": "An error occurred during checkout. Please try again."
     },
     "faq": {
       "title": "Frequently Asked Questions",
       "items": {
         "expiry": {
           "question": "Do credits expire?",
-          "answer": "No, credits never expire. Buy once and use them whenever you need."
+          "answer": "Never. Your credits stay active forever — buy once and validate whenever you need."
         },
         "payment": {
           "question": "What payment methods do you accept?",
-          "answer": "We accept USDC (USD Coin) for crypto-friendly, instant payments. Traditional payment methods coming soon."
+          "answer": "You can pay securely with USDC (USD Coin) on the Solana network for instant, low-fee transactions. Traditional payments coming soon."
         },
         "refund": {
           "question": "Can I get a refund?",
-          "answer": "We offer a 7-day money-back guarantee if you're not satisfied with our service."
+          "answer": "Yes. We offer a 7-day money-back guarantee if you're not satisfied with your validation results."
         }
       }
     }
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Validate emails and track your usage",
+    "subtitle": "Verify emails, monitor results, and manage your credits easily.",
     "creditsLabel": "Credits: {credits}",
     "lowCredits": {
       "title": "Low Credits Warning",
-      "description": "You have {credits} credits remaining. Purchase more credits to continue validating emails.",
-      "cta": "Buy Credits Now"
+      "description": "You have {credits} credits left. Buy more to keep your validation running without interruption.",
+      "cta": "Buy Credits"
     },
     "stats": {
       "total": "Total Validations",
@@ -101,32 +105,32 @@
       "invalid": "Invalid"
     },
     "validate": {
-      "title": "Validate an email",
+      "title": "Validate an Email",
       "label": "Email Address",
-      "placeholder": "email",
-      "button": "Validate Email",
-      "loading": "Validating...",
+      "placeholder": "emailexample.com",
+      "button": "Validate Now",
+      "loading": "Checking...",
       "reset": "Reset",
       "recent": "Recent validations",
-      "empty": "No validations yet. Start by validating an email above.",
+      "empty": "No validations yet. Start by entering an email above.",
       "retry": "Try again"
     },
     "result": {
-      "title": "Validation summary",
-      "risk": "Risk: {score}/100",
+      "title": "Validation Summary",
+      "risk": "Risk Score: {score}/100",
       "credits": "Credits used",
-      "reason": "Reason:",
-      "checksTitle": "Validation checks"
+      "reason": "Reason",
+      "checksTitle": "Technical Checks"
     },
     "checks": {
       "format": "Format Valid",
-      "dns": "DNS Valid",
-      "mx": "MX Records",
-      "smtp": "SMTP Valid",
+      "dns": "DNS Records Valid",
+      "mx": "MX Records Valid",
+      "smtp": "SMTP Handshake",
       "disposable": "Not Disposable",
-      "domainAge": "Domain Age / Pattern",
-      "freeDomain": "Not Free Domain",
-      "roleAccount": "Not Role Account",
+      "domainAge": "Domain Age & Pattern",
+      "freeDomain": "Not a Free Domain",
+      "roleAccount": "Not a Role Account",
       "suspicious": "No Suspicious Patterns"
     },
     "checkStatus": {
@@ -141,34 +145,34 @@
       "unknown": "Unknown"
     },
     "quickActions": {
-      "title": "Quick actions",
+      "title": "Quick Actions",
       "history": {
         "title": "View History",
-        "subtitle": "See all validations"
+        "subtitle": "Track all past validations"
       },
       "bulk": {
         "title": "Bulk Validation",
-        "subtitle": "Validate multiple emails"
+        "subtitle": "Upload CSV to check lists fast"
       }
     },
     "errors": {
-      "required": "Please enter an email address",
-      "sessionExpired": "Session expired. Please login again.",
-      "insufficientCredits": "Insufficient credits. Please purchase more credits.",
+      "required": "Please enter an email address.",
+      "sessionExpired": "Session expired. Please log in again.",
+      "insufficientCredits": "Not enough credits. Please top up.",
       "validationFailed": "Validation failed.",
-      "generic": "An error occurred. Please try again."
+      "generic": "Something went wrong. Please try again."
     }
   },
   "bulk": {
     "hero": {
       "title": "Bulk Email Validation",
-      "subtitle": "Upload a CSV file to validate multiple emails at once"
+      "subtitle": "Clean your entire list in one upload — ideal for outreach campaigns and client lists."
     },
     "upload": {
-      "title": "Upload CSV File",
+      "title": "Upload Your CSV File",
       "drop": {
-        "placeholder": "Click to upload or drag and drop",
-        "helper": "CSV files only (max 10MB)"
+        "placeholder": "Click or drag to upload CSV",
+        "helper": "CSV only (max 10 MB)"
       },
       "actions": {
         "uploading": "Uploading...",
@@ -177,16 +181,16 @@
       },
       "format": {
         "title": "CSV Format",
-        "description": "Your CSV should have an \"email\" column or a single column with email addresses:"
+        "description": "Include an \"email\" column or a single column with addresses to validate."
       },
       "messages": {
-        "selectFile": "Please select a CSV file",
-        "success": "✓ File uploaded successfully! Processing {emailCount} emails ({creditsRequired} credits will be used)",
-        "error": "Upload failed"
+        "selectFile": "Please select a CSV file.",
+        "success": "✓ Uploaded successfully — {emailCount} emails detected. ({creditsRequired} credits required.)",
+        "error": "Upload failed."
       }
     },
     "messages": {
-      "downloadError": "Download failed"
+      "downloadError": "Download failed."
     },
     "jobs": {
       "status": {
@@ -203,11 +207,11 @@
         "title": "Active Jobs"
       },
       "empty": {
-        "title": "No active jobs",
-        "description": "Upload a CSV file to start validation"
+        "title": "No Active Jobs",
+        "description": "Upload a CSV to start bulk validation."
       },
       "recent": {
-        "title": "Recent Completed Jobs",
+        "title": "Recently Completed Jobs",
         "cta": "View All →"
       }
     },
@@ -222,28 +226,28 @@
       "credits": {
         "title": "Credits",
         "available": "Available Credits",
-        "low": "⚠️ Low credits. Each email costs 1 credit.",
+        "low": "⚠️ Low balance — each email costs 1 credit.",
         "cta": "Buy more credits →",
-        "info": "Each email validation costs 1 credit. Your file will be validated before processing."
+        "info": "Each email validation costs 1 credit. Files are validated securely before processing."
       }
     },
     "steps": {
       "title": "How It Works",
       "items": {
-        "upload": "Upload your CSV file with email addresses",
-        "wait": "Wait for the validation to complete",
-        "download": "Download the results with detailed validation data"
+        "upload": "Upload your CSV with email addresses.",
+        "wait": "Our system validates every address in seconds.",
+        "download": "Download a clean, ready-to-send list with deliverability scores."
       }
     }
   },
   "history": {
     "hero": {
       "title": "Validation History",
-      "subtitle": "View all your validations and jobs"
+      "subtitle": "See all your past single and bulk validations in one place."
     },
     "messages": {
-      "loadError": "Failed to load history",
-      "downloadError": "Download failed"
+      "loadError": "Failed to load history.",
+      "downloadError": "Download failed."
     },
     "time": {
       "justNow": "Just now",
@@ -257,8 +261,8 @@
       "download": "Download"
     },
     "empty": {
-      "title": "No history yet",
-      "description": "Start validating emails to see your history here"
+      "title": "No History Yet",
+      "description": "Start validating to build your performance history."
     },
     "items": {
       "single": {
@@ -274,80 +278,6 @@
       "creditPlural": "{count} credits"
     }
   },
-  "jobDetail": {
-    "summary": {
-      "totalEmails": "{count} total emails",
-      "creditsUsed": "{credits} used",
-      "processing": "Processing emails..."
-    },
-    "messages": {
-      "loadError": "Failed to load validations"
-    },
-    "list": {
-      "title": "Validation Results",
-      "loading": "Loading validations...",
-      "emptyTitle": "No validations yet",
-      "emptyDescription": "Results will appear here as emails are validated"
-    },
-    "table": {
-      "email": "Email",
-      "status": "Status",
-      "risk": "Risk Score",
-      "reason": "Reason",
-      "time": "Time",
-      "noReason": "—"
-    },
-    "pagination": {
-      "label": "Page {current} of {total}",
-      "previous": "Previous",
-      "next": "Next"
-    }
-  },
-  "validationDetail": {
-    "hero": {
-      "title": "Validation Details"
-    },
-    "messages": {
-      "loadError": "Failed to load validation"
-    },
-    "risk": {
-      "title": "Risk Score"
-    },
-    "checks": {
-      "title": "Validation Checks",
-      "labels": {
-        "syntax": "Syntax",
-        "dns": "DNS Records",
-        "mx": "MX Records",
-        "smtp": "SMTP Verification",
-        "disposable": "Disposable Email",
-        "freeEmail": "Free Email Provider",
-        "roleAccount": "Role Account",
-        "suspicious": "Suspicious Pattern"
-      },
-      "status": {
-        "valid": "Valid",
-        "invalid": "Invalid",
-        "found": "Found",
-        "notFound": "Not Found",
-        "verified": "Verified",
-        "notChecked": "Not Checked",
-        "yes": "Yes",
-        "no": "No",
-        "detected": "Detected",
-        "none": "None"
-      }
-    },
-    "domain": {
-      "title": "Domain Information",
-      "age": "Domain Age",
-      "newDomain": "New Domain",
-      "days": "{count} days",
-      "unknown": "Unknown",
-      "isNewYes": "Yes (< 90 days)",
-      "isNewNo": "No"
-    }
-  },
   "header": {
     "auth": {
       "login": "Login",
@@ -355,7 +285,7 @@
     },
     "menu": {
       "dashboard": "Dashboard",
-      "history": "Validation History",
+      "history": "History",
       "bulk": "Bulk Validation",
       "buyCredits": "💳 Buy Credits",
       "logout": "Logout",
@@ -373,38 +303,38 @@
   },
   "landing": {
     "hero": {
-      "headlinePrimary": "Email Verification for Cold Outreach",
-      "headlineSecondary": "built for freelancers & solopreneurs",
-      "subheading": "Validate every email before you hit send. Reduce bounces, protect your sender reputation, and keep freelance outreach campaigns safe — pay with crypto, no limits.",
-      "ctaPrimary": "Get Free 200 Credits",
+      "headlinePrimary": "Email Validation with Crypto Payments",
+      "headlineSecondary": "made for freelancers, marketers & solopreneurs",
+      "subheading": "Validate every contact and pay effortlessly with crypto. Protect your sender reputation, reduce bounces, and supercharge deliverability for your cold outreach — no cards, no limits, no friction.",
+      "ctaPrimary": "Get 200 Free Credits",
       "ctaDashboard": "Go to Dashboard"
     },
     "features": {
       "items": {
         "diagnostics": {
-          "title": "Accurate Email Checks",
-          "description": "Run DNS, MX, and SMTP tests to confirm inbox readiness before sending your next outreach campaign."
+          "title": "Enterprise-Level Email Checks",
+          "description": "Run DNS, MX, and SMTP verifications to confirm inbox deliverability before sending a single cold email."
         },
         "risk": {
-          "title": "Smart Risk Scoring",
-          "description": "Every address gets a risk score from 0–100 so you instantly know which contacts are safe, risky, or invalid."
+          "title": "Precision Risk Scoring",
+          "description": "Each email gets a 0-100 score showing whether it’s safe, risky, or invalid — so your campaigns stay clean and profitable."
         },
         "compliance": {
-          "title": "Client-Ready Reports",
-          "description": "Export validation reports that prove your list quality and keep freelance contracts audit-ready."
+          "title": "Client-Ready Validation Reports",
+          "description": "Export transparent reports that prove list quality and keep your client outreach metrics spotless."
         }
       }
     },
     "stats": {
-      "precision": "Precision",
-      "credits": "Free Credits",
-      "latency": "Speed"
+      "precision": "Validation Accuracy",
+      "credits": "Free Crypto Credits",
+      "latency": "Verification Speed"
     },
     "checks": {
-      "title": "9 Technical Validation Checks",
-      "description": "ValixMail runs nine industry-standard checks in real time so you send with confidence, not guesswork.",
+      "title": "9-Point Email Verification Process",
+      "description": "ValixMail combines nine real-time checks — from DNS and SMTP to domain age and pattern detection — to guarantee your list is valid and ready for delivery.",
       "labels": {
-        "checkDns": "DNS Check",
+        "checkDns": "DNS Lookup",
         "checkDomainAge": "Domain Age",
         "checkMxRecords": "MX Records",
         "checkSmtp": "SMTP",
@@ -415,32 +345,32 @@
         "validateSyntax": "Syntax"
       },
       "items": {
-        "checkDns": "Confirms the domain is live and properly set up.",
-        "checkDomainAge": "Flags newly registered domains often used for spam.",
-        "checkMxRecords": "Validates MX records to ensure the mailbox can receive mail.",
-        "checkSmtp": "Tests live SMTP handshake to detect valid inboxes.",
-        "hasSuspiciousPatterns": "Finds fake signups, typos, and unusual patterns.",
-        "isDisposable": "Blocks temporary/disposable email services.",
-        "isFreeDomain": "Marks free providers (Gmail, Yahoo, Outlook, etc).",
-        "isRoleAccount": "Detects generic emails (info, support, sales).",
-        "validateSyntax": "Removes badly formatted emails before sending."
+        "checkDns": "Confirms the domain exists and is properly configured to receive emails.",
+        "checkDomainAge": "Flags newly registered domains commonly linked to spam or fake senders.",
+        "checkMxRecords": "Verifies mail exchange records to ensure active inboxes.",
+        "checkSmtp": "Simulates a live SMTP handshake to confirm real, deliverable addresses.",
+        "hasSuspiciousPatterns": "Detects spammy patterns, fake names, and typo-based addresses.",
+        "isDisposable": "Identifies and blocks temporary or burner email services.",
+        "isFreeDomain": "Detects free providers like Gmail, Outlook, or Yahoo for smarter targeting.",
+        "isRoleAccount": "Recognizes generic inboxes like info{'@'} or support{'@'} that reduce personalization.",
+        "validateSyntax": "Cleans malformed or invalid email formats before they reach your list."
       }
     },
     "dataSources": {
-      "title": "Trusted Data Sources",
-      "description": "ValixMail combines DNS records, SMTP checks, and known disposable domain lists to deliver enterprise-grade accuracy for freelancers.",
+      "title": "Powered by Reliable Data Networks",
+      "description": "ValixMail blends DNS, SMTP, and global reputation signals to deliver enterprise-grade validation with frictionless crypto payments.",
       "cards": {
         "signals": {
-          "title": "Cross-Network Signals",
-          "description": "Correlates domain and mailbox reputation across providers."
+          "title": "Reputation Intelligence",
+          "description": "Analyzes sender trust and mailbox health across major mail networks."
         },
         "pings": {
-          "title": "Live Mailbox Pings",
-          "description": "Performs lightweight verification respecting provider limits."
+          "title": "Real-Time Mailbox Pings",
+          "description": "Performs safe, live SMTP checks without triggering spam filters."
         },
         "compliance": {
-          "title": "Compliance Guardrails",
-          "description": "GDPR-ready documentation keeps freelance work safe."
+          "title": "GDPR-Ready & Privacy-Safe",
+          "description": "Built for responsible outreach — fully GDPR-compliant and data-secure."
         }
       }
     },
@@ -448,27 +378,27 @@
       "title": "How It Works",
       "steps": {
         "one": {
-          "title": "Sign Up in Seconds",
-          "description": "Create your free account and claim 1000 free email validations."
+          "title": "Create a Free Account",
+          "description": "Sign up instantly and receive 200 free validation credits to start testing."
         },
         "two": {
           "title": "Upload or Connect",
-          "description": "Upload a CSV or connect via API to validate your outreach list instantly."
+          "description": "Upload a CSV or connect via API to verify entire lists in seconds."
         },
         "three": {
-          "title": "Send With Confidence",
-          "description": "Deliver clean lists, reduce bounces, and prove ROI to your clients."
+          "title": "Pay with Crypto, Scale Without Limits",
+          "description": "Buy more credits anytime using Coinbase Commerce — no banks, no borders."
         }
       }
     },
     "cta": {
-      "title": "Start verifying your cold outreach emails today",
-      "description": "Freelancers and agencies use ValixMail to protect their sender reputation and close more deals. Pay with crypto, validate anywhere.",
-      "primary": "Get 1000 Free Credits"
+      "title": "Validate your cold email lists — and pay the modern way",
+      "description": "Join hundreds of freelancers and growth teams verifying emails securely through ValixMail. Enjoy frictionless payments with Coinbase Commerce, global access, and verified deliverability you can trust.",
+      "primary": "Get 200 Free Credits"
     }
   },
   "footer": {
-    "tagline": "Precision email validation for freelancers, agencies, and growth teams.",
+    "tagline": "Accurate email verification for freelancers, marketers, and growth teams — pay with crypto, verify with confidence.",
     "links": {
       "product": "Product",
       "company": "Company",
@@ -485,61 +415,87 @@
   },
   "legal": {
     "contact": {
-      "title": "Need to talk to us?",
-      "description": "If you have questions about these documents or want to exercise your privacy rights, email our legal team and we will get back to you within two business days."
+      "title": "Need help or legal info?",
+      "description": "If you have privacy or compliance questions, email our legal team — we’ll reply within two business days."
     },
     "privacy": {
       "title": "Privacy Policy",
       "updated": "Last updated: 1 October 2024",
-      "intro": "This placeholder privacy policy explains how Valix temporarily handles data for testing and preview purposes. We will replace it with final legal language before launch.",
+      "intro": "This privacy policy explains how ValixMail processes data for account creation, email validation, and crypto-based payments.",
       "sections": [
         {
           "heading": "Information we collect",
           "body": [
-            "We currently store only the data you provide when creating an account, uploading CSV files, or validating emails in this preview environment.",
-            "Until the production launch, no third-party trackers or advertising cookies are enabled across the app."
+            "We collect only the information required to operate the email validation service: your account data, CSV uploads, and validation results.",
+            "We do not use third-party ad trackers or analytics cookies in this environment."
           ]
         },
         {
           "heading": "How we use data",
           "body": [
-            "Uploaded contact lists and validation results are processed solely to demonstrate product features and may be deleted at any time.",
-            "Aggregated metrics help us improve deliverability scoring, but we do not sell, rent, or share any personal data."
+            "Data is processed solely to deliver accurate validation results and improve risk scoring algorithms.",
+            "Aggregated, anonymized data may be used to enhance accuracy but is never sold or shared."
           ]
         },
         {
-          "heading": "Your choices",
+          "heading": "Your rights",
           "body": [
-            "You can delete your workspace data by contacting the team or clearing your account in the dashboard.",
-            "When the final policy goes live, it will include regional rights, retention timelines, and subprocessors."
+            "You can delete your data anytime by contacting support or clearing your account dashboard.",
+            "Full compliance details and subprocessors will be listed in the final production policy."
           ]
         }
       ]
     },
     "terms": {
       "title": "Terms of Service",
-      "updated": "Last updated: 1 October 2024",
-      "intro": "These draft terms describe how Valix should be used during the beta period. We will publish comprehensive terms, including payment and compliance clauses, prior to accepting live customers.",
+      "updated": "Last updated: 5 October 2025",
+      "intro": "These Terms of Service govern your access and use of ValixMail. By creating an account or using the platform, you agree to use our email verification tools responsibly, in compliance with applicable data protection and anti-spam regulations.",
       "sections": [
         {
-          "heading": "Acceptance of terms",
+          "heading": "1. Acceptance of Terms",
           "body": [
-            "By accessing this preview you confirm that you are evaluating Valix for internal testing only and will not upload regulated or production data.",
-            "Continued use after the official launch will require agreeing to the final contract that supersedes this notice."
+            "By accessing or using ValixMail, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.",
+            "If you are using ValixMail on behalf of a company or client, you represent that you are authorized to accept these terms on their behalf.",
+            "We may update or modify these terms from time to time. Continued use of the platform after changes are posted constitutes acceptance of the updated terms."
           ]
         },
         {
-          "heading": "Use of the service",
+          "heading": "2. Permitted Use of the Service",
           "body": [
-            "You may experiment with single and bulk email validation features but must respect applicable anti-spam and privacy laws in your jurisdiction.",
-            "We reserve the right to suspend access for misuse, abusive traffic, or attempts to reverse engineer our infrastructure."
+            "ValixMail is designed for legitimate outreach, marketing, and deliverability optimization purposes. You may use our tools to validate and clean email lists that you own or are authorized to process.",
+            "You agree not to use ValixMail for sending unsolicited messages, harvesting addresses, or any activity that violates data protection or anti-spam laws such as CAN-SPAM, GDPR, or CASL.",
+            "We reserve the right to suspend or terminate access for accounts engaged in abusive behavior, excessive automated requests, or misuse of the validation API."
           ]
         },
         {
-          "heading": "Liability and support",
+          "heading": "3. Payment and Credits",
           "body": [
-            "During the beta the platform is offered “as is” without uptime guarantees, warranties, or production SLAs.",
-            "Reach out to legalvalix.dev to request clarifications or report issues so we can improve the final agreement."
+            "All payments are made using USDC (USD Coin) via supported crypto networks. Credits purchased are non-transferable and do not expire unless otherwise stated.",
+            "Prices are clearly displayed before each transaction. Refunds may be issued within seven (7) days for unused credits if you are not satisfied with the service.",
+            "We are not responsible for delays or failures in blockchain transactions caused by network congestion or wallet misconfiguration."
+          ]
+        },
+        {
+          "heading": "4. Data Handling and Privacy",
+          "body": [
+            "Uploaded email data and validation results are processed securely and are never shared or resold. We store only what is necessary to provide and improve the service.",
+            "Users must ensure that all uploaded data complies with applicable privacy regulations and that they have obtained any required consent from data subjects.",
+            "For detailed information on how we handle data, please review our Privacy Policy."
+          ]
+        },
+        {
+          "heading": "5. Service Availability and Liability",
+          "body": [
+            "ValixMail is provided on an “as-is” and “as-available” basis during the beta phase. We do not guarantee uninterrupted access or error-free performance.",
+            "In no event shall ValixMail, its developers, or affiliates be liable for indirect, incidental, or consequential damages arising from the use or inability to use the service.",
+            "Users are solely responsible for how they interpret or act upon validation results."
+          ]
+        },
+        {
+          "heading": "6. Support and Contact",
+          "body": [
+            "We offer reasonable technical support via email for beta users and paying customers.",
+            "If you have questions about these terms, compliance requirements, or data handling, please contact our legal team at:."
           ]
         }
       ]
