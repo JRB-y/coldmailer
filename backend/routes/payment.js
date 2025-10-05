@@ -57,6 +57,8 @@ router.post('/create-payment', authenticate, async (req, res) => {
           planId: plan._id.toString(),
           credits: plan.credits,
         },
+        redirect_url: `${process.env.FRONTEND_URL}/dashboard`, // TODO: create theses pages
+        cancel_url: `${process.env.FRONTEND_URL}/dashboard`, // TODO: create theses pages
       }),
     })
 
