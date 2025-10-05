@@ -31,6 +31,8 @@ const polling = ref(false)
 const previousJobStatuses = ref<Map<string, string>>(new Map())
 let pollInterval: any = null
 
+const { locale } = useI18n()
+
 // File selection
 function onFileSelect(event: Event) {
   const target = event.target as HTMLInputElement
@@ -474,7 +476,9 @@ onUnmounted(() => {
         <div class="bg-zinc-900 border border-gray-800 rounded-lg p-6">
           <h3 class="text-lg font-semibold text-white mb-4">Credits</h3>
           <div class="text-center p-6 bg-black border border-gray-800 rounded-lg">
-            <div class="text-4xl font-bold text-blue-400 mb-2">{{ user?.credits || 0 }}</div>
+            <div class="text-4xl font-bold text-blue-400 mb-2">
+              {{ Intl.NumberFormat(locale.value).format(user?.credits || 0) }}
+            </div>
             <div class="text-sm text-gray-400">Available Credits</div>
           </div>
           <div
