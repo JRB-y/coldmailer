@@ -134,7 +134,7 @@ router.get('/jobs', authenticate, bulkJobRateLimiter, async (req, res) => {
 
     const jobs = await BulkJob.find(query)
       .sort({ createdAt: -1 })
-      .select('status progress counts error executionTime createdAt updatedAt')
+      .select('status progress counts error executionTime createdAt updatedAt resultPath')
 
     res.json({
       jobs: jobs.map((job) => ({
