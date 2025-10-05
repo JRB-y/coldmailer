@@ -159,6 +159,83 @@
       "generic": "An error occurred. Please try again."
     }
   },
+  "bulk": {
+    "hero": {
+      "title": "Bulk Email Validation",
+      "subtitle": "Upload a CSV file to validate multiple emails at once"
+    },
+    "upload": {
+      "title": "Upload CSV File",
+      "drop": {
+        "placeholder": "Click to upload or drag and drop",
+        "helper": "CSV files only (max 10MB)"
+      },
+      "actions": {
+        "uploading": "Uploading...",
+        "submit": "Upload & Validate",
+        "clear": "Clear"
+      },
+      "format": {
+        "title": "CSV Format",
+        "description": "Your CSV should have an \"email\" column or a single column with email addresses:"
+      },
+      "messages": {
+        "selectFile": "Please select a CSV file",
+        "success": "✓ File uploaded successfully! Processing {emailCount} emails ({creditsRequired} credits will be used)",
+        "error": "Upload failed"
+      }
+    },
+    "messages": {
+      "downloadError": "Download failed"
+    },
+    "jobs": {
+      "status": {
+        "completed": "Completed",
+        "failed": "Failed",
+        "processing": "Processing",
+        "pending": "Pending"
+      },
+      "jobLabel": "Job {id}",
+      "progress": "Progress",
+      "download": "Download",
+      "downloadResults": "Download Results",
+      "active": {
+        "title": "Active Jobs"
+      },
+      "empty": {
+        "title": "No active jobs",
+        "description": "Upload a CSV file to start validation"
+      },
+      "recent": {
+        "title": "Recent Completed Jobs",
+        "cta": "View All →"
+      }
+    },
+    "counts": {
+      "total": "Total",
+      "valid": "Valid",
+      "invalid": "Invalid",
+      "risky": "Risky",
+      "unknown": "Unknown"
+    },
+    "sidebar": {
+      "credits": {
+        "title": "Credits",
+        "available": "Available Credits",
+        "low": "⚠️ Low credits. Each email costs 1 credit.",
+        "cta": "Buy more credits →",
+        "info": "Each email validation costs 1 credit. Your file will be validated before processing."
+      }
+    },
+    "steps": {
+      "title": "How It Works",
+      "items": {
+        "upload": "Upload your CSV file with email addresses",
+        "wait": "Wait for the validation to complete",
+        "download": "Download the results with detailed validation data"
+      }
+    }
+  },
   "header": {
     "auth": {
       "login": "Login",

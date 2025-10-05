@@ -4,10 +4,7 @@ import dns from 'dns'
 // SMTP probing is DISABLED by default for security and privacy reasons
 // Only enable if you understand the implications and have proper authorization
 const ENABLE_SMTP_CHECK = String(process.env.ENABLE_SMTP_CHECK || 'false').toLowerCase() === 'true'
-const MAX_CONCURRENT_SMTP = Math.max(
-  parseInt(process.env.SMTP_CHECK_MAX_CONCURRENCY || '5', 10),
-  1
-)
+const MAX_CONCURRENT_SMTP = Math.max(parseInt(process.env.SMTP_CHECK_MAX_CONCURRENCY || '5', 10), 1)
 const SMTP_TIMEOUT_MS = Math.min(
   Math.max(parseInt(process.env.SMTP_CHECK_TIMEOUT_MS || '8000', 10), 5000),
   10000
@@ -108,7 +105,12 @@ function isPrivateIPv6(address) {
 
   const firstSegment = normalized.split(':')[0]
   if (firstSegment.startsWith('fc') || firstSegment.startsWith('fd')) return true // unique local
-  if (firstSegment.startsWith('fe8') || firstSegment.startsWith('fe9') || firstSegment.startsWith('fea') || firstSegment.startsWith('feb')) {
+  if (
+    firstSegment.startsWith('fe8') ||
+    firstSegment.startsWith('fe9') ||
+    firstSegment.startsWith('fea') ||
+    firstSegment.startsWith('feb')
+  ) {
     return true // link-local
   }
 

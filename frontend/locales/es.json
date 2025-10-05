@@ -159,6 +159,83 @@
       "generic": "Ocurrió un error. Inténtalo de nuevo."
     }
   },
+  "bulk": {
+    "hero": {
+      "title": "Validación masiva de emails",
+      "subtitle": "Sube un archivo CSV para validar varios correos a la vez"
+    },
+    "upload": {
+      "title": "Subir archivo CSV",
+      "drop": {
+        "placeholder": "Haz clic para subir o arrastra y suelta",
+        "helper": "Solo archivos CSV (máx. 10 MB)"
+      },
+      "actions": {
+        "uploading": "Subiendo...",
+        "submit": "Subir y validar",
+        "clear": "Limpiar"
+      },
+      "format": {
+        "title": "Formato CSV",
+        "description": "Tu CSV debe tener una columna \"email\" o una única columna con direcciones de correo:"
+      },
+      "messages": {
+        "selectFile": "Selecciona un archivo CSV",
+        "success": "✓ Archivo subido correctamente. Procesando {emailCount} emails ({creditsRequired} créditos se usarán)",
+        "error": "La carga falló"
+      }
+    },
+    "messages": {
+      "downloadError": "La descarga falló"
+    },
+    "jobs": {
+      "status": {
+        "completed": "Completado",
+        "failed": "Fallido",
+        "processing": "Procesando",
+        "pending": "Pendiente"
+      },
+      "jobLabel": "Trabajo {id}",
+      "progress": "Progreso",
+      "download": "Descargar",
+      "downloadResults": "Descargar resultados",
+      "active": {
+        "title": "Trabajos activos"
+      },
+      "empty": {
+        "title": "Sin trabajos activos",
+        "description": "Sube un CSV para iniciar una validación"
+      },
+      "recent": {
+        "title": "Trabajos completados recientes",
+        "cta": "Ver todo →"
+      }
+    },
+    "counts": {
+      "total": "Total",
+      "valid": "Válidos",
+      "invalid": "Inválidos",
+      "risky": "Riesgo",
+      "unknown": "Desconocidos"
+    },
+    "sidebar": {
+      "credits": {
+        "title": "Créditos",
+        "available": "Créditos disponibles",
+        "low": "⚠️ Créditos bajos. Cada email cuesta 1 crédito.",
+        "cta": "Comprar más créditos →",
+        "info": "Cada validación de email cuesta 1 crédito. Tu archivo se verificará antes de procesarlo."
+      }
+    },
+    "steps": {
+      "title": "Cómo funciona",
+      "items": {
+        "upload": "Sube tu archivo CSV con las direcciones de correo",
+        "wait": "Espera a que finalice la validación",
+        "download": "Descarga los resultados con los detalles de validación"
+      }
+    }
+  },
   "header": {
     "auth": {
       "login": "Iniciar sesión",

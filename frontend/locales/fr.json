@@ -159,6 +159,83 @@
       "generic": "Une erreur est survenue. Veuillez réessayer."
     }
   },
+  "bulk": {
+    "hero": {
+      "title": "Validation d’emails en masse",
+      "subtitle": "Importez un fichier CSV pour valider plusieurs adresses email en une fois"
+    },
+    "upload": {
+      "title": "Importer un fichier CSV",
+      "drop": {
+        "placeholder": "Cliquez pour importer ou faites glisser-déposer",
+        "helper": "Fichiers CSV uniquement (max 10 Mo)"
+      },
+      "actions": {
+        "uploading": "Importation en cours...",
+        "submit": "Importer et valider",
+        "clear": "Effacer"
+      },
+      "format": {
+        "title": "Format CSV",
+        "description": "Votre CSV doit contenir une colonne \"email\" ou une seule colonne avec les adresses :"
+      },
+      "messages": {
+        "selectFile": "Veuillez sélectionner un fichier CSV",
+        "success": "✓ Fichier importé avec succès ! Traitement de {emailCount} emails ({creditsRequired} crédits seront utilisés)",
+        "error": "L’import a échoué"
+      }
+    },
+    "messages": {
+      "downloadError": "Le téléchargement a échoué"
+    },
+    "jobs": {
+      "status": {
+        "completed": "Terminé",
+        "failed": "Échec",
+        "processing": "En cours",
+        "pending": "En attente"
+      },
+      "jobLabel": "Lot {id}",
+      "progress": "Progression",
+      "download": "Télécharger",
+      "downloadResults": "Télécharger les résultats",
+      "active": {
+        "title": "Tâches actives"
+      },
+      "empty": {
+        "title": "Aucune tâche active",
+        "description": "Importez un CSV pour démarrer une validation"
+      },
+      "recent": {
+        "title": "Dernières tâches terminées",
+        "cta": "Tout voir →"
+      }
+    },
+    "counts": {
+      "total": "Total",
+      "valid": "Valides",
+      "invalid": "Invalides",
+      "risky": "Risque",
+      "unknown": "Inconnus"
+    },
+    "sidebar": {
+      "credits": {
+        "title": "Crédits",
+        "available": "Crédits disponibles",
+        "low": "⚠️ Crédits faibles. Chaque email coûte 1 crédit.",
+        "cta": "Acheter plus de crédits →",
+        "info": "Chaque validation d’email coûte 1 crédit. Votre fichier sera vérifié avant traitement."
+      }
+    },
+    "steps": {
+      "title": "Comment ça marche",
+      "items": {
+        "upload": "Importez votre fichier CSV avec les adresses email",
+        "wait": "Patientez jusqu’à la fin de la validation",
+        "download": "Téléchargez les résultats avec les détails de validation"
+      }
+    }
+  },
   "header": {
     "auth": {
       "login": "Connexion",
