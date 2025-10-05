@@ -13,6 +13,7 @@ import validationsRouter from './routes/validations.js'
 import diagnosticRouter from './routes/diagnostic.js'
 import pricingRouter from './routes/pricing.js'
 import dashboardRouter from './routes/dashboard.js'
+import paymentRouter from './routes/payment.js'
 import { globalRateLimiter } from './middleware/rateLimiter.js'
 
 // Load environment variables
@@ -33,20 +34,22 @@ const startServer = async () => {
     })
   )
 
-  // increase body limit for JSON/form data
-  app.use(express.json({ limit: '10mb' }))
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }))
-
-  app.use(cors({ oroigin: '*' }))
+  // ✅ correct CORS config
+  app.use(cors({ origin: '*' }))
   app.disable('x-powered-by')
-
-  app.use(express.json())
 
   // Initialize Passport
   app.use(passport.initialize())
 
   // Apply global rate limiter to all requests
   app.use(globalRateLimiter)
+
+  // ⚠️ Webhook route MUST come before express.json() to access raw body
+  app.use('/api/payment/coinbase-webhook', express.raw({ type: 'application/json' }), paymentRouter)
+
+  // increase body limit for JSON/form data
+  app.use(express.json({ limit: '10mb' }))
+  app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
   // Routes
   app.use('/api', validateRouter)
@@ -57,6 +60,7 @@ const startServer = async () => {
   app.use('/api/validations', validationsRouter)
   app.use('/api/pricing', pricingRouter)
   app.use('/api/dashboard', dashboardRouter)
+  app.use('/api/payment', paymentRouter)
 
   // routes only available in development mode
   if (process.env.NODE_ENV === 'development') {

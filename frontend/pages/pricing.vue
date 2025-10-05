@@ -35,6 +35,53 @@ async function fetchPlans() {
   }
 }
 
+async function useCoinbasePayment(planId: string) {
+  if (!isAuthenticated.value) {
+    router.push(localePath('/auth/login'))
+    return
+  }
+
+  purchasing.value = true
+  selectedPlanId.value = planId
+
+  try {
+    const authToken = localStorage.getItem('auth-token')
+
+    console.log('Initiating Coinbase payment for plan:', planId)
+
+    const response = await fetch(`${apiUrl}/api/payment/create-payment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({
+        planId,
+      }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to create payment')
+    }
+
+    console.log('Coinbase payment created:', data.data.code)
+
+    // Redirect to Coinbase payment page
+    if (data.data?.hosted_url) {
+      window.location.href = data.data.hosted_url
+    } else {
+      throw new Error('No payment URL received')
+    }
+  } catch (error) {
+    console.error('Payment error:', error)
+    alert(error instanceof Error ? error.message : t('pricing.messages.purchaseError'))
+    purchasing.value = false
+    selectedPlanId.value = null
+  }
+}
+
 // Purchase credits
 async function purchasePlan(planId: string) {
   if (!isAuthenticated.value) {
@@ -156,9 +203,7 @@ onMounted(() => {
 
         <!-- Price & Credits -->
         <div class="mb-6 space-y-4">
-          <div
-            class="rounded-2xl border border-blue-500/30 bg-blue-500/5 px-4 py-5 text-center"
-          >
+          <div class="rounded-2xl border border-blue-500/30 bg-blue-500/5 px-4 py-5 text-center">
             <p class="text-xs font-semibold uppercase tracking-wide text-blue-300">
               {{ t('pricing.card.creditBadge') }}
             </p>
@@ -196,7 +241,7 @@ onMounted(() => {
               : 'bg-blue-600 hover:bg-blue-700',
           ]"
           size="lg"
-          @click="purchasePlan(plan.id)"
+          @click="useCoinbasePayment(plan.id)"
         >
           <Zap v-if="!purchasing || selectedPlanId !== plan.id" class="w-4 h-4 mr-2" />
           <Loader2 v-else class="w-4 h-4 mr-2 animate-spin" />
