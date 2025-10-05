@@ -143,19 +143,27 @@ onBeforeUnmount(() => {
                     >
                       {{ t('header.menu.dashboard') }}
                     </NuxtLink>
-                    <NuxtLink
-                      :to="localePath('/history')"
-                      class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
-                      role="menuitem"
-                      @click="closeMenu"
-                    >
-                      {{ t('header.menu.history') }}
-                    </NuxtLink>
-                    <NuxtLink
-                      :to="localePath('/bulk')"
-                      class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
-                      role="menuitem"
-                      @click="closeMenu"
+                  <NuxtLink
+                    :to="localePath('/history')"
+                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                    role="menuitem"
+                    @click="closeMenu"
+                  >
+                    {{ t('header.menu.history') }}
+                  </NuxtLink>
+                  <NuxtLink
+                    :to="localePath('/payments')"
+                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                    role="menuitem"
+                    @click="closeMenu"
+                  >
+                    {{ t('header.menu.payments') }}
+                  </NuxtLink>
+                  <NuxtLink
+                    :to="localePath('/bulk')"
+                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                    role="menuitem"
+                    @click="closeMenu"
                     >
                       {{ t('header.menu.bulk') }}
                     </NuxtLink>

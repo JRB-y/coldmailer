@@ -89,6 +89,48 @@
       }
     }
   },
+  "payments": {
+    "hero": {
+      "title": "Historial de pagos",
+      "subtitle": "Revisa tus pagos en Coinbase y los créditos añadidos a tu cuenta."
+    },
+    "actions": {
+      "refresh": "Actualizar"
+    },
+    "messages": {
+      "loadError": "No se pudieron cargar los pagos"
+    },
+    "empty": {
+      "title": "Aún no hay pagos",
+      "description": "Compra un plan para ver aquí el historial de tus pagos en Coinbase."
+    },
+    "fields": {
+      "plan": "Plan",
+      "credits": "Créditos",
+      "amount": "Importe",
+      "status": "Estado",
+      "created": "Creado",
+      "confirmed": "Confirmado",
+      "chargeCode": "Código de pago",
+      "chargeId": "ID de pago",
+      "hostedUrl": "Enlace de pago"
+    },
+    "labels": {
+      "notConfirmed": "En espera de confirmación",
+      "notAvailable": "No disponible",
+      "unknownPlan": "Plan desconocido",
+      "viewLink": "Ver en Coinbase",
+      "noLink": "Enlace no disponible",
+      "amountPending": "En espera"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmado",
+      "failed": "Fallido",
+      "expired": "Expirado",
+      "cancelled": "Cancelado"
+    }
+  },
   "dashboard": {
     "title": "Panel",
     "subtitle": "Valida emails y controla tu uso",
@@ -361,6 +403,7 @@
       "dashboard": "Panel",
       "history": "Historial de validaciones",
       "bulk": "Validación masiva",
+      "payments": "Pagos",
       "buyCredits": "💳 Comprar créditos",
       "logout": "Cerrar sesión",
       "credits": "{credits} créditos"

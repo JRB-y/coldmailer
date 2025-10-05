@@ -89,6 +89,48 @@
       }
     }
   },
+  "payments": {
+    "hero": {
+      "title": "Payment History",
+      "subtitle": "Track your Coinbase payments and credit deliveries in one place."
+    },
+    "actions": {
+      "refresh": "Refresh"
+    },
+    "messages": {
+      "loadError": "Failed to load payments"
+    },
+    "empty": {
+      "title": "No payments yet",
+      "description": "Purchase a plan to see your Coinbase payment history here."
+    },
+    "fields": {
+      "plan": "Plan",
+      "credits": "Credits",
+      "amount": "Amount",
+      "status": "Status",
+      "created": "Created",
+      "confirmed": "Confirmed",
+      "chargeCode": "Charge Code",
+      "chargeId": "Charge ID",
+      "hostedUrl": "Payment link"
+    },
+    "labels": {
+      "notConfirmed": "Awaiting confirmation",
+      "notAvailable": "Not available",
+      "unknownPlan": "Unknown plan",
+      "viewLink": "View on Coinbase",
+      "noLink": "No link available",
+      "amountPending": "Pending"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "failed": "Failed",
+      "expired": "Expired",
+      "cancelled": "Cancelled"
+    }
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Verify emails, monitor results, and manage your credits easily.",
@@ -287,6 +329,7 @@
       "dashboard": "Dashboard",
       "history": "History",
       "bulk": "Bulk Validation",
+      "payments": "Payments",
       "buyCredits": "💳 Buy Credits",
       "logout": "Logout",
       "credits": "{credits} credits"

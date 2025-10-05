@@ -89,6 +89,48 @@
       }
     }
   },
+  "payments": {
+    "hero": {
+      "title": "Historique des paiements",
+      "subtitle": "Suivez vos paiements Coinbase et les crédits ajoutés à votre compte."
+    },
+    "actions": {
+      "refresh": "Actualiser"
+    },
+    "messages": {
+      "loadError": "Impossible de charger les paiements"
+    },
+    "empty": {
+      "title": "Aucun paiement pour le moment",
+      "description": "Achetez une offre pour voir ici l'historique de vos paiements Coinbase."
+    },
+    "fields": {
+      "plan": "Offre",
+      "credits": "Crédits",
+      "amount": "Montant",
+      "status": "Statut",
+      "created": "Créé le",
+      "confirmed": "Confirmé le",
+      "chargeCode": "Code du paiement",
+      "chargeId": "ID du paiement",
+      "hostedUrl": "Lien de paiement"
+    },
+    "labels": {
+      "notConfirmed": "En attente de confirmation",
+      "notAvailable": "Non disponible",
+      "unknownPlan": "Offre inconnue",
+      "viewLink": "Voir sur Coinbase",
+      "noLink": "Lien indisponible",
+      "amountPending": "En attente"
+    },
+    "status": {
+      "pending": "En attente",
+      "confirmed": "Confirmé",
+      "failed": "Échoué",
+      "expired": "Expiré",
+      "cancelled": "Annulé"
+    }
+  },
   "dashboard": {
     "title": "Tableau de bord",
     "subtitle": "Validez vos emails et suivez votre utilisation",
@@ -358,9 +400,10 @@
       "signup": "Commencer Gratuitement"
     },
     "menu": {
-      "dashboard": "Tableau de bord",
-      "history": "Historique des validations",
+      "dashboard": "Dashboard",
+      "history": "Historique",
       "bulk": "Validation en masse",
+      "payments": "Paiements",
       "buyCredits": "💳 Acheter des crédits",
       "logout": "Déconnexion",
       "credits": "{credits} crédits"

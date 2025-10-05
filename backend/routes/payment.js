@@ -5,6 +5,48 @@ import Payment from '../models/Payment.js'
 import { authenticate } from '../middleware/auth.js'
 const router = express.Router()
 
+// Fetch payments for authenticated user
+router.get('/', authenticate, async (req, res) => {
+  try {
+    const payments = await Payment.find({ userId: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate('planId', 'name credits priceUSDC')
+      .lean()
+
+    const normalized = payments.map((payment) => {
+      const plan = payment.planId && typeof payment.planId === 'object' ? payment.planId : null
+
+      return {
+        id: payment._id,
+        planId: plan?._id || payment.planId || null,
+        planName: payment.metadata?.planName || plan?.name || null,
+        credits: payment.credits,
+        amount: Number(payment.amount),
+        currency: payment.currency || 'USD',
+        status: payment.status,
+        coinbaseChargeId: payment.coinbaseChargeId,
+        coinbaseChargeCode: payment.coinbaseChargeCode,
+        hostedUrl: payment.hostedUrl || null,
+        confirmedAt: payment.confirmedAt || null,
+        createdAt: payment.createdAt,
+        updatedAt: payment.updatedAt,
+        plan: plan
+          ? {
+              name: plan.name,
+              credits: plan.credits,
+              priceUSDC: plan.priceUSDC,
+            }
+          : null,
+      }
+    })
+
+    res.json({ payments: normalized })
+  } catch (err) {
+    console.error('Failed to fetch payments', err)
+    res.status(500).json({ error: 'Failed to load payments' })
+  }
+})
+
 // Coinbase payment integration
 router.post('/create-payment', authenticate, async (req, res) => {
   try {
@@ -153,7 +195,7 @@ router.post('/coinbase-webhook', async (req, res) => {
         await payment.save()
 
         console.log(
-          `✅ Payment confirmed: User ${user.email} received ${payment.credits} credits (new balance: ${user.credits})`
+          `✅ 🤑 Payment confirmed: User ${user.email} received ${payment.credits} credits (new balance: ${user.credits})`
         )
         break
       }

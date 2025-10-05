@@ -313,6 +313,7 @@
       "dashboard": "控制面板",
       "history": "验证历史",
       "bulk": "批量验证",
+      "payments": "支付记录",
       "buyCredits": "💳 购买点数",
       "logout": "退出登录",
       "credits": "{credits} 点数"
@@ -557,6 +558,48 @@
           "answer": "如果您对服务不满意，我们提供 7 天退款保证。"
         }
       }
+    }
+  },
+  "payments": {
+    "hero": {
+      "title": "支付记录",
+      "subtitle": "在这里查看所有 Coinbase 支付以及积分入账详情。"
+    },
+    "actions": {
+      "refresh": "刷新"
+    },
+    "messages": {
+      "loadError": "无法加载支付记录"
+    },
+    "empty": {
+      "title": "尚无支付记录",
+      "description": "购买套餐后即可在此查看 Coinbase 支付历史。"
+    },
+    "fields": {
+      "plan": "套餐",
+      "credits": "积分",
+      "amount": "金额",
+      "status": "状态",
+      "created": "创建时间",
+      "confirmed": "确认时间",
+      "chargeCode": "支付代码",
+      "chargeId": "支付 ID",
+      "hostedUrl": "支付链接"
+    },
+    "labels": {
+      "notConfirmed": "等待确认",
+      "notAvailable": "暂无",
+      "unknownPlan": "未知套餐",
+      "viewLink": "前往 Coinbase",
+      "noLink": "无可用链接",
+      "amountPending": "待支付"
+    },
+    "status": {
+      "pending": "待处理",
+      "confirmed": "已确认",
+      "failed": "失败",
+      "expired": "已过期",
+      "cancelled": "已取消"
     }
   },
   "footer": {
