@@ -8,6 +8,27 @@ export default defineNuxtConfig({
     scanPageMeta: true,
   },
 
+  app: {
+    head: {
+      title: 'ValixMail - Cold Email Outreach Platform',
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        {
+          name: 'description',
+          content:
+            'ValixMail is a cold email outreach platform that helps you find leads, send personalized cold emails, and track your results.',
+        },
+        {
+          name: 'keywords',
+          content: 'cold email, outreach, sales, marketing, leads, email tracking',
+        },
+        { name: 'author', content: 'ValixMail' },
+        { name: 'robots', content: 'index, follow' },
+      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+    },
+  },
+
   runtimeConfig: {
     public: {
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:4000',

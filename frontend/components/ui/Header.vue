@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
   <header class="py-6 px-4 sm:px-6 border-b border-gray-800">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       <NuxtLink class="text-2xl font-bold text-white flex items-center gap-2" :to="localePath('/')">
-        <img src="/logo-mobile.png" alt="Valix Logo" class="h-9 w-auto inline-block" />
+        <!-- <img src="/logo-mobile.png" alt="Valix Logo" class="h-9 w-auto inline-block" /> -->
         <div
           class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-3xl"
         >
@@ -143,27 +143,27 @@ onBeforeUnmount(() => {
                     >
                       {{ t('header.menu.dashboard') }}
                     </NuxtLink>
-                  <NuxtLink
-                    :to="localePath('/history')"
-                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
-                    role="menuitem"
-                    @click="closeMenu"
-                  >
-                    {{ t('header.menu.history') }}
-                  </NuxtLink>
-                  <NuxtLink
-                    :to="localePath('/payments')"
-                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
-                    role="menuitem"
-                    @click="closeMenu"
-                  >
-                    {{ t('header.menu.payments') }}
-                  </NuxtLink>
-                  <NuxtLink
-                    :to="localePath('/bulk')"
-                    class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
-                    role="menuitem"
-                    @click="closeMenu"
+                    <NuxtLink
+                      :to="localePath('/history')"
+                      class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                      role="menuitem"
+                      @click="closeMenu"
+                    >
+                      {{ t('header.menu.history') }}
+                    </NuxtLink>
+                    <NuxtLink
+                      :to="localePath('/payments')"
+                      class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                      role="menuitem"
+                      @click="closeMenu"
+                    >
+                      {{ t('header.menu.payments') }}
+                    </NuxtLink>
+                    <NuxtLink
+                      :to="localePath('/bulk')"
+                      class="block rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                      role="menuitem"
+                      @click="closeMenu"
                     >
                       {{ t('header.menu.bulk') }}
                     </NuxtLink>
