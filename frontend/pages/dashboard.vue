@@ -21,7 +21,7 @@ const apiUrl = config.public.apiUrl
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-const { user, logout, updateCredits } = useAuth()
+const { user, logout, updateCredits, fetchUser } = useAuth()
 const router = useRouter()
 
 const formattedCredits = computed(() => {
@@ -214,10 +214,13 @@ async function validateEmail() {
 
     result.value = data
 
-    // Update credits
+    // Update credits locally for immediate UI update
     if (data.creditsRemaining !== undefined) {
       updateCredits(data.creditsRemaining)
     }
+
+    // Fetch latest user data from server to ensure sync
+    await fetchUser()
 
     // Refresh stats
     await fetchStats()

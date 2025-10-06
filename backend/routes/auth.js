@@ -182,13 +182,19 @@ router.post('/login', authRateLimiter, checkLoginLockout, async (req, res) => {
 // GET /api/auth/me - Get current user
 router.get('/me', authenticate, async (req, res) => {
   try {
+    // fetch the user from the database to get the latest info
+    const user = await User.findById(req.user._id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
     res.json({
       user: {
-        id: req.user._id,
-        email: req.user.email,
-        credits: req.user.credits,
-        createdAt: req.user.createdAt,
-        updatedAt: req.user.updatedAt,
+        id: user._id,
+        email: user.email,
+        credits: user.credits,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
     })
   } catch (error) {
