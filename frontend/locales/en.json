@@ -131,6 +131,51 @@
       "cancelled": "Cancelled"
     }
   },
+  "validationDetail": {
+    "hero": {
+      "title": "Validation Details"
+    },
+    "messages": {
+      "loadError": "Failed to load validation"
+    },
+    "risk": {
+      "title": "Risk Score"
+    },
+    "checks": {
+      "title": "Validation Checks",
+      "labels": {
+        "syntax": "Syntax",
+        "dns": "DNS Records",
+        "mx": "MX Records",
+        "smtp": "SMTP Verification",
+        "disposable": "Disposable Email",
+        "freeEmail": "Free Email Provider",
+        "roleAccount": "Role Account",
+        "suspicious": "Suspicious Pattern"
+      },
+      "status": {
+        "valid": "Valid",
+        "invalid": "Invalid",
+        "found": "Found",
+        "notFound": "Not Found",
+        "verified": "Verified",
+        "notChecked": "Not Checked",
+        "yes": "Yes",
+        "no": "No",
+        "detected": "Detected",
+        "none": "None"
+      }
+    },
+    "domain": {
+      "title": "Domain Information",
+      "age": "Domain Age",
+      "newDomain": "New Domain",
+      "days": "{count} days",
+      "unknown": "Unknown",
+      "isNewYes": "Yes (< 90 days)",
+      "isNewNo": "No"
+    }
+  },
   "contact": {
     "hero": {
       "title": "Contact Support",

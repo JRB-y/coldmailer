@@ -206,7 +206,9 @@ onMounted(() => {
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
               <Shield class="w-6 h-6 text-gray-400" />
-              <h3 class="text-lg font-semibold text-white">{{ t('validationDetail.risk.title') }}</h3>
+              <h3 class="text-lg font-semibold text-white">
+                {{ t('validationDetail.risk.title') }}
+              </h3>
             </div>
             <div
               :class="[
@@ -233,7 +235,9 @@ onMounted(() => {
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Syntax -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.syntax') }}
               </span>
@@ -253,7 +257,9 @@ onMounted(() => {
             </div>
 
             <!-- DNS -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.dns') }}
               </span>
@@ -273,7 +279,9 @@ onMounted(() => {
             </div>
 
             <!-- MX -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.mx') }}
               </span>
@@ -293,7 +301,9 @@ onMounted(() => {
             </div>
 
             <!-- SMTP -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.smtp') }}
               </span>
@@ -313,7 +323,9 @@ onMounted(() => {
             </div>
 
             <!-- Disposable -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.disposable') }}
               </span>
@@ -325,9 +337,7 @@ onMounted(() => {
                     !validation.checks.disposable ? 'text-green-400' : 'text-yellow-400',
                   ]"
                 />
-                <span
-                  :class="!validation.checks.disposable ? 'text-green-400' : 'text-yellow-400'"
-                >
+                <span :class="!validation.checks.disposable ? 'text-green-400' : 'text-yellow-400'">
                   {{
                     validation.checks.disposable
                       ? t('validationDetail.checks.status.yes')
@@ -338,7 +348,9 @@ onMounted(() => {
             </div>
 
             <!-- Free Email -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.freeEmail') }}
               </span>
@@ -361,7 +373,9 @@ onMounted(() => {
             </div>
 
             <!-- Role Account -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.roleAccount') }}
               </span>
@@ -386,7 +400,9 @@ onMounted(() => {
             </div>
 
             <!-- Suspicious Pattern -->
-            <div class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md">
+            <div
+              class="flex items-center justify-between p-4 bg-black border border-gray-800 rounded-md"
+            >
               <span class="text-sm text-gray-300">
                 {{ t('validationDetail.checks.labels.suspicious') }}
               </span>

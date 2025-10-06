@@ -131,6 +131,51 @@
       "cancelled": "Cancelado"
     }
   },
+  "validationDetail": {
+    "hero": {
+      "title": "Detalles de la validación"
+    },
+    "messages": {
+      "loadError": "No se pudo cargar la validación"
+    },
+    "risk": {
+      "title": "Puntuación de riesgo"
+    },
+    "checks": {
+      "title": "Comprobaciones de validación",
+      "labels": {
+        "syntax": "Sintaxis",
+        "dns": "Registros DNS",
+        "mx": "Registros MX",
+        "smtp": "Verificación SMTP",
+        "disposable": "Correo desechable",
+        "freeEmail": "Proveedor gratuito",
+        "roleAccount": "Cuenta de rol",
+        "suspicious": "Patrón sospechoso"
+      },
+      "status": {
+        "valid": "Válido",
+        "invalid": "Inválido",
+        "found": "Encontrado",
+        "notFound": "No encontrado",
+        "verified": "Verificado",
+        "notChecked": "Sin comprobar",
+        "yes": "Sí",
+        "no": "No",
+        "detected": "Detectado",
+        "none": "Ninguno"
+      }
+    },
+    "domain": {
+      "title": "Información del dominio",
+      "age": "Antigüedad del dominio",
+      "newDomain": "Dominio nuevo",
+      "days": "{count} días",
+      "unknown": "Desconocido",
+      "isNewYes": "Sí (< 90 días)",
+      "isNewNo": "No"
+    }
+  },
   "contact": {
     "hero": {
       "title": "Contacta con soporte",

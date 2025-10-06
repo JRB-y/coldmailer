@@ -602,6 +602,51 @@
       "cancelled": "已取消"
     }
   },
+  "validationDetail": {
+    "hero": {
+      "title": "验证详情"
+    },
+    "messages": {
+      "loadError": "无法加载验证记录"
+    },
+    "risk": {
+      "title": "风险评分"
+    },
+    "checks": {
+      "title": "验证检查",
+      "labels": {
+        "syntax": "语法",
+        "dns": "DNS 记录",
+        "mx": "MX 记录",
+        "smtp": "SMTP 验证",
+        "disposable": "一次性邮箱",
+        "freeEmail": "免费邮箱",
+        "roleAccount": "角色邮箱",
+        "suspicious": "可疑模式"
+      },
+      "status": {
+        "valid": "有效",
+        "invalid": "无效",
+        "found": "已找到",
+        "notFound": "未找到",
+        "verified": "已验证",
+        "notChecked": "未检查",
+        "yes": "是",
+        "no": "否",
+        "detected": "已检测",
+        "none": "无"
+      }
+    },
+    "domain": {
+      "title": "域名信息",
+      "age": "域名年龄",
+      "newDomain": "新域名",
+      "days": "{count} 天",
+      "unknown": "未知",
+      "isNewYes": "是（少于 90 天）",
+      "isNewNo": "否"
+    }
+  },
   "contact": {
     "hero": {
       "title": "联系支持团队",
