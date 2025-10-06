@@ -115,6 +115,21 @@ export const bulkJobRateLimiter = rateLimit({
 })
 
 /**
+ * Very strict rate limiter for free public endpoints
+ * Extremely restrictive to prevent abuse of free services
+ */
+export const freePublicRateLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3, // Max 3 requests per hour per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: createKeyGenerator('ip'),
+  handler: rateLimitHandler,
+  skipSuccessfulRequests: false, // Count all requests
+  message: 'Too many requests. Free tier allows 3 checks per hour. Please sign up for more.',
+})
+
+/**
  * Factory function to create custom rate limiters
  * @param {Object} options - Rate limiter configuration
  * @param {number} options.windowMs - Time window in milliseconds

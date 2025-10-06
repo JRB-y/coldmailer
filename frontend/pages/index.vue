@@ -1,11 +1,58 @@
 <script setup lang="ts">
-import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail } from 'lucide-vue-next'
+import { CheckCircle, Shield, Zap, BarChart3, ArrowRight, Mail, Loader2 } from 'lucide-vue-next'
 
 definePageMeta({ ssr: true })
 
 const { isAuthenticated } = useAuth()
 const { t } = useI18n()
 const localePath = useLocalePath()
+
+// Free MX check form state
+const testEmail = ref('')
+const isChecking = ref(false)
+const checkResult = ref<any>(null)
+const checkError = ref('')
+
+const checkMxRecords = async () => {
+  if (!testEmail.value) {
+    checkError.value = 'Please enter an email address'
+    return
+  }
+
+  isChecking.value = true
+  checkError.value = ''
+  checkResult.value = null
+
+  try {
+    const config = useRuntimeConfig()
+    const response = await fetch(`${config.public.apiUrl}/api/free/check-mx`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: testEmail.value }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      checkError.value = data.message || 'An error occurred'
+      return
+    }
+
+    checkResult.value = data
+  } catch (error: any) {
+    checkError.value = 'Network error. Please try again.'
+  } finally {
+    isChecking.value = false
+  }
+}
+
+const resetCheck = () => {
+  testEmail.value = ''
+  checkResult.value = null
+  checkError.value = ''
+}
 </script>
 
 <template>
@@ -23,6 +70,92 @@ const localePath = useLocalePath()
     <p class="text-xl md:text-2xl text-gray-400 mb-10 leading-relaxed">
       {{ t('landing.hero.subheading') }}
     </p>
+
+    <!-- Free MX Check Form -->
+    <div class="max-w-2xl mx-auto mb-10">
+      <div
+        class="bg-zinc-900/50 border border-gray-800 rounded-2xl p-6 backdrop-blur-sm"
+      >
+        <div class="flex items-center gap-2 mb-4">
+          <Mail class="w-5 h-5 text-blue-400" />
+          <h3 class="text-lg font-semibold text-white">Try it free - Check MX Records</h3>
+        </div>
+
+        <form @submit.prevent="checkMxRecords" class="space-y-4">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input
+              v-model="testEmail"
+              type="email"
+              placeholder="Enter email address..."
+              :disabled="isChecking"
+              class="flex-1 px-4 py-3 bg-zinc-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            <button
+              type="submit"
+              :disabled="isChecking || !testEmail"
+              class="px-6 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-2 min-w-[120px]"
+            >
+              <Loader2 v-if="isChecking" class="w-4 h-4 animate-spin" />
+              <span v-else>Check</span>
+            </button>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            v-if="checkError"
+            class="p-3 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-sm"
+          >
+            {{ checkError }}
+          </div>
+
+          <!-- Success Result -->
+          <div
+            v-if="checkResult"
+            class="p-4 rounded-lg border"
+            :class="
+              checkResult.hasMxRecords
+                ? 'bg-green-500/10 border-green-500/50'
+                : 'bg-red-500/10 border-red-500/50'
+            "
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <CheckCircle
+                    v-if="checkResult.hasMxRecords"
+                    class="w-5 h-5 text-green-400"
+                  />
+                  <span
+                    class="font-semibold"
+                    :class="checkResult.hasMxRecords ? 'text-green-400' : 'text-red-400'"
+                  >
+                    {{ checkResult.status === 'valid' ? 'Valid' : 'Invalid' }}
+                  </span>
+                </div>
+                <p class="text-sm text-gray-300 mb-2">
+                  {{ checkResult.message }}
+                </p>
+                <p class="text-xs text-gray-500">
+                  Domain: {{ checkResult.domain }} • Checked in {{ checkResult.executionTime }}ms
+                </p>
+              </div>
+              <button
+                @click="resetCheck"
+                type="button"
+                class="text-xs text-gray-400 hover:text-white transition-colors"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <p class="text-xs text-gray-500 mt-4 text-center">
+          Free tier: 3 checks per hour • Sign up for unlimited checks
+        </p>
+      </div>
+    </div>
+
     <ClientOnly>
       <template #fallback>
         <div class="flex items-center justify-center gap-4">

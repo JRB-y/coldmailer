@@ -15,6 +15,7 @@ import pricingRouter from './routes/pricing.js'
 import dashboardRouter from './routes/dashboard.js'
 import paymentRouter from './routes/payment.js'
 import contactRouter from './routes/contact.js'
+import freeRouter from './routes/free.js'
 import { globalRateLimiter } from './middleware/rateLimiter.js'
 
 // Load environment variables
@@ -63,6 +64,7 @@ const startServer = async () => {
   app.use('/api/dashboard', dashboardRouter)
   app.use('/api/payment', paymentRouter)
   app.use('/api/contact', contactRouter)
+  app.use('/api/free', freeRouter)
 
   // routes only available in development mode
   if (process.env.NODE_ENV === 'development') {
