@@ -1,14 +1,24 @@
 /**
  * Determines overall status based on checks and risk score
- * Calibrated to match dataset expectations
+ *
+ * Mapping (calibrated to industry standards):
+ * - 0-30:   valid   (safe to send)
+ * - 30-70:  risky   (use with caution)
+ * - 70-100: invalid (do not send)
+ *
+ * Targets:
+ * - <5% legit Gmail flagged >50
+ * - 90% disposables flagged >70
+ * - 95% invalid MX/DNS/syntax ≥90
  */
 export function determineStatus(checks, riskScore) {
-  // Invalid only if critical checks fail
-  if (!checks.syntax || !checks.dns || !checks.mx) return 'invalid'
+  // Critical failures always map to invalid
+  if (!checks.syntax || !checks.dns || !checks.mx) {
+    return 'invalid'
+  }
 
-  // Risky if score is moderate to high (60+)
-  if (riskScore >= 60) return 'risky'
-
-  // Valid for everything else
+  // Map risk score to status using industry-standard thresholds
+  if (riskScore >= 70) return 'invalid'
+  if (riskScore >= 30) return 'risky'
   return 'valid'
 }

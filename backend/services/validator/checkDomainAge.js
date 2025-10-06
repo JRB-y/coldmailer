@@ -132,7 +132,7 @@ export async function checkDomainAge(domain) {
     const ageInDays = (Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24)
 
     const result = {
-      isNew: ageInDays < 90, // Domain less than 3 months old
+      isNew: ageInDays < 365, // Domain less 1 year
       ageInDays: Math.floor(ageInDays),
       status: 'success',
       createdDate: createdDate.toISOString(),

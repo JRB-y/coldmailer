@@ -1,38 +1,71 @@
+import { freeEmailProvider } from './isFreeDomain.js'
+
+// Detect suspicious or fake-looking email patterns
 export function hasSuspiciousPatterns(email, domain) {
-  const [localPart] = email.split('@')
+  const [localPart] = email.split('@').map((p) => p.toLowerCase())
 
-  // Check for overly random local part (like npaagpqyldgwxkbczu)
   const randomnessScore = calculateRandomness(localPart)
-  if (randomnessScore > 0.8) return true // 80% random TODO: verify threshold to be good and not too strict or lenient (needs to be the best in the world)
+  const repetitionScore = repetitionFactor(localPart)
+  const vowelRatio = (localPart.match(/[aeiou]/g) || []).length / localPart.length
 
-  // Check for very short domains
+  // Core heuristics
+  if (randomnessScore > 0.8) return true // too random (e.g., xj93kdqg7)
+  if (repetitionScore > 0.3) return true // too repetitive (e.g., fsdfsdfsd)
+  if (vowelRatio < 0.2 && localPart.length > 8) return true // unnatural consonant cluster
+  if (isNumericSuspicious(localPart)) return true // numeric anomalies
+
+  // Domain-level checks
   if (domain.length < 6 && !freeEmailProviders.includes(domain)) return true
-
-  // Check for numeric-heavy domains
   const digitRatio = (domain.match(/\d/g) || []).length / domain.length
   if (digitRatio > 0.3) return true
 
   return false
 }
 
-function calculateRandomness(str) {
-  // Remove common patterns
-  str = str.toLowerCase()
-  // Check for dictionary words
-  const hasCommonWords = /^(test|demo|user|admin|john|jane|hello|contact)/i.test(str)
-  if (hasCommonWords) return 0
-  // Calculate entropy
-  const chars = str.split('')
-  const freq = {}
-  chars.forEach((char) => (freq[char] = (freq[char] || 0) + 1))
+// --- Helper functions ---
 
+function calculateRandomness(str) {
+  // Shannon entropy normalized between 0–1
+  const freq = {}
+  for (const c of str) freq[c] = (freq[c] || 0) + 1
   let entropy = 0
-  for (let char in freq) {
-    const p = freq[char] / str.length
+  for (const c in freq) {
+    const p = freq[c] / str.length
     entropy -= p * Math.log2(p)
   }
-
-  // Normalize entropy (max entropy for length)
-  const maxEntropy = Math.log2(26) // assuming lowercase letters
+  const maxEntropy = Math.log2(26) // assuming lowercase a–z
   return Math.min(entropy / maxEntropy, 1)
+}
+
+function repetitionFactor(str) {
+  // Detect repeated consecutive characters (like fsdfsdfsd)
+  let repeats = 0
+  for (let i = 1; i < str.length; i++) {
+    if (str[i] === str[i - 1]) repeats++
+  }
+  return repeats / str.length
+}
+
+function isNumericSuspicious(localPart) {
+  const digitGroups = localPart.match(/\d+/g) || []
+
+  // No digits → fine
+  if (digitGroups.length === 0) return false
+
+  // Single numeric group that looks like a birth year → fine
+  if (digitGroups.length === 1) {
+    const num = parseInt(digitGroups[0], 10)
+    if (num >= 1900 && num <= 2099) return false
+  }
+
+  // Long numeric runs (>4 digits) → suspicious
+  if (digitGroups.some((g) => g.length > 4)) return true
+
+  // Multiple separate numeric groups → suspicious (e.g. usr23test45)
+  if (digitGroups.length > 1) return true
+
+  // Single short group but overall local part too short → suspicious
+  if (digitGroups.length === 1 && localPart.length < 6) return true
+
+  return false
 }

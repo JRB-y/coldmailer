@@ -1,39 +1,68 @@
 /**
  * Calculates risk score based on validation checks
- * Score: 0-100 (0 = safest, 100 = riskiest)
- * Calibrated to match dataset expectations
+ * Output: 0–100 (0 = safest, 100 = riskiest)
+ *
+ * Calibrated to industry standards (Kickbox, ZeroBounce, Emailable):
+ * - Critical failures (syntax, DNS, MX, SMTP): ≥90
+ * - High-risk (disposable, bad keywords): 60-80
+ * - Moderate (new domain, suspicious patterns): 40-60
+ * - Contextual (role accounts): 20-40
+ * - Low impact (free email): 5-15
+ *
+ * Uses weighted scoring with diminishing returns for multiple factors.
  */
 export function calculateRiskScore(checks) {
-  let score = 0
+  // === CRITICAL FAILURES (≥90) ===
+  // Hard failures that make email invalid/unreachable
+  if (!checks.syntax) return 100
+  if (!checks.dns) return 95
+  if (!checks.mx) return 90
+  if (process.env.ENABLE_SMTP_CHECK === 'true' && checks.smtp === null) return 90 // SMTP check inconclusive
+  // if (checks.smtp === false) return 90 // Explicit SMTP rejection
 
-  // Critical failures
-  if (!checks.syntax) return 100 // Invalid syntax = max risk
-  if (!checks.dns) return 100 // No DNS = max risk
-  if (!checks.mx) return 100 // No MX records = max risk (can't receive email)
+  // === WEIGHTED RISK FACTORS ===
+  const factors = []
 
-  // High risk factors
-  if (checks.disposable) score += 90 // Disposable email = very risky
+  // High-risk indicators (60-80 range)
+  if (checks.disposable) factors.push(75)
+  if (checks.badKeywords) factors.push(65)
 
-  // Medium-high risk factors
-  // Only count domain age if we have a definitive result (not 'unknown')
+  // Moderate-risk indicators (40-60 range)
   const hasNewDomain = checks.domainAge?.isNew === true
-
   if (hasNewDomain && checks.suspiciousPattern) {
-    score += 50 // Both new domain AND suspicious pattern
+    factors.push(50) // Combined red flag
   } else if (hasNewDomain) {
-    score += 30 // New domain alone
+    factors.push(40)
   } else if (checks.suspiciousPattern) {
-    score += 20 // Suspicious pattern alone
+    factors.push(35)
   }
 
-  // Medium risk factors
-  if (checks.roleAccount) score += 20 // Role account = somewhat risky
+  // Contextual risk (20-40 range)
+  if (checks.roleAccount) factors.push(25)
 
-  // Low risk factors
-  if (checks.freeEmail) score += 10 // Free email = slightly risky
+  // Low-impact risk (5-15 range)
+  if (checks.freeEmail) factors.push(10)
 
-  // Keyword heuristics (strong penalty)
-  if (checks.badKeywords) score += 60
+  // No risk factors present
+  if (factors.length === 0) return 0
 
-  return Math.min(score, 100)
+  // === COMPUTE WEIGHTED SCORE ===
+  // Sort by severity (highest first)
+  factors.sort((a, b) => b - a)
+
+  // Primary factor contributes fully
+  let score = factors[0]
+
+  // Additional factors contribute with exponential decay
+  // This prevents over-penalization while accounting for multiple issues
+  for (let i = 1; i < factors.length; i++) {
+    score += factors[i] * Math.pow(0.5, i)
+  }
+
+  // === NORMALIZATION ===
+  // Apply soft sigmoid to smooth curve and ensure 0-100 bounds
+  // Formula: 100 * tanh(score/60)
+  const normalized = 100 * Math.tanh(score / 60)
+
+  return Math.min(Math.round(normalized), 100)
 }

@@ -28,6 +28,7 @@ export {
  */
 export async function validateEmail(email) {
   try {
+    console.log('aaaaaaa')
     // Normalize email
     email = email.trim().toLowerCase()
 

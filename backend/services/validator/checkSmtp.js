@@ -1,5 +1,8 @@
 import net from 'net'
 import dns from 'dns'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 // SMTP probing is DISABLED by default for security and privacy reasons
 // Only enable if you understand the implications and have proper authorization
