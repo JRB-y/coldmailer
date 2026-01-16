@@ -145,6 +145,8 @@ async function resolveSafeTargets(mxHost) {
  * @param {Array} mxRecords
  */
 export async function checkSmtp(email, domain, mxRecords) {
+  // call mailbee <bulk>
+
   if (!ENABLE_SMTP_CHECK) {
     return false
   }
